@@ -1,61 +1,51 @@
 'use client'
 
-import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
+import { useActionState, useTransition } from 'react'
+import { useSearchParams } from 'next/navigation'
 import Link from 'next/link'
 import { toast } from 'sonner'
+import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import FormError from '@/components/auth/FormError'
+import FieldError from '@/components/auth/FieldError'
 import { createClient } from '@/lib/supabase/client'
+import { signIn } from '@/lib/actions/auth'
 
 export default function LoginForm() {
-  const router = useRouter()
   const searchParams = useSearchParams()
   const redirectTo = searchParams.get('redirectTo') ?? '/'
-  const supabase = createClient()
 
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [loading, setLoading] = useState(false)
+  const [state, formAction, isPending] = useActionState(signIn, null)
+  const [googlePending, startGoogleTransition] = useTransition()
 
-  async function handleEmailLogin(e: React.FormEvent) {
-    e.preventDefault()
-    setLoading(true)
-    console.log('Attempting to sign in with email:', email, password)
-    const { error } = await supabase.auth.signInWithPassword({ email, password })
-    if (error) {
-      toast.error(error.message)
-    } else {
-      router.push(redirectTo)
-      router.refresh()
-    }
-    setLoading(false)
-  }
-
-  async function handleGoogleLogin() {
-    setLoading(true)
-    const { error } = await supabase.auth.signInWithOAuth({
-      provider: 'google',
-      options: {
-        redirectTo: `${window.location.origin}/auth/callback?redirectTo=${redirectTo}`,
-      },
+  function handleGoogleLogin() {
+    startGoogleTransition(async () => {
+      const supabase = createClient()
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/auth/callback?redirectTo=${redirectTo}`,
+        },
+      })
+      if (error) toast.error(error.message)
     })
-    if (error) {
-      toast.error(error.message)
-      setLoading(false)
-    }
   }
+
+  const loading = isPending || googlePending
 
   return (
     <div className="space-y-4">
       <Button
+        type="button"
         variant="outline"
         className="w-full"
         onClick={handleGoogleLogin}
         disabled={loading}
       >
+        {googlePending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
         Continue with Google
       </Button>
 
@@ -65,37 +55,51 @@ export default function LoginForm() {
         <Separator className="flex-1" />
       </div>
 
-      <form onSubmit={handleEmailLogin} className="space-y-4">
+      <FormError message={state?.error} />
+
+      <form action={formAction} className="space-y-4">
+        <input type="hidden" name="redirectTo" value={redirectTo} />
+
         <div className="space-y-1.5">
           <Label htmlFor="email">Email</Label>
           <Input
             id="email"
+            name="email"
             type="email"
             placeholder="you@example.com"
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            autoComplete="email"
             required
+            disabled={loading}
+            aria-describedby={state?.fieldErrors?.email ? 'email-error' : undefined}
           />
+          <FieldError id="email-error" errors={state?.fieldErrors?.email} />
         </div>
 
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <Link href="/auth/reset-password" className="text-xs text-muted-foreground hover:underline">
+            <Link
+              href="/auth/reset-password"
+              className="text-xs text-muted-foreground hover:underline"
+            >
               Forgot password?
             </Link>
           </div>
           <Input
             id="password"
+            name="password"
             type="password"
-            value={password}
-            onChange={e => setPassword(e.target.value)}
+            autoComplete="current-password"
             required
+            disabled={loading}
+            aria-describedby={state?.fieldErrors?.password ? 'password-error' : undefined}
           />
+          <FieldError id="password-error" errors={state?.fieldErrors?.password} />
         </div>
 
         <Button type="submit" className="w-full" disabled={loading}>
-          {loading ? 'Signing in...' : 'Sign In'}
+          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isPending ? 'Signing in…' : 'Sign In'}
         </Button>
       </form>
 

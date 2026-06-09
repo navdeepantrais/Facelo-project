@@ -1,7 +1,8 @@
 'use client'
 
+import { useTransition } from 'react'
 import Link from 'next/link'
-import { ShoppingCart, Search, Menu } from 'lucide-react'
+import { ShoppingCart, Search, Menu, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import {
@@ -13,15 +14,23 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Navigation from './Navigation'
+import { signOut } from '@/lib/actions/auth'
 import type { User } from '@/types'
 
 interface HeaderProps {
   profile: User | null
   cartCount?: number
-  onSignOut: () => void
 }
 
-export default function Header({ profile, cartCount = 0, onSignOut }: HeaderProps) {
+export default function Header({ profile, cartCount = 0 }: HeaderProps) {
+  const [signOutPending, startSignOut] = useTransition()
+
+  function handleSignOut() {
+    startSignOut(async () => {
+      await signOut()
+    })
+  }
+
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
@@ -70,9 +79,9 @@ export default function Header({ profile, cartCount = 0, onSignOut }: HeaderProp
                 }
               >
                 <Avatar className="h-8 w-8">
-                  <AvatarImage src={profile.avatar_url ?? undefined} />
+                  <AvatarImage src={profile.avatarUrl ?? undefined} />
                   <AvatarFallback>
-                    {profile.full_name?.charAt(0)?.toUpperCase() ?? 'U'}
+                    {profile.fullName?.charAt(0)?.toUpperCase() ?? 'U'}
                   </AvatarFallback>
                 </Avatar>
               </DropdownMenuTrigger>
@@ -94,7 +103,12 @@ export default function Header({ profile, cartCount = 0, onSignOut }: HeaderProp
                   </DropdownMenuItem>
                 )}
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={onSignOut} className="text-destructive">
+                <DropdownMenuItem
+                  onClick={handleSignOut}
+                  disabled={signOutPending}
+                  className="text-destructive"
+                >
+                  {signOutPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                   Sign Out
                 </DropdownMenuItem>
               </DropdownMenuContent>

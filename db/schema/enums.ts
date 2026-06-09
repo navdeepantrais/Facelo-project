@@ -55,3 +55,14 @@ export const trafficSourceEnum = pgEnum('traffic_source', [
   'direct',
   'other',
 ])
+
+// Stripe PaymentIntent lifecycle statuses
+export const paymentStatusEnum = pgEnum('payment_status', [
+  'requires_payment_method',
+  'requires_confirmation',
+  'requires_action',
+  'processing',
+  'requires_capture',
+  'canceled',
+  'succeeded',
+])

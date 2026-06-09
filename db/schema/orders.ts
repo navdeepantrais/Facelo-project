@@ -1,6 +1,6 @@
 import { pgTable, uuid, text, numeric, integer, boolean, timestamp, jsonb, index } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
-import { orderStatusEnum, attributionTypeEnum, rewardTypeEnum } from './enums'
+import { orderStatusEnum, attributionTypeEnum, rewardTypeEnum, paymentStatusEnum } from './enums'
 import { users, creators } from './users'
 import { products } from './catalog'
 import { sessions } from './attribution'
@@ -41,7 +41,7 @@ export const payments = pgTable('payments', {
   stripeCustomerId: text('stripe_customer_id'),
   amount: numeric('amount', { precision: 10, scale: 2 }).notNull(),
   currency: text('currency').default('usd').notNull(),
-  status: text('status').notNull(),
+  status: paymentStatusEnum('status').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
 }, (t) => [
   index('payments_order_id_idx').on(t.orderId),

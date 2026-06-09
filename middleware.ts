@@ -1,6 +1,7 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 import type { AdminSubRole, UserRole } from '@/types'
+import { SUPABASE_URL, SUPABASE_ANON_KEY } from '@/constants/client'
 
 const PUBLIC_ROUTES = ['/', '/auth/login', '/auth/register', '/auth/reset-password', '/auth/verify']
 const CREATOR_ROUTES = ['/creator']
@@ -20,8 +21,8 @@ export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
   const supabase = createServerClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    SUPABASE_URL,
+    SUPABASE_ANON_KEY,
     {
       cookies: {
         getAll() {

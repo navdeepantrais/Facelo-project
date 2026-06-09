@@ -9,6 +9,15 @@ export type AdminSubRole =
 
 export type CreatorStatus = 'pending_review' | 'approved' | 'suspended'
 
+export type PaymentStatus =
+  | 'requires_payment_method'
+  | 'requires_confirmation'
+  | 'requires_action'
+  | 'processing'
+  | 'requires_capture'
+  | 'canceled'
+  | 'succeeded'
+
 export type OrderStatus =
   | 'pending'
   | 'paid'
@@ -34,11 +43,12 @@ export type VideoProvider = 'supabase' | 'youtube' | 'instagram' | 'tiktok'
 export interface User {
   id: string
   email: string
-  full_name: string | null
-  avatar_url: string | null
+  fullName: string | null
+  avatarUrl: string | null
   role: UserRole
-  admin_sub_role: AdminSubRole | null
-  created_at: string
+  adminSubRole: AdminSubRole | null
+  createdAt: Date
+  updatedAt: Date
 }
 
 export interface Creator {

@@ -10,22 +10,30 @@ export function useUser() {
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
+    let mounted = true
     const supabase = createClient()
 
     async function load() {
       const user = await getUser()
-      setProfile(user)
-      setLoading(false)
+      if (mounted) {
+        setProfile(user)
+        setLoading(false)
+      }
     }
 
     load()
 
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
-      setLoading(true)
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(() => {
+      if (mounted) setLoading(true)
       load()
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      mounted = false
+      subscription.unsubscribe()
+    }
   }, [])
 
   return { profile, loading }
