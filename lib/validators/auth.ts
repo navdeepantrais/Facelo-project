@@ -41,3 +41,16 @@ export type SignInInput = z.infer<typeof signInSchema>
 export type SignUpInput = z.infer<typeof signUpSchema>
 export type ResetPasswordInput = z.infer<typeof resetPasswordSchema>
 export type UpdatePasswordInput = z.infer<typeof updatePasswordSchema>
+
+// Client-side registration schema — extends signUpSchema with confirmPassword.
+// The server action re-validates using signUpSchema (confirmPassword is UI-only).
+export const registerFormSchema = signUpSchema
+  .extend({
+    confirmPassword: z.string().min(1, 'Please confirm your password').max(72),
+  })
+  .refine((d) => d.password === d.confirmPassword, {
+    message: "Passwords don't match",
+    path: ['confirmPassword'],
+  })
+
+export type RegisterFormInput = z.infer<typeof registerFormSchema>

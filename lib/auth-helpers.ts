@@ -1,6 +1,6 @@
 import type { User as SupabaseUser } from '@supabase/supabase-js'
 import { sql } from 'drizzle-orm'
-import { db } from '@/db'
+import { db } from '@/db/index'
 import { users } from '@/db/schema'
 
 // Upserts an auth.users record into the public users table.

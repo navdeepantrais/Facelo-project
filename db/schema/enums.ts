@@ -2,6 +2,13 @@ import { pgEnum } from 'drizzle-orm/pg-core'
 
 export const userRoleEnum = pgEnum('user_role', ['user', 'creator', 'admin'])
 
+export const accountStatusEnum = pgEnum('account_status', [
+  'active',
+  'blocked',
+  'suspended',
+  'deleted',
+])
+
 export const adminSubRoleEnum = pgEnum('admin_sub_role', [
   'super_admin',
   'product_manager',

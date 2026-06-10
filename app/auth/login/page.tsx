@@ -1,16 +1,23 @@
 import { Suspense } from 'react'
 import type { Metadata } from 'next'
-import AuthCard from '@/components/auth/AuthCard'
+import { AuthLayout } from '@/components/auth/AuthLayout'
+import { AuthMarketingPanel } from '@/components/auth/AuthMarketingPanel'
+import { AuthHeader } from '@/components/auth/AuthHeader'
 import LoginForm from './LoginForm'
 
 export const metadata: Metadata = { title: 'Sign In' }
 
 export default function LoginPage() {
   return (
-    <AuthCard title="Welcome back" subtitle="Sign in to your Facelo account">
+    <AuthLayout panel={<AuthMarketingPanel />}>
+      <AuthHeader
+        title="Welcome back"
+        subtitle="Sign in to your Facelo account."
+      />
+      {/* Suspense required — LoginForm reads useSearchParams */}
       <Suspense>
         <LoginForm />
       </Suspense>
-    </AuthCard>
+    </AuthLayout>
   )
 }

@@ -1,6 +1,6 @@
 import { pgTable, uuid, text, jsonb, timestamp, index } from 'drizzle-orm/pg-core'
 import { sql } from 'drizzle-orm'
-import { userRoleEnum, adminSubRoleEnum, creatorStatusEnum } from './enums'
+import { userRoleEnum, adminSubRoleEnum, creatorStatusEnum, accountStatusEnum } from './enums'
 
 // id mirrors auth.users.id — FK enforced in db/rls.sql (cross-schema, not expressible in Drizzle)
 export const users = pgTable('users', {
@@ -10,11 +10,13 @@ export const users = pgTable('users', {
   avatarUrl: text('avatar_url'),
   role: userRoleEnum('role').default('user').notNull(),
   adminSubRole: adminSubRoleEnum('admin_sub_role'),
+  status: accountStatusEnum('status').default('active').notNull(),
   createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
   updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
 }, (t) => [
   index('users_email_idx').on(t.email),
   index('users_role_idx').on(t.role),
+  index('users_status_idx').on(t.status),
 ])
 
 export const creators = pgTable('creators', {

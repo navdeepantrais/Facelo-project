@@ -3,8 +3,9 @@
 import { redirect } from 'next/navigation'
 import { eq } from 'drizzle-orm'
 import { createClient } from '@/lib/supabase/server'
-import { db } from '@/db'
-import { users } from '@/db/schema'
+import { db } from '@/db/index'
+import { users, creators } from '@/db/schema'
+import { upsertUser } from '@/lib/auth-helpers'
 import {
   signInSchema,
   signUpSchema,
@@ -38,7 +39,6 @@ export async function signIn(
   const { error } = await supabase.auth.signInWithPassword({ email, password })
 
   if (error) {
-    // Map Supabase error to a user-friendly message
     if (error.code === 'invalid_credentials') {
       return { error: 'Incorrect email or password.' }
     }
@@ -48,10 +48,39 @@ export async function signIn(
     return { error: error.message }
   }
 
-  // Only redirect to relative paths — reject absolute URLs and protocol-relative URLs (//evil.com)
-  const safe =
-    redirectTo?.startsWith('/') && !redirectTo.startsWith('//') ? redirectTo : '/'
-  redirect(safe)
+  // Validate profile exists in public.users
+  const profile = await getUser()
+  if (!profile) {
+    await supabase.auth.signOut()
+    return { error: 'Account profile not found. Please contact support.' }
+  }
+
+  // Block access for inactive accounts
+  if (profile.status !== 'active') {
+    await supabase.auth.signOut()
+    if (profile.status === 'blocked') return { error: 'Your account has been blocked.' }
+    if (profile.status === 'suspended') return { error: 'Your account has been suspended.' }
+    if (profile.status === 'deleted') return { error: 'This account no longer exists.' }
+    return { error: 'Your account is not active. Please contact support.' }
+  }
+
+  // Honour explicit redirectTo (set by middleware when protecting a route)
+  if (redirectTo?.startsWith('/') && !redirectTo.startsWith('//')) {
+    redirect(redirectTo)
+  }
+
+  // Admin routes directly
+  if (profile.role === 'admin') redirect('/admin')
+
+  // Creator routing — determined by creator record, not role field
+  const creatorRows = await db
+    .select({ id: creators.id })
+    .from(creators)
+    .where(eq(creators.userId, profile.id))
+    .limit(1)
+
+  if (creatorRows.length > 0) redirect('/creator/dashboard')
+  redirect('/dashboard')
 }
 
 // ─── signUp ───────────────────────────────────────────────────────────────────
@@ -66,7 +95,7 @@ export async function signUp(
 
   const { fullName, email, password } = result.data
   const supabase = await createClient()
-  const { error } = await supabase.auth.signUp({
+  const { data, error } = await supabase.auth.signUp({
     email,
     password,
     options: {
@@ -80,6 +109,12 @@ export async function signUp(
       return { fieldErrors: { email: ['An account with this email already exists.'] } }
     }
     return { error: error.message }
+  }
+
+  // Create the public.users profile immediately.
+  // onConflictDoUpdate in upsertUser handles the rare case where the record already exists.
+  if (data.user) {
+    await upsertUser(data.user)
   }
 
   return { success: true }

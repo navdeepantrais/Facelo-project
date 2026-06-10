@@ -1,37 +1,57 @@
 'use client'
 
-import { useActionState, useTransition } from 'react'
+import { useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { toast } from 'sonner'
 import { Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import FormError from '@/components/auth/FormError'
-import FieldError from '@/components/auth/FieldError'
+import { PasswordInput } from '@/components/auth/PasswordInput'
+import { OAuthButtons } from '@/components/auth/OAuthButtons'
 import EmailSentConfirmation from '@/components/auth/EmailSentConfirmation'
-import { createClient } from '@/lib/supabase/client'
+import FormError from '@/components/auth/FormError'
 import { signUp } from '@/lib/actions/auth'
+import { registerFormSchema, type RegisterFormInput } from '@/lib/validators/auth'
 
 export default function RegisterForm() {
-  const [state, formAction, isPending] = useActionState(signUp, null)
-  const [googlePending, startGoogleTransition] = useTransition()
+  const [submitted, setSubmitted] = useState(false)
 
-  function handleGoogleSignUp() {
-    startGoogleTransition(async () => {
-      const supabase = createClient()
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${window.location.origin}/auth/callback`,
-        },
-      })
-      if (error) toast.error(error.message)
-    })
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting },
+  } = useForm<RegisterFormInput>({
+    resolver: zodResolver(registerFormSchema),
+  })
+
+  async function onSubmit(data: RegisterFormInput) {
+    const formData = new FormData()
+    formData.set('fullName', data.fullName)
+    formData.set('email', data.email)
+    formData.set('password', data.password)
+
+    const result = await signUp(null, formData)
+
+    if (result?.success) {
+      setSubmitted(true)
+      return
+    }
+    if (result?.fieldErrors) {
+      for (const [field, messages] of Object.entries(result.fieldErrors)) {
+        setError(field as keyof RegisterFormInput, { message: messages[0] })
+      }
+      return
+    }
+    if (result?.error) {
+      setError('root', { message: result.error })
+    }
   }
 
-  if (state?.success) {
+  if (submitted) {
     return (
       <EmailSentConfirmation
         title="Check your email"
@@ -40,20 +60,9 @@ export default function RegisterForm() {
     )
   }
 
-  const loading = isPending || googlePending
-
   return (
-    <div className="space-y-4">
-      <Button
-        type="button"
-        variant="outline"
-        className="w-full"
-        onClick={handleGoogleSignUp}
-        disabled={loading}
-      >
-        {googlePending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-        Continue with Google
-      </Button>
+    <div className="space-y-5">
+      <OAuthButtons disabled={isSubmitting} />
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
@@ -61,56 +70,85 @@ export default function RegisterForm() {
         <Separator className="flex-1" />
       </div>
 
-      <FormError message={state?.error} />
+      <FormError message={errors.root?.message} />
 
-      <form action={formAction} className="space-y-4">
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
         <div className="space-y-1.5">
           <Label htmlFor="fullName">Full Name</Label>
           <Input
             id="fullName"
-            name="fullName"
             placeholder="Your name"
             autoComplete="name"
-            required
-            disabled={loading}
-            aria-describedby={state?.fieldErrors?.fullName ? 'fullName-error' : undefined}
+            disabled={isSubmitting}
+            aria-invalid={!!errors.fullName}
+            aria-describedby={errors.fullName ? 'fullName-error' : undefined}
+            {...register('fullName')}
           />
-          <FieldError id="fullName-error" errors={state?.fieldErrors?.fullName} />
+          {errors.fullName && (
+            <p id="fullName-error" className="text-xs text-destructive">
+              {errors.fullName.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Email Address</Label>
           <Input
             id="email"
-            name="email"
             type="email"
             placeholder="you@example.com"
             autoComplete="email"
-            required
-            disabled={loading}
-            aria-describedby={state?.fieldErrors?.email ? 'email-error' : undefined}
+            disabled={isSubmitting}
+            aria-invalid={!!errors.email}
+            aria-describedby={errors.email ? 'email-error' : undefined}
+            {...register('email')}
           />
-          <FieldError id="email-error" errors={state?.fieldErrors?.email} />
+          {errors.email && (
+            <p id="email-error" className="text-xs text-destructive">
+              {errors.email.message}
+            </p>
+          )}
         </div>
 
         <div className="space-y-1.5">
           <Label htmlFor="password">Password</Label>
-          <Input
+          <PasswordInput
             id="password"
-            name="password"
-            type="password"
             placeholder="Min. 8 chars, 1 uppercase, 1 number"
             autoComplete="new-password"
-            required
-            disabled={loading}
-            aria-describedby={state?.fieldErrors?.password ? 'password-error' : undefined}
+            disabled={isSubmitting}
+            aria-invalid={!!errors.password}
+            aria-describedby={errors.password ? 'password-error' : undefined}
+            {...register('password')}
           />
-          <FieldError id="password-error" errors={state?.fieldErrors?.password} />
+          {errors.password && (
+            <p id="password-error" className="text-xs text-destructive">
+              {errors.password.message}
+            </p>
+          )}
         </div>
 
-        <Button type="submit" className="w-full" disabled={loading}>
-          {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? 'Creating account…' : 'Create Account'}
+        <div className="space-y-1.5">
+          <Label htmlFor="confirmPassword">Confirm Password</Label>
+          <PasswordInput
+            id="confirmPassword"
+            placeholder="Re-enter your password"
+            autoComplete="new-password"
+            disabled={isSubmitting}
+            aria-invalid={!!errors.confirmPassword}
+            aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
+            {...register('confirmPassword')}
+          />
+          {errors.confirmPassword && (
+            <p id="confirmPassword-error" className="text-xs text-destructive">
+              {errors.confirmPassword.message}
+            </p>
+          )}
+        </div>
+
+        <Button type="submit" className="w-full" disabled={isSubmitting}>
+          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+          {isSubmitting ? 'Creating account…' : 'Create Account'}
         </Button>
       </form>
 
@@ -119,6 +157,18 @@ export default function RegisterForm() {
         <Link href="/auth/login" className="font-medium text-foreground hover:underline">
           Sign in
         </Link>
+      </p>
+
+      <p className="text-center text-xs text-muted-foreground">
+        By creating an account you agree to our{' '}
+        <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">
+          Terms of Service
+        </Link>{' '}
+        and{' '}
+        <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">
+          Privacy Policy
+        </Link>
+        .
       </p>
     </div>
   )

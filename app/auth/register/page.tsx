@@ -1,13 +1,19 @@
 import type { Metadata } from 'next'
-import AuthCard from '@/components/auth/AuthCard'
+import { AuthLayout } from '@/components/auth/AuthLayout'
+import { AuthMarketingPanel } from '@/components/auth/AuthMarketingPanel'
+import { AuthHeader } from '@/components/auth/AuthHeader'
 import RegisterForm from './RegisterForm'
 
 export const metadata: Metadata = { title: 'Create Account' }
 
 export default function RegisterPage() {
   return (
-    <AuthCard title="Create an account" subtitle="Join Facelo to start shopping">
+    <AuthLayout panel={<AuthMarketingPanel />}>
+      <AuthHeader
+        title="Create your account"
+        subtitle="Join Facelo to start shopping with creators you trust."
+      />
       <RegisterForm />
-    </AuthCard>
+    </AuthLayout>
   )
 }

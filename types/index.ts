@@ -1,5 +1,7 @@
 export type UserRole = 'user' | 'creator' | 'admin'
 
+export type AccountStatus = 'active' | 'blocked' | 'suspended' | 'deleted'
+
 export type AdminSubRole =
   | 'super_admin'
   | 'product_manager'
@@ -47,6 +49,7 @@ export interface User {
   avatarUrl: string | null
   role: UserRole
   adminSubRole: AdminSubRole | null
+  status: AccountStatus
   createdAt: Date
   updatedAt: Date
 }
