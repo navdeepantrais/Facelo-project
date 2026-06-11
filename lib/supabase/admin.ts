@@ -3,9 +3,7 @@ import { SUPABASE_URL } from '@/constants/client'
 import { SUPABASE_SERVICE_ROLE_KEY } from '@/constants/server'
 
 export function createAdminClient() {
-  return createClient(
-    SUPABASE_URL,
-    SUPABASE_SERVICE_ROLE_KEY,
-    { auth: { autoRefreshToken: false, persistSession: false } }
-  )
+  return createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY, {
+    auth: { autoRefreshToken: false, persistSession: false },
+  })
 }

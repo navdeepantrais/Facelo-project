@@ -12,9 +12,7 @@ export default function AuthCard({ title, subtitle, children }: AuthCardProps) {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <h1 className="text-2xl font-bold">{title}</h1>
-          {subtitle && (
-            <p className="mt-1 text-sm text-muted-foreground">{subtitle}</p>
-          )}
+          {subtitle && <p className="text-muted-foreground mt-1 text-sm">{subtitle}</p>}
         </div>
         {children}
       </div>

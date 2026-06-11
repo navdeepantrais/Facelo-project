@@ -10,7 +10,7 @@ import { becomeCreatorSchema } from '@/lib/validators/creator'
 
 export async function activateCreator(
   _prev: AuthActionResult,
-  formData: FormData,
+  formData: FormData
 ): Promise<AuthActionResult> {
   const user = await getCurrentUser()
   if (!user) return { error: 'Not authenticated.' }

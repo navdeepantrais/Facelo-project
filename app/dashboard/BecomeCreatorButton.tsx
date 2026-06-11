@@ -19,8 +19,7 @@ export default function BecomeCreatorForm() {
 
       <div className="space-y-1.5">
         <Label htmlFor="bio">
-          Bio{' '}
-          <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+          Bio <span className="text-muted-foreground text-xs font-normal">(optional)</span>
         </Label>
         <Textarea
           id="bio"
@@ -36,8 +35,7 @@ export default function BecomeCreatorForm() {
 
       <div className="space-y-1.5">
         <Label htmlFor="promoCode">
-          Promo Code{' '}
-          <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+          Promo Code <span className="text-muted-foreground text-xs font-normal">(optional)</span>
         </Label>
         <Input
           id="promoCode"
@@ -45,11 +43,9 @@ export default function BecomeCreatorForm() {
           placeholder="e.g. creator20"
           autoComplete="off"
           disabled={isPending}
-          aria-describedby={
-            state?.fieldErrors?.promoCode ? 'promoCode-error' : 'promoCode-hint'
-          }
+          aria-describedby={state?.fieldErrors?.promoCode ? 'promoCode-error' : 'promoCode-hint'}
         />
-        <p id="promoCode-hint" className="text-xs text-muted-foreground">
+        <p id="promoCode-hint" className="text-muted-foreground text-xs">
           Lowercase letters, numbers, and hyphens only. This appears in your referral links.
         </p>
         <FieldError id="promoCode-error" errors={state?.fieldErrors?.promoCode} />
@@ -57,8 +53,7 @@ export default function BecomeCreatorForm() {
 
       <fieldset className="space-y-3" disabled={isPending}>
         <legend className="text-sm font-medium">
-          Social Links{' '}
-          <span className="text-xs font-normal text-muted-foreground">(optional)</span>
+          Social Links <span className="text-muted-foreground text-xs font-normal">(optional)</span>
         </legend>
 
         <div className="space-y-1.5">

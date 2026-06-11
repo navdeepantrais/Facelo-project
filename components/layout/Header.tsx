@@ -32,15 +32,11 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
   }
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
           <Sheet>
-            <SheetTrigger
-              render={
-                <Button variant="ghost" size="icon" className="md:hidden" />
-              }
-            >
+            <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
               <Menu className="h-5 w-5" />
             </SheetTrigger>
             <SheetContent side="left" className="w-72">
@@ -65,7 +61,7 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
           <Button variant="ghost" size="icon" className="relative" render={<Link href="/cart" />}>
             <ShoppingCart className="h-5 w-5" />
             {cartCount > 0 && (
-              <span className="absolute -right-1 -top-1 flex h-4 w-4 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground">
+              <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
                 {cartCount > 9 ? '9+' : cartCount}
               </span>
             )}
@@ -75,7 +71,7 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
             <DropdownMenu>
               <DropdownMenuTrigger
                 render={
-                  <button className="rounded-full outline-none ring-offset-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2" />
+                  <button className="ring-offset-background focus-visible:ring-ring rounded-full outline-none focus-visible:ring-2 focus-visible:ring-offset-2" />
                 }
               >
                 <Avatar className="h-8 w-8">
@@ -86,9 +82,7 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
                 </Avatar>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem render={<Link href="/account" />}>
-                  My Account
-                </DropdownMenuItem>
+                <DropdownMenuItem render={<Link href="/account" />}>My Account</DropdownMenuItem>
                 <DropdownMenuItem render={<Link href="/account/orders" />}>
                   My Orders
                 </DropdownMenuItem>

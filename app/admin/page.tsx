@@ -22,12 +22,12 @@ export default async function AdminPage() {
   const subRoleLabel = user.adminSubRole?.replace(/_/g, ' ') ?? 'admin'
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-12">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Admin Dashboard</h1>
-            <p className="mt-1 text-sm text-muted-foreground capitalize">
+            <p className="text-muted-foreground mt-1 text-sm capitalize">
               {subRoleLabel} — {user.email}
             </p>
           </div>
@@ -39,7 +39,7 @@ export default async function AdminPage() {
             <Link
               key={href}
               href={href}
-              className="rounded-xl border bg-card p-6 transition-colors hover:bg-muted"
+              className="bg-card hover:bg-muted rounded-xl border p-6 transition-colors"
             >
               <p className="font-medium">{label}</p>
             </Link>

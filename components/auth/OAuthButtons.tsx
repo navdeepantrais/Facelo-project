@@ -32,7 +32,7 @@ export function OAuthButtons({ redirectTo, disabled }: OAuthButtonsProps) {
     <Button
       type="button"
       variant="outline"
-      className="w-full"
+      className="h-10 w-full"
       onClick={handleGoogle}
       disabled={isPending || disabled}
     >

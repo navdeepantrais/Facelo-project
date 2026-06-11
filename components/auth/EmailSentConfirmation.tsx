@@ -9,10 +9,10 @@ export default function EmailSentConfirmation({ title, description }: EmailSentC
   return (
     <div className="space-y-2 text-center">
       <h2 className="text-lg font-semibold">{title}</h2>
-      <p className="text-sm text-muted-foreground">{description}</p>
+      <p className="text-muted-foreground text-sm">{description}</p>
       <Link
         href="/auth/login"
-        className="block text-sm font-medium text-foreground hover:underline"
+        className="text-foreground block text-sm font-medium hover:underline"
       >
         Back to sign in
       </Link>

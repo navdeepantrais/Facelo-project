@@ -25,11 +25,7 @@ export const creatorStatusEnum = pgEnum('creator_status', [
 
 export const rewardTypeEnum = pgEnum('reward_type', ['percentage', 'fixed'])
 
-export const attributionTypeEnum = pgEnum('attribution_type', [
-  'direct',
-  'warm',
-  'none',
-])
+export const attributionTypeEnum = pgEnum('attribution_type', ['direct', 'warm', 'none'])
 
 export const attributionModelEnum = pgEnum('attribution_model', [
   'last_touch',

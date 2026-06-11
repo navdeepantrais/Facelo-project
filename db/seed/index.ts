@@ -46,12 +46,12 @@ async function seedAdminRoles() {
     if (permissions.length > 0) {
       await db
         .insert(adminPermissions)
-        .values(permissions.map(p => ({ role: inserted.name, ...p })))
+        .values(permissions.map((p) => ({ role: inserted.name, ...p })))
         .onConflictDoUpdate({
           target: [adminPermissions.role, adminPermissions.resource],
           set: {
-            canRead:    adminPermissions.canRead,
-            canWrite:   adminPermissions.canWrite,
+            canRead: adminPermissions.canRead,
+            canWrite: adminPermissions.canWrite,
             canApprove: adminPermissions.canApprove,
           },
         })
@@ -88,7 +88,7 @@ async function main() {
   await client.end()
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('\n❌ Seed failed:', err)
   process.exit(1)
 })

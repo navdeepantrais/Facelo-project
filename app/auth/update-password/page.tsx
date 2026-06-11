@@ -6,10 +6,7 @@ export const metadata: Metadata = { title: 'Update Password' }
 
 export default function UpdatePasswordPage() {
   return (
-    <AuthCard
-      title="Set new password"
-      subtitle="Choose a strong password for your account"
-    >
+    <AuthCard title="Set new password" subtitle="Choose a strong password for your account">
       <UpdatePasswordForm />
     </AuthCard>
   )

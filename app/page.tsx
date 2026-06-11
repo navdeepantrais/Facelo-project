@@ -13,7 +13,7 @@ export default async function HomePage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center gap-6 px-4 text-center">
       <h1 className="text-3xl font-bold">Welcome to Facelo</h1>
-      <p className="max-w-md text-muted-foreground">
+      <p className="text-muted-foreground max-w-md">
         Shop products recommended by creators you trust.
       </p>
       <div className="flex gap-3">

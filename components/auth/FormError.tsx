@@ -5,7 +5,7 @@ interface FormErrorProps {
 export default function FormError({ message }: FormErrorProps) {
   if (!message) return null
   return (
-    <p className="rounded-md bg-destructive/10 px-3 py-2 text-sm text-destructive" role="alert">
+    <p className="bg-destructive/10 text-destructive rounded-md px-3 py-2 text-sm" role="alert">
       {message}
     </p>
   )

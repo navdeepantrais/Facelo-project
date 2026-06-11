@@ -12,19 +12,15 @@ export default async function CreatorDashboardPage() {
   const user = await getCurrentUser()
   if (!user) return null
 
-  const [creator] = await db
-    .select()
-    .from(creators)
-    .where(eq(creators.userId, user.id))
-    .limit(1)
+  const [creator] = await db.select().from(creators).where(eq(creators.userId, user.id)).limit(1)
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-12">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Creator Dashboard</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               {creator ? `@${creator.slug}` : user.email}
             </p>
           </div>
@@ -32,16 +28,16 @@ export default async function CreatorDashboardPage() {
         </div>
 
         <div className="grid gap-4 sm:grid-cols-3">
-          <div className="rounded-xl border bg-card p-6">
-            <p className="text-sm text-muted-foreground">Videos</p>
+          <div className="bg-card rounded-xl border p-6">
+            <p className="text-muted-foreground text-sm">Videos</p>
             <p className="mt-1 text-2xl font-bold">0</p>
           </div>
-          <div className="rounded-xl border bg-card p-6">
-            <p className="text-sm text-muted-foreground">Total Orders</p>
+          <div className="bg-card rounded-xl border p-6">
+            <p className="text-muted-foreground text-sm">Total Orders</p>
             <p className="mt-1 text-2xl font-bold">0</p>
           </div>
-          <div className="rounded-xl border bg-card p-6">
-            <p className="text-sm text-muted-foreground">Commissions Earned</p>
+          <div className="bg-card rounded-xl border p-6">
+            <p className="text-muted-foreground text-sm">Commissions Earned</p>
             <p className="mt-1 text-2xl font-bold">$0</p>
           </div>
         </div>

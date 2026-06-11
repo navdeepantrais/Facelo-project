@@ -7,7 +7,7 @@ const _databaseUrl = process.env.DATABASE_URL
 if (!_databaseUrl) {
   throw new Error(
     'Missing required server environment variable: DATABASE_URL\n' +
-    'Add it to .env.local (dev) or your deployment environment (prod).',
+      'Add it to .env.local (dev) or your deployment environment (prod).'
   )
 }
 
@@ -15,7 +15,7 @@ const _serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 if (!_serviceRoleKey) {
   throw new Error(
     'Missing required server environment variable: SUPABASE_SERVICE_ROLE_KEY\n' +
-    'Add it to .env.local (dev) or your deployment environment (prod).',
+      'Add it to .env.local (dev) or your deployment environment (prod).'
   )
 }
 

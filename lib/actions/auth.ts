@@ -27,7 +27,7 @@ export type AuthActionResult = {
 // ─── signIn ───────────────────────────────────────────────────────────────────
 export async function signIn(
   _prev: AuthActionResult,
-  formData: FormData,
+  formData: FormData
 ): Promise<AuthActionResult> {
   const result = signInSchema.safeParse(Object.fromEntries(formData))
   if (!result.success) {
@@ -86,7 +86,7 @@ export async function signIn(
 // ─── signUp ───────────────────────────────────────────────────────────────────
 export async function signUp(
   _prev: AuthActionResult,
-  formData: FormData,
+  formData: FormData
 ): Promise<AuthActionResult> {
   const result = signUpSchema.safeParse(Object.fromEntries(formData))
   if (!result.success) {
@@ -130,7 +130,7 @@ export async function signOut(): Promise<never> {
 // ─── resetPassword ────────────────────────────────────────────────────────────
 export async function resetPassword(
   _prev: AuthActionResult,
-  formData: FormData,
+  formData: FormData
 ): Promise<AuthActionResult> {
   const result = resetPasswordSchema.safeParse(Object.fromEntries(formData))
   if (!result.success) {
@@ -152,7 +152,7 @@ export async function resetPassword(
 // ─── updatePassword ───────────────────────────────────────────────────────────
 export async function updatePassword(
   _prev: AuthActionResult,
-  formData: FormData,
+  formData: FormData
 ): Promise<AuthActionResult> {
   const result = updatePasswordSchema.safeParse(Object.fromEntries(formData))
   if (!result.success) {
@@ -175,14 +175,12 @@ export async function updatePassword(
 // ─── getUser ──────────────────────────────────────────────────────────────────
 export async function getUser(): Promise<User | null> {
   const supabase = await createClient()
-  const { data: { user: authUser } } = await supabase.auth.getUser()
+  const {
+    data: { user: authUser },
+  } = await supabase.auth.getUser()
   if (!authUser) return null
 
-  const rows = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, authUser.id))
-    .limit(1)
+  const rows = await db.select().from(users).where(eq(users.id, authUser.id)).limit(1)
 
   return rows[0] ?? null
 }

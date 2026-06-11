@@ -4,14 +4,25 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "dev:turbo": "next dev --turbo",
     "build": "next build",
     "start": "next start",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint",
+    "lint:fix": "eslint --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "validate": "tsc --noEmit && eslint && prettier --check .",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "drizzle-kit migrate",
-    "db:push": "drizzle-kit push",
+    "db:check": "drizzle-kit check",
     "db:studio": "drizzle-kit studio",
+    "db:introspect": "drizzle-kit introspect",
     "db:seed": "tsx db/seed/index.ts",
-    "lint": "eslint"
+    "sb:start": "supabase start",
+    "sb:stop": "supabase stop",
+    "sb:reset": "supabase db reset",
+    "sb:status": "supabase status"
   },
   "dependencies": {
     "@base-ui/react": "^1.5.0",
@@ -45,6 +56,9 @@
     "drizzle-kit": "^0.31.10",
     "eslint": "^9",
     "eslint-config-next": "^15.5.19",
+    "prettier": "^3.8.4",
+    "prettier-plugin-tailwindcss": "^0.8.0",
+    "supabase": "^2.105.0",
     "tailwindcss": "^4",
     "tsx": "^4.22.4",
     "typescript": "^5"

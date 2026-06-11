@@ -8,25 +8,24 @@ export const metadata: Metadata = { title: 'Dashboard' }
 export default async function DashboardPage() {
   // Layout guarantees user is non-null and role === 'user'
   const user = await getCurrentUser()
-  console.log('DashboardPage user:', user) 
   if (!user) return null
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="bg-background min-h-screen">
       <div className="mx-auto max-w-4xl px-4 py-12">
         <div className="mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold">Dashboard</h1>
-            <p className="mt-1 text-sm text-muted-foreground">
+            <p className="text-muted-foreground mt-1 text-sm">
               Welcome back, {user.fullName ?? user.email}
             </p>
           </div>
           <LogoutButton />
         </div>
 
-        <div className="rounded-xl border bg-card p-6">
+        <div className="bg-card rounded-xl border p-6">
           <h2 className="text-lg font-semibold">Become a Creator</h2>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             Share products with your audience and earn commissions on every sale.
           </p>
           <div className="mt-4">

@@ -8,6 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
+import { Checkbox } from '@/components/ui/checkbox'
 import { PasswordInput } from '@/components/auth/PasswordInput'
 import { OAuthButtons } from '@/components/auth/OAuthButtons'
 import FormError from '@/components/auth/FormError'
@@ -26,7 +27,7 @@ export default function LoginForm() {
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
-        <span className="text-xs text-muted-foreground">or</span>
+        <span className="text-muted-foreground text-xs">or</span>
         <Separator className="flex-1" />
       </div>
 
@@ -36,15 +37,16 @@ export default function LoginForm() {
         {redirectTo && <input type="hidden" name="redirectTo" value={redirectTo} />}
 
         <div className="space-y-1.5">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">Email Address</Label>
           <Input
             id="email"
             name="email"
             type="email"
-            placeholder="you@example.com"
+            placeholder="name@company.com"
             autoComplete="email"
             required
             disabled={isPending}
+            className="bg-muted/50 h-10"
             aria-describedby={state?.fieldErrors?.email ? 'email-error' : undefined}
           />
           <FieldError id="email-error" errors={state?.fieldErrors?.email} />
@@ -53,10 +55,7 @@ export default function LoginForm() {
         <div className="space-y-1.5">
           <div className="flex items-center justify-between">
             <Label htmlFor="password">Password</Label>
-            <Link
-              href="/auth/reset-password"
-              className="text-xs text-muted-foreground hover:underline"
-            >
+            <Link href="/auth/reset-password" className="text-primary text-xs hover:underline">
               Forgot password?
             </Link>
           </div>
@@ -66,21 +65,29 @@ export default function LoginForm() {
             autoComplete="current-password"
             required
             disabled={isPending}
+            className="bg-muted/50 h-10"
             aria-describedby={state?.fieldErrors?.password ? 'password-error' : undefined}
           />
           <FieldError id="password-error" errors={state?.fieldErrors?.password} />
         </div>
 
-        <Button type="submit" className="w-full" disabled={isPending}>
+        <div className="flex items-center gap-2">
+          <Checkbox id="remember" />
+          <label htmlFor="remember" className="text-foreground cursor-pointer text-sm">
+            Remember for 30 days
+          </label>
+        </div>
+
+        <Button type="submit" className="h-10 w-full" disabled={isPending}>
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
           {isPending ? 'Signing in…' : 'Sign In'}
         </Button>
       </form>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         Don&apos;t have an account?{' '}
-        <Link href="/auth/register" className="font-medium text-foreground hover:underline">
-          Sign up
+        <Link href="/auth/register" className="text-primary font-medium hover:underline">
+          Create Account
         </Link>
       </p>
     </div>

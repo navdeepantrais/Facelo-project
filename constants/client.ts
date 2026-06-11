@@ -7,7 +7,7 @@ const _supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL
 if (!_supabaseUrl) {
   throw new Error(
     'Missing required public environment variable: NEXT_PUBLIC_SUPABASE_URL\n' +
-    'Add it to .env.local and restart the dev server.',
+      'Add it to .env.local and restart the dev server.'
   )
 }
 
@@ -15,7 +15,7 @@ const _supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
 if (!_supabaseAnonKey) {
   throw new Error(
     'Missing required public environment variable: NEXT_PUBLIC_SUPABASE_ANON_KEY\n' +
-    'Add it to .env.local and restart the dev server.',
+      'Add it to .env.local and restart the dev server.'
   )
 }
 

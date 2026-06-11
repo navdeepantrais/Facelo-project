@@ -14,11 +14,7 @@ export const getCurrentUser = cache(async (): Promise<User | null> => {
   } = await supabase.auth.getUser()
   if (!authUser) return null
 
-  const rows = await db
-    .select()
-    .from(users)
-    .where(eq(users.id, authUser.id))
-    .limit(1)
+  const rows = await db.select().from(users).where(eq(users.id, authUser.id)).limit(1)
 
   return rows[0] ?? null
 })
@@ -59,7 +55,7 @@ export function hasRole(user: User | null, role: UserRole): boolean {
 export async function hasPermission(
   subRole: AdminSubRole | null,
   resource: string,
-  action: 'canRead' | 'canWrite' | 'canApprove',
+  action: 'canRead' | 'canWrite' | 'canApprove'
 ): Promise<boolean> {
   if (!subRole) return false
   if (subRole === 'super_admin') return true
@@ -67,17 +63,23 @@ export async function hasPermission(
   const rows = await db
     .select()
     .from(adminPermissions)
-    .where(
-      and(
-        eq(adminPermissions.role, subRole),
-        eq(adminPermissions.resource, resource),
-      ),
-    )
+    .where(and(eq(adminPermissions.role, subRole), eq(adminPermissions.resource, resource)))
     .limit(1)
 
   const perm = rows[0]
   if (!perm) return false
   return perm[action]
+}
+
+export async function requirePermission(
+  resource: string,
+  action: 'canRead' | 'canWrite' | 'canApprove' = 'canRead'
+): Promise<User> {
+  const user = await requireAuth()
+  if (user.role !== 'admin') redirect('/')
+  const allowed = await hasPermission(user.adminSubRole, resource, action)
+  if (!allowed) redirect('/admin')
+  return user
 }
 
 export async function getDashboardPath(user: User): Promise<string> {

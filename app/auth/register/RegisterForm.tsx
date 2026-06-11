@@ -66,7 +66,7 @@ export default function RegisterForm() {
 
       <div className="flex items-center gap-3">
         <Separator className="flex-1" />
-        <span className="text-xs text-muted-foreground">or</span>
+        <span className="text-muted-foreground text-xs">or</span>
         <Separator className="flex-1" />
       </div>
 
@@ -85,7 +85,7 @@ export default function RegisterForm() {
             {...register('fullName')}
           />
           {errors.fullName && (
-            <p id="fullName-error" className="text-xs text-destructive">
+            <p id="fullName-error" className="text-destructive text-xs">
               {errors.fullName.message}
             </p>
           )}
@@ -104,7 +104,7 @@ export default function RegisterForm() {
             {...register('email')}
           />
           {errors.email && (
-            <p id="email-error" className="text-xs text-destructive">
+            <p id="email-error" className="text-destructive text-xs">
               {errors.email.message}
             </p>
           )}
@@ -122,7 +122,7 @@ export default function RegisterForm() {
             {...register('password')}
           />
           {errors.password && (
-            <p id="password-error" className="text-xs text-destructive">
+            <p id="password-error" className="text-destructive text-xs">
               {errors.password.message}
             </p>
           )}
@@ -140,7 +140,7 @@ export default function RegisterForm() {
             {...register('confirmPassword')}
           />
           {errors.confirmPassword && (
-            <p id="confirmPassword-error" className="text-xs text-destructive">
+            <p id="confirmPassword-error" className="text-destructive text-xs">
               {errors.confirmPassword.message}
             </p>
           )}
@@ -152,20 +152,20 @@ export default function RegisterForm() {
         </Button>
       </form>
 
-      <p className="text-center text-sm text-muted-foreground">
+      <p className="text-muted-foreground text-center text-sm">
         Already have an account?{' '}
-        <Link href="/auth/login" className="font-medium text-foreground hover:underline">
+        <Link href="/auth/login" className="text-foreground font-medium hover:underline">
           Sign in
         </Link>
       </p>
 
-      <p className="text-center text-xs text-muted-foreground">
+      <p className="text-muted-foreground text-center text-xs">
         By creating an account you agree to our{' '}
-        <Link href="/terms" className="underline underline-offset-4 hover:text-foreground">
+        <Link href="/terms" className="hover:text-foreground underline underline-offset-4">
           Terms of Service
         </Link>{' '}
         and{' '}
-        <Link href="/privacy" className="underline underline-offset-4 hover:text-foreground">
+        <Link href="/privacy" className="hover:text-foreground underline underline-offset-4">
           Privacy Policy
         </Link>
         .

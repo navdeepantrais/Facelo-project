@@ -10,10 +10,7 @@ export const metadata: Metadata = { title: 'Sign In' }
 export default function LoginPage() {
   return (
     <AuthLayout panel={<AuthMarketingPanel />}>
-      <AuthHeader
-        title="Welcome back"
-        subtitle="Sign in to your Facelo account."
-      />
+      <AuthHeader title="Welcome back" subtitle="Please enter your details to sign in." />
       {/* Suspense required — LoginForm reads useSearchParams */}
       <Suspense>
         <LoginForm />
