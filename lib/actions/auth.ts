@@ -80,7 +80,8 @@ export async function signIn(
     .limit(1)
 
   if (creatorRows.length > 0) redirect('/creator/dashboard')
-  redirect('/dashboard')
+  // Regular users land on the marketplace homepage
+  redirect('/')
 }
 
 // ─── signUp ───────────────────────────────────────────────────────────────────

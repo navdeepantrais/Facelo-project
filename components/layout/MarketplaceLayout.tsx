@@ -5,17 +5,12 @@ import type { User } from '@/types'
 interface MarketplaceLayoutProps {
   children: React.ReactNode
   profile: User | null
-  cartCount?: number
 }
 
-export default function MarketplaceLayout({
-  children,
-  profile,
-  cartCount,
-}: MarketplaceLayoutProps) {
+export default function MarketplaceLayout({ children, profile }: MarketplaceLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
-      <Header profile={profile} cartCount={cartCount} />
+      <Header profile={profile} />
       <main className="flex-1">{children}</main>
       <Footer />
     </div>

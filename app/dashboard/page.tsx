@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 import { getCurrentUser } from '@/lib/auth'
 import { LogoutButton } from '@/components/auth/LogoutButton'
-import BecomeCreatorButton from './BecomeCreatorButton'
+import BecomeCreatorButton from '@/components/creator/BecomeCreatorForm'
 
 export const metadata: Metadata = { title: 'Dashboard' }
 

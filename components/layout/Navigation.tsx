@@ -5,10 +5,8 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 
 const NAV_LINKS = [
-  { href: '/marketplace', label: 'Marketplace' },
-  { href: '/videos', label: 'Videos' },
-  { href: '/creators', label: 'Creators' },
-  { href: '/trending', label: 'Trending' },
+  { href: '/products', label: 'Products' },
+  { href: '/categories', label: 'Categories' },
 ]
 
 interface NavigationProps {

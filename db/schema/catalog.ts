@@ -48,11 +48,24 @@ export const products = pgTable(
       .default('5')
       .notNull(),
     isActive: boolean('is_active').default(true).notNull(),
+    isTrending: boolean('is_trending').default(false).notNull(),
+    isBestseller: boolean('is_bestseller').default(false).notNull(),
+    isFeatured: boolean('is_featured').default(false).notNull(),
+    slug: text('slug').unique().notNull(),
     createdAt: timestamp('created_at', { withTimezone: true }).defaultNow().notNull(),
     updatedAt: timestamp('updated_at', { withTimezone: true }).defaultNow().notNull(),
   },
   (t) => [
     index('products_category_id_idx').on(t.categoryId),
     index('products_is_active_idx').on(t.isActive),
+    index('products_slug_idx').on(t.slug),
+    index('products_price_idx').on(t.price),
+    index('products_brand_idx').on(t.brand),
+    index('products_rating_idx').on(t.rating),
+    index('products_review_count_idx').on(t.reviewCount),
+    index('products_created_at_idx').on(t.createdAt),
+    index('products_active_trending_idx').on(t.isActive, t.isTrending),
+    index('products_active_bestseller_idx').on(t.isActive, t.isBestseller),
+    index('products_active_featured_idx').on(t.isActive, t.isFeatured),
   ]
 )

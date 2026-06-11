@@ -1,6 +1,6 @@
 'use client'
 
-import { useTransition } from 'react'
+import { useState, useTransition } from 'react'
 import Link from 'next/link'
 import { ShoppingCart, Search, Menu, Loader2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
@@ -14,16 +14,19 @@ import {
 } from '@/components/ui/dropdown-menu'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import Navigation from './Navigation'
+import { CartDrawer } from '@/components/marketplace/CartDrawer'
 import { signOut } from '@/lib/actions/auth'
+import { useCart } from '@/hooks/use-cart'
 import type { User } from '@/types'
 
 interface HeaderProps {
   profile: User | null
-  cartCount?: number
 }
 
-export default function Header({ profile, cartCount = 0 }: HeaderProps) {
+export default function Header({ profile }: HeaderProps) {
   const [signOutPending, startSignOut] = useTransition()
+  const [cartOpen, setCartOpen] = useState(false)
+  const { totalItems } = useCart()
 
   function handleSignOut() {
     startSignOut(async () => {
@@ -32,6 +35,7 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
   }
 
   return (
+    <>
     <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="container mx-auto flex h-16 items-center justify-between px-4">
         <div className="flex items-center gap-6">
@@ -58,11 +62,17 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
             <Search className="h-5 w-5" />
           </Button>
 
-          <Button variant="ghost" size="icon" className="relative" render={<Link href="/cart" />}>
+          <Button
+            variant="ghost"
+            size="icon"
+            className="relative"
+            onClick={() => setCartOpen(true)}
+            aria-label="Open cart"
+          >
             <ShoppingCart className="h-5 w-5" />
-            {cartCount > 0 && (
+            {totalItems > 0 && (
               <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
-                {cartCount > 9 ? '9+' : cartCount}
+                {totalItems > 9 ? '9+' : totalItems}
               </span>
             )}
           </Button>
@@ -120,5 +130,8 @@ export default function Header({ profile, cartCount = 0 }: HeaderProps) {
         </div>
       </div>
     </header>
+
+    <CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
+  </>
   )
 }

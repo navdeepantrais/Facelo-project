@@ -60,6 +60,38 @@ export type OrderItem = typeof orderItems.$inferSelect
 export type Commission = typeof commissions.$inferSelect
 export type AttributionSession = typeof sessions.$inferSelect
 
+// ─── Marketplace types ────────────────────────────────────────────────────────
+
+export type ProductWithCategory = Product & {
+  category: Category | null
+}
+
+export type VideoWithProducts = {
+  video: Video
+  products: ProductWithCategory[]
+}
+
+export type SortOption = 'newest' | 'price_asc' | 'price_desc' | 'rating' | 'popularity'
+
+export type ProductFilters = {
+  q?: string
+  category?: string
+  minPrice?: number
+  maxPrice?: number
+  brand?: string
+  creator?: string
+  rating?: number
+  sort?: SortOption
+  page?: number
+}
+
+export type PaginatedProducts = {
+  products: ProductWithCategory[]
+  total: number
+  page: number
+  totalPages: number
+}
+
 // ─── Non-table types ──────────────────────────────────────────────────────────
 
 export interface ShippingAddress {

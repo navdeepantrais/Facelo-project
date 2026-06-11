@@ -3,10 +3,11 @@ config({ path: '.env.local' })
 import { drizzle } from 'drizzle-orm/postgres-js'
 import postgres from 'postgres'
 
-import { categories, adminRoles, adminPermissions, attributionConfig } from '../schema/index'
+import { categories, adminRoles, adminPermissions, attributionConfig, products } from '../schema/index'
 import { categoriesData } from './data/categories'
 import { adminRolesData } from './data/admin-roles'
 import { attributionConfigData } from './data/attribution'
+import { productsData } from './data/products'
 
 const client = postgres(process.env.DIRECT_URL ?? process.env.DATABASE_URL!)
 const db = drizzle(client)
@@ -61,6 +62,32 @@ async function seedAdminRoles() {
   }
 }
 
+async function seedProducts() {
+  const rows = await db
+    .insert(products)
+    .values(productsData)
+    .onConflictDoUpdate({
+      target: products.slug,
+      set: {
+        name: products.name,
+        description: products.description,
+        price: products.price,
+        images: products.images,
+        brand: products.brand,
+        rating: products.rating,
+        reviewCount: products.reviewCount,
+        stock: products.stock,
+        isTrending: products.isTrending,
+        isBestseller: products.isBestseller,
+        isFeatured: products.isFeatured,
+        isActive: products.isActive,
+      },
+    })
+    .returning({ slug: products.slug })
+
+  log('products', rows.length)
+}
+
 async function seedAttributionConfig() {
   const existing = await db.select().from(attributionConfig).limit(1)
 
@@ -77,6 +104,9 @@ async function main() {
 
   console.log('› Categories')
   await seedCategories()
+
+  console.log('\n› Products')
+  await seedProducts()
 
   console.log('\n› Admin Roles & Permissions')
   await seedAdminRoles()
