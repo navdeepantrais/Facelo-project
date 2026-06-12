@@ -7,16 +7,20 @@ type Props = {
 
 export function ProductCardSkeleton({ className }: Props) {
   return (
-    <div className={cn('flex flex-col overflow-hidden rounded-2xl bg-card shadow-sm', className)}>
-      <Skeleton className="aspect-square w-full" />
-      <div className="flex flex-col gap-2 p-3">
-        <Skeleton className="h-2.5 w-14" />
-        <Skeleton className="h-4 w-full" />
-        <Skeleton className="h-3 w-3/4" />
-        <Skeleton className="h-3 w-24" />
-        <div className="mt-1 flex items-center justify-between pt-1.5">
-          <Skeleton className="h-5 w-14" />
-          <Skeleton className="h-9 w-9 rounded-full" />
+    <div
+      className={cn(
+        'flex flex-col overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm',
+        className
+      )}
+    >
+      <Skeleton className="aspect-[4/5] w-full rounded-none" />
+      <div className="flex flex-col gap-1 p-2.5">
+        <Skeleton className="h-2 w-12" />
+        <Skeleton className="h-3 w-full" />
+        <Skeleton className="mt-0.5 h-2.5 w-16" />
+        <div className="mt-1.5 flex items-center justify-between pt-0.5">
+          <Skeleton className="h-4 w-12" />
+          <Skeleton className="h-7 w-7 rounded-lg" />
         </div>
       </div>
     </div>

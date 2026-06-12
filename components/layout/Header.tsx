@@ -48,8 +48,11 @@ export default function Header({ profile }: HeaderProps) {
             </SheetContent>
           </Sheet>
 
-          <Link href="/" className="flex items-center space-x-2">
-            <span className="text-xl font-bold tracking-tight">Facelo</span>
+          <Link href="/" className="flex items-center gap-2.5">
+            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-md shadow-violet-500/30">
+              <span className="text-[13px] font-black leading-none text-white">F</span>
+            </div>
+            <span className="text-[1.1rem] font-bold tracking-tight text-gray-900">Facelo</span>
           </Link>
 
           <div className="hidden md:block">

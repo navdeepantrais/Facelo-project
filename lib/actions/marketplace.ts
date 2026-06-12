@@ -1,6 +1,6 @@
 'use server'
 
-import { and, asc, desc, eq, inArray } from 'drizzle-orm'
+import { and, asc, desc, eq, inArray, isNotNull } from 'drizzle-orm'
 import { db } from '@/db/index'
 import { categories, products, videos, videoProducts } from '@/db/schema'
 import type { ProductWithCategory, VideoWithProducts } from '@/types'
@@ -113,4 +113,13 @@ export async function getShopFromVideos(limit = 6): Promise<VideoWithProducts[]>
 
     return { video, products: videoProductList }
   })
+}
+
+export async function getCategories(): Promise<{ id: string; name: string; slug: string }[]> {
+  return db
+    .select({ id: categories.id, name: categories.name, slug: categories.slug })
+    .from(categories)
+    .where(isNotNull(categories.slug))
+    .orderBy(asc(categories.name))
+    .limit(20)
 }

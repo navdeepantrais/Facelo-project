@@ -1,0 +1,102 @@
+PROJECT SCOPE — FACELO
+8-Week Full-Stack Development Contract
+=======================================
+
+PLATFORM SUMMARY
+----------------
+Facelo is a creator-led e-commerce marketplace where creators drive product
+sales through referral links, video content, and promo codes. The platform
+tracks attribution (direct vs warm) to calculate tiered commissions.
+
+CORE USER ROLES
+---------------
+1. User (Customer)  — browse marketplace, purchase products, track orders
+2. Creator          — upload videos, link products, share referral links, earn commissions
+3. Admin            — Super Admin, Product Manager, Creator Manager, Order Manager, Moderator
+
+WEEK-BY-WEEK SCOPE
+------------------
+
+WEEK 1 — Foundation, Architecture & Authentication
+  - Next.js 15 App Router + TypeScript + Tailwind v4 + shadcn/ui
+  - Supabase Auth (Google OAuth + Email/Password)
+  - Multi-role RBAC with admin sub-roles and permission matrix
+  - 18-table Drizzle schema with RLS policies
+  - GitHub CI + Vercel deployment config
+  - Base responsive layout shell
+
+WEEK 2 — Marketplace Module
+  - Product listing with 9 category filters
+  - Search (trigram GIN index on name + description)
+  - Sort: newest, price, trending
+  - Product detail page
+  - Cart (client-side, localStorage)
+  - Checkout entry → Stripe handoff
+
+WEEK 3 — Creator Public Pages & Video System
+  - Creator profile page at /[creatorSlug]
+  - Video/reel feed (YouTube, Instagram, TikTok link-out + native MP4/MOV)
+  - Native video upload via Supabase Storage (100MB max, vertical, 30–90s)
+  - Linked products grid per video
+  - Referral link generation
+
+WEEK 4 — Referral, UTM & Attribution Engine
+  - Click event recording on every referral link visit
+  - Attribution cookie (7-day window, last-touch model, configurable)
+  - Direct vs Warm attribution logic at checkout
+  - Admin attribution config panel
+
+WEEK 5 — Stripe Payments, Refunds & Commission Reversal
+  - Stripe Checkout Session creation and redirect
+  - Webhook handlers: checkout.session.completed, charge.refunded
+  - Commission calculation on order creation
+  - Commission reversal on refund with audit trail
+
+WEEK 6 — Creator Dashboard & Analytics
+  - Commission summary (total, pending, reversed)
+  - Attribution breakdown (direct vs warm)
+  - Top products + videos
+  - Payout request form (admin fulfills manually)
+  - Referral link manager
+
+WEEK 7 — Admin Dashboard
+  - Platform KPIs (GMV, orders, creators, conversion)
+  - User / Product / Order / Creator management tables
+  - Attribution config
+  - Commission ledger
+
+WEEK 8 — Testing, Polish & Deployment
+  - Critical path tests (auth, checkout, attribution, commission reversal)
+  - Accessibility audit (WCAG AA)
+  - Performance: LCP < 2.5s on marketplace pages
+  - Mobile QA at 375px
+  - Production deploy on client-owned Vercel + Supabase + domain
+
+INFRASTRUCTURE
+--------------
+All services under client's accounts from day one:
+  GitHub, Vercel, Supabase, Stripe, Domain registrar
+
+PAYMENT MODEL
+-------------
+Manual payouts only in MVP. Admin marks commissions as paid.
+No Stripe Connect / auto-transfer in scope.
+
+VIDEO HOSTING
+-------------
+External (YouTube/Instagram/TikTok): link-out previews only (no iframe embed).
+Native: Supabase Storage. CDN/transcoding (e.g. Mux) is post-MVP.
+
+ATTRIBUTION
+-----------
+Last-touch model. 7-day cookie window. Configurable via admin panel.
+Direct = creator link -> same product. Warm = creator link -> other product within window.
+
+OUT OF SCOPE (MVP)
+------------------
+- Stripe Connect / automated payouts
+- Video transcoding / CDN
+- Mobile app
+- Email marketing / newsletters
+- Affiliate sub-networks
+- Live streaming

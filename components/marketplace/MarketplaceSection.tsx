@@ -19,15 +19,18 @@ type SkeletonProps = {
 
 export function MarketplaceSection({ title, seeAllHref, products, className }: Props) {
   return (
-    <section className={cn('flex flex-col gap-4', className)}>
+    <section className={cn('flex flex-col gap-3', className)}>
       <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
+        <div className="flex items-center gap-2">
+          <div className="h-4 w-0.5 shrink-0 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
+          <h2 className="text-base font-bold tracking-tight text-gray-900">{title}</h2>
+        </div>
         {seeAllHref && (
           <Link
             href={seeAllHref}
-            className="flex items-center gap-1 text-sm font-medium text-primary hover:underline"
+            className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-[11px] font-semibold text-violet-700 transition-colors hover:bg-violet-100"
           >
-            See all <ArrowRight className="h-3.5 w-3.5" />
+            See all <ArrowRight className="h-2.5 w-2.5" />
           </Link>
         )}
       </div>
@@ -43,9 +46,10 @@ export function MarketplaceSection({ title, seeAllHref, products, className }: P
 
 export function MarketplaceSectionSkeleton({ title, count = 4, className }: SkeletonProps) {
   return (
-    <section className={cn('flex flex-col gap-4', className)}>
-      <div className="flex items-center justify-between">
-        <h2 className="text-xl font-semibold tracking-tight">{title}</h2>
+    <section className={cn('flex flex-col gap-3', className)}>
+      <div className="flex items-center gap-2">
+        <div className="h-4 w-0.5 shrink-0 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
+        <h2 className="text-base font-bold tracking-tight text-gray-900">{title}</h2>
       </div>
       <ProductGridSkeleton count={count} />
     </section>
