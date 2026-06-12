@@ -2,8 +2,7 @@ import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth'
-import { AuthLayout } from '@/components/auth/AuthLayout'
-import { AuthMarketingPanel } from '@/components/auth/AuthMarketingPanel'
+import AuthCard from '@/components/auth/AuthCard'
 import { AuthHeader } from '@/components/auth/AuthHeader'
 import LoginForm from './LoginForm'
 
@@ -14,12 +13,12 @@ export default async function LoginPage() {
   if (user) redirect('/')
 
   return (
-    <AuthLayout panel={<AuthMarketingPanel />}>
-      <AuthHeader title="Welcome back" subtitle="Please enter your details to sign in." />
+    <AuthCard>
+      <AuthHeader title="Welcome back" subtitle="Sign in to your Facelo account" />
       {/* Suspense required — LoginForm reads useSearchParams */}
       <Suspense>
         <LoginForm />
       </Suspense>
-    </AuthLayout>
+    </AuthCard>
   )
 }

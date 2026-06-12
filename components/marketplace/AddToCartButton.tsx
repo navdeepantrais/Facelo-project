@@ -13,6 +13,7 @@ type Props = {
   className?: string
   variant?: 'default' | 'outline'
   size?: 'default' | 'sm' | 'lg'
+  iconOnly?: boolean
 }
 
 export function AddToCartButton({
@@ -21,6 +22,7 @@ export function AddToCartButton({
   className,
   variant = 'default',
   size = 'default',
+  iconOnly = false,
 }: Props) {
   const { addToCart } = useCart()
   const [added, setAdded] = useState(false)
@@ -32,6 +34,24 @@ export function AddToCartButton({
     addToCart(product, quantity)
     setAdded(true)
     setTimeout(() => setAdded(false), 1500)
+  }
+
+  if (iconOnly) {
+    return (
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={isOutOfStock}
+        aria-label={isOutOfStock ? 'Out of stock' : added ? 'Added to cart' : 'Add to cart'}
+        className={cn(
+          'flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50',
+          added && 'bg-green-500 hover:bg-green-500',
+          className
+        )}
+      >
+        <ShoppingCart className="h-4 w-4" />
+      </button>
+    )
   }
 
   return (

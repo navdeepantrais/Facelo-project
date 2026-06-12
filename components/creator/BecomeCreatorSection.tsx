@@ -57,12 +57,12 @@ export default function BecomeCreatorSection() {
   return (
     <div className="rounded-xl border bg-card overflow-hidden">
       {/* Header band */}
-      <div className="bg-gradient-to-r from-violet-600 to-purple-500 px-6 py-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-violet-200 mb-1">
+      <div className="bg-foreground px-6 py-5">
+        <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">
           Creator Program
         </p>
         <h2 className="text-xl font-bold text-white">Switch to a Creator Account</h2>
-        <p className="mt-1 text-sm text-violet-100">
+        <p className="mt-1 text-sm text-white/75">
           Turn your recommendations into income. Free to join, no minimum followers.
         </p>
       </div>

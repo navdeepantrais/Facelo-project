@@ -1,8 +1,7 @@
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth'
-import { AuthLayout } from '@/components/auth/AuthLayout'
-import { AuthMarketingPanel } from '@/components/auth/AuthMarketingPanel'
+import AuthCard from '@/components/auth/AuthCard'
 import { AuthHeader } from '@/components/auth/AuthHeader'
 import RegisterForm from './RegisterForm'
 
@@ -13,12 +12,12 @@ export default async function RegisterPage() {
   if (user) redirect('/')
 
   return (
-    <AuthLayout panel={<AuthMarketingPanel />}>
+    <AuthCard>
       <AuthHeader
         title="Create your account"
-        subtitle="Join Facelo to start shopping with creators you trust."
+        subtitle="Join thousands of creators building on Facelo"
       />
       <RegisterForm />
-    </AuthLayout>
+    </AuthCard>
   )
 }

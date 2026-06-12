@@ -22,7 +22,7 @@ export default async function HomePage() {
   return (
     <MarketplaceLayout profile={user}>
       {/* Hero */}
-      <section className="border-b bg-gradient-to-br from-violet-50 to-white dark:from-violet-950/20 dark:to-background">
+      <section className="border-b bg-gradient-to-br from-muted/60 to-background dark:from-muted/30 dark:to-background">
         <div className="container mx-auto px-4 py-16 md:py-24">
           <div className="mx-auto max-w-2xl text-center">
             <h1 className="text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">

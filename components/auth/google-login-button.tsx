@@ -3,17 +3,20 @@
 import { useTransition } from 'react'
 import { Loader2 } from 'lucide-react'
 import { toast } from 'sonner'
+import { cn } from '@/lib/utils'
+import { Button } from '@/components/ui/button'
 import { createClient } from '@/lib/supabase/client'
 
-interface OAuthButtonsProps {
+interface GoogleLoginButtonProps {
   redirectTo?: string
   disabled?: boolean
+  className?: string
 }
 
-export function OAuthButtons({ redirectTo, disabled }: OAuthButtonsProps) {
+export function GoogleLoginButton({ redirectTo, disabled, className }: GoogleLoginButtonProps) {
   const [isPending, startTransition] = useTransition()
 
-  function handleGoogle() {
+  function handleSignIn() {
     startTransition(async () => {
       const supabase = createClient()
       const callbackUrl = new URL('/auth/callback', window.location.origin)
@@ -28,19 +31,22 @@ export function OAuthButtons({ redirectTo, disabled }: OAuthButtonsProps) {
   }
 
   return (
-    <button
+    <Button
       type="button"
-      onClick={handleGoogle}
+      onClick={handleSignIn}
       disabled={isPending || disabled}
-      className="flex h-10 w-full cursor-pointer items-center justify-center gap-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 shadow-[0_1px_3px_rgba(0,0,0,0.06),inset_0_1px_0_rgba(255,255,255,0.9)] transition-all hover:border-gray-300 hover:bg-gray-50/80 hover:shadow-[0_4px_12px_rgba(0,0,0,0.08),inset_0_1px_0_rgba(255,255,255,0.9)] disabled:cursor-not-allowed disabled:opacity-60"
+      className={cn(
+        'h-12 w-full gap-3 rounded-xl border border-white/10 bg-white/[0.06] text-sm font-medium text-white transition-colors hover:border-white/20 hover:bg-white/[0.10] disabled:opacity-50',
+        className
+      )}
     >
       {isPending ? (
-        <Loader2 className="h-4 w-4 animate-spin text-gray-400" />
+        <Loader2 className="h-4 w-4 animate-spin" />
       ) : (
         <GoogleIcon className="h-5 w-5 shrink-0" />
       )}
-      <span>{isPending ? 'Connecting…' : 'Continue with Google'}</span>
-    </button>
+      {isPending ? 'Connecting…' : 'Continue with Google'}
+    </Button>
   )
 }
 

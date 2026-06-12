@@ -46,7 +46,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
               <Badge className="bg-amber-500 text-white hover:bg-amber-500">Bestseller</Badge>
             )}
             {product.isTrending && (
-              <Badge className="bg-violet-600 text-white hover:bg-violet-600">Trending</Badge>
+              <Badge className="bg-foreground text-background hover:bg-foreground">Trending</Badge>
             )}
             {product.isFeatured && (
               <Badge variant="secondary">Editor&apos;s Pick</Badge>

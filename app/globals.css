@@ -49,13 +49,27 @@
 }
 
 :root {
+  /* Auth layout tokens — single source of truth for all auth pages */
+  --auth-canvas:         #09090B;   /* full-screen dark bg for login/register pages */
+  --auth-panel-bg:       #0d0d12;
+  --auth-panel-glow-1:   rgba(124, 58, 237, 0.42);
+  --auth-panel-glow-2:   rgba(79, 70, 229, 0.25);
+  --auth-panel-glow-3:   rgba(167, 139, 250, 0.07);
+  --auth-panel-dot:      rgba(255, 255, 255, 0.055);
+  --auth-panel-dot-size: 26px;
+  --auth-panel-accent-hi: rgba(124, 58, 237, 0.85);
+  --auth-panel-accent-lo: rgba(124, 58, 237, 0.30);
+  --auth-form-bg:        #f5f4fb;
+  --auth-accent:         oklch(0.491 0.274 292.585);
+  --auth-accent-2:       oklch(0.558 0.238 262.881);
+
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
   --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
-  --primary: oklch(0.491 0.274 292.585);
+  --primary: oklch(0.205 0 0);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
@@ -66,13 +80,13 @@
   --destructive: oklch(0.577 0.245 27.325);
   --border: oklch(0.922 0 0);
   --input: oklch(0.922 0 0);
-  --ring: oklch(0.491 0.274 292.585);
+  --ring: oklch(0.708 0 0);
   --chart-1: oklch(0.87 0 0);
   --chart-2: oklch(0.556 0 0);
   --chart-3: oklch(0.439 0 0);
   --chart-4: oklch(0.371 0 0);
   --chart-5: oklch(0.269 0 0);
-  --radius: 0.625rem;
+  --radius: 0.65rem;
   --sidebar: oklch(0.985 0 0);
   --sidebar-foreground: oklch(0.145 0 0);
   --sidebar-primary: oklch(0.205 0 0);
@@ -109,7 +123,7 @@
   --chart-5: oklch(0.269 0 0);
   --sidebar: oklch(0.205 0 0);
   --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
+  --sidebar-primary: oklch(0.985 0 0);
   --sidebar-primary-foreground: oklch(0.985 0 0);
   --sidebar-accent: oklch(0.269 0 0);
   --sidebar-accent-foreground: oklch(0.985 0 0);
@@ -127,4 +141,50 @@
   html {
     @apply font-sans;
   }
+}
+
+/* ─── Scrollbar hide utility ───────────────────────────────────────────── */
+
+.scrollbar-none {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+.scrollbar-none::-webkit-scrollbar {
+  display: none;
+}
+
+/* ─── Auth panel utility classes ──────────────────────────────────────── */
+
+/* Base background */
+.auth-panel {
+  background-color: var(--auth-panel-bg);
+}
+
+/* Ambient mesh gradient — layered radial glows */
+.auth-panel-overlay {
+  background-image:
+    radial-gradient(ellipse 75% 60% at 5% 15%,  var(--auth-panel-glow-1) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 95% 85%, var(--auth-panel-glow-2) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 48% 50%, var(--auth-panel-glow-3) 0%, transparent);
+}
+
+/* Subtle dot grid texture */
+.auth-panel-dots {
+  background-image: radial-gradient(circle, var(--auth-panel-dot) 1px, transparent 1px);
+  background-size: var(--auth-panel-dot-size) var(--auth-panel-dot-size);
+}
+
+/* Left edge vertical accent line */
+.auth-panel-left-accent {
+  background: linear-gradient(
+    to bottom,
+    var(--auth-panel-accent-hi),
+    var(--auth-panel-accent-lo) 55%,
+    transparent
+  );
+}
+
+/* Top gradient accent bar (right panel) */
+.auth-accent-bar {
+  background: linear-gradient(to right, var(--auth-accent), var(--auth-accent-2), var(--auth-accent));
 }

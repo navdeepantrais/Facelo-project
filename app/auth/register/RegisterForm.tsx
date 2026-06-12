@@ -4,17 +4,20 @@ import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
-import { Loader2 } from 'lucide-react'
+import { ArrowRight, Loader2, Lock, Mail, User } from 'lucide-react'
+import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
-import { Separator } from '@/components/ui/separator'
 import { PasswordInput } from '@/components/auth/PasswordInput'
 import { OAuthButtons } from '@/components/auth/OAuthButtons'
+import { FormField } from '@/components/auth/FormField'
 import EmailSentConfirmation from '@/components/auth/EmailSentConfirmation'
 import FormError from '@/components/auth/FormError'
 import { signUp } from '@/lib/actions/auth'
 import { registerFormSchema, type RegisterFormInput } from '@/lib/validators/auth'
+
+const INPUT_CLASS =
+  'h-10 rounded-xl border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 transition-colors focus-visible:border-violet-500 focus-visible:ring-2 focus-visible:ring-violet-500/[0.12] focus-visible:ring-offset-0'
 
 export default function RegisterForm() {
   const [submitted, setSubmitted] = useState(false)
@@ -61,57 +64,71 @@ export default function RegisterForm() {
   }
 
   return (
-    <div className="space-y-5">
+    <div className="space-y-3">
+      {/* Google OAuth — primary path */}
       <OAuthButtons disabled={isSubmitting} />
 
+      {/* Divider */}
       <div className="flex items-center gap-3">
-        <Separator className="flex-1" />
-        <span className="text-muted-foreground text-xs">or</span>
-        <Separator className="flex-1" />
+        <div className="h-px flex-1 bg-gray-200" />
+        <span className="text-xs text-gray-400">or continue with email</span>
+        <div className="h-px flex-1 bg-gray-200" />
       </div>
 
+      {/* Root error */}
       <FormError message={errors.root?.message} />
 
-      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-4">
-        <div className="space-y-1.5">
-          <Label htmlFor="fullName">Full Name</Label>
-          <Input
-            id="fullName"
-            placeholder="Your name"
-            autoComplete="name"
-            disabled={isSubmitting}
-            aria-invalid={!!errors.fullName}
-            aria-describedby={errors.fullName ? 'fullName-error' : undefined}
-            {...register('fullName')}
-          />
-          {errors.fullName && (
-            <p id="fullName-error" className="text-destructive text-xs">
-              {errors.fullName.message}
-            </p>
-          )}
-        </div>
+      <form onSubmit={handleSubmit(onSubmit)} noValidate className="space-y-3">
+        {/* Full name */}
+        <FormField
+          id="fullName"
+          label="Full name"
+          errors={errors.fullName?.message ? [errors.fullName.message] : undefined}
+        >
+          <div className="relative">
+            <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Input
+              id="fullName"
+              type="text"
+              placeholder="Your full name"
+              autoComplete="name"
+              disabled={isSubmitting}
+              aria-invalid={!!errors.fullName}
+              aria-describedby={errors.fullName ? 'fullName-error' : undefined}
+              className={cn(INPUT_CLASS, 'pl-10')}
+              {...register('fullName')}
+            />
+          </div>
+        </FormField>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="email">Email Address</Label>
-          <Input
-            id="email"
-            type="email"
-            placeholder="you@example.com"
-            autoComplete="email"
-            disabled={isSubmitting}
-            aria-invalid={!!errors.email}
-            aria-describedby={errors.email ? 'email-error' : undefined}
-            {...register('email')}
-          />
-          {errors.email && (
-            <p id="email-error" className="text-destructive text-xs">
-              {errors.email.message}
-            </p>
-          )}
-        </div>
+        {/* Email */}
+        <FormField
+          id="email"
+          label="Email"
+          errors={errors.email?.message ? [errors.email.message] : undefined}
+        >
+          <div className="relative">
+            <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Input
+              id="email"
+              type="email"
+              placeholder="you@example.com"
+              autoComplete="email"
+              disabled={isSubmitting}
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? 'email-error' : undefined}
+              className={cn(INPUT_CLASS, 'pl-10')}
+              {...register('email')}
+            />
+          </div>
+        </FormField>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="password">Password</Label>
+        {/* Password */}
+        <FormField
+          id="password"
+          label="Password"
+          errors={errors.password?.message ? [errors.password.message] : undefined}
+        >
           <PasswordInput
             id="password"
             placeholder="Min. 8 chars, 1 uppercase, 1 number"
@@ -119,17 +136,18 @@ export default function RegisterForm() {
             disabled={isSubmitting}
             aria-invalid={!!errors.password}
             aria-describedby={errors.password ? 'password-error' : undefined}
+            className={INPUT_CLASS}
+            prefixIcon={<Lock className="h-4 w-4" />}
             {...register('password')}
           />
-          {errors.password && (
-            <p id="password-error" className="text-destructive text-xs">
-              {errors.password.message}
-            </p>
-          )}
-        </div>
+        </FormField>
 
-        <div className="space-y-1.5">
-          <Label htmlFor="confirmPassword">Confirm Password</Label>
+        {/* Confirm password */}
+        <FormField
+          id="confirmPassword"
+          label="Confirm password"
+          errors={errors.confirmPassword?.message ? [errors.confirmPassword.message] : undefined}
+        >
           <PasswordInput
             id="confirmPassword"
             placeholder="Re-enter your password"
@@ -137,35 +155,53 @@ export default function RegisterForm() {
             disabled={isSubmitting}
             aria-invalid={!!errors.confirmPassword}
             aria-describedby={errors.confirmPassword ? 'confirmPassword-error' : undefined}
+            className={INPUT_CLASS}
             {...register('confirmPassword')}
           />
-          {errors.confirmPassword && (
-            <p id="confirmPassword-error" className="text-destructive text-xs">
-              {errors.confirmPassword.message}
-            </p>
-          )}
-        </div>
+        </FormField>
 
-        <Button type="submit" className="w-full" disabled={isSubmitting}>
-          {isSubmitting && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isSubmitting ? 'Creating account…' : 'Create Account'}
+        {/* Submit */}
+        <Button
+          type="submit"
+          disabled={isSubmitting}
+          className="h-10 w-full cursor-pointer rounded-xl bg-gradient-to-r from-violet-700 to-indigo-700 text-sm font-semibold text-white shadow-[0_4px_14px_rgba(109,40,217,0.22),inset_0_1px_0_rgba(255,255,255,0.12)] transition-all hover:from-violet-800 hover:to-indigo-800 hover:shadow-[0_6px_18px_rgba(109,40,217,0.30),inset_0_1px_0_rgba(255,255,255,0.12)] disabled:cursor-not-allowed disabled:opacity-50"
+        >
+          {isSubmitting ? (
+            <>
+              <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+              Creating account…
+            </>
+          ) : (
+            <>
+              Create account
+              <ArrowRight className="ml-2 h-4 w-4" />
+            </>
+          )}
         </Button>
       </form>
 
-      <p className="text-muted-foreground text-center text-sm">
+      {/* Sign in link */}
+      <p className="text-center text-sm text-gray-500">
         Already have an account?{' '}
-        <Link href="/auth/login" className="text-foreground font-medium hover:underline">
+        <Link href="/auth/login" className="font-medium text-violet-600 hover:text-violet-700">
           Sign in
         </Link>
       </p>
 
-      <p className="text-muted-foreground text-center text-xs">
+      {/* Terms */}
+      <p className="text-center text-xs text-gray-400">
         By creating an account you agree to our{' '}
-        <Link href="/terms" className="hover:text-foreground underline underline-offset-4">
+        <Link
+          href="/terms"
+          className="text-gray-500 underline underline-offset-4 hover:text-gray-700"
+        >
           Terms of Service
         </Link>{' '}
         and{' '}
-        <Link href="/privacy" className="hover:text-foreground underline underline-offset-4">
+        <Link
+          href="/privacy"
+          className="text-gray-500 underline underline-offset-4 hover:text-gray-700"
+        >
           Privacy Policy
         </Link>
         .
