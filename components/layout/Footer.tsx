@@ -2,15 +2,15 @@ import Link from 'next/link'
 
 const FOOTER_LINKS = {
   Marketplace: [
-    { label: 'All Products', href: '/products' },
-    { label: 'Trending', href: '/products?sort=rating' },
+    { label: 'All Products', href: '/marketplace' },
+    { label: 'Trending', href: '/marketplace?sort=rating' },
     { label: 'Shop from Videos', href: '/videos' },
     { label: 'Creators', href: '/creators' },
+    { label: 'Become a Creator', href: '/creator/apply' },
   ],
   Account: [
     { label: 'My Account', href: '/account' },
     { label: 'My Orders', href: '/account/orders' },
-    { label: 'Cart', href: '/cart' },
   ],
   Company: [
     { label: 'About', href: '/about' },
@@ -19,6 +19,8 @@ const FOOTER_LINKS = {
     { label: 'Contact', href: '/contact' },
   ],
 }
+
+const PAYMENT_METHODS = ['Visa', 'Mastercard', 'PayPal', 'Apple Pay', 'Google Pay']
 
 function XIcon({ className }: { className?: string }) {
   return (
@@ -54,14 +56,34 @@ export default function Footer() {
   return (
     <footer className="bg-gray-950">
       {/* Gradient top border */}
-      <div className="h-px bg-gradient-to-r from-transparent via-violet-500/30 to-transparent" />
+      <div className="h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
 
-      <div className="container mx-auto px-4 pt-14 pb-8">
-        {/* Main grid */}
-        <div className="grid grid-cols-2 gap-10 lg:grid-cols-4 lg:gap-16">
+      {/* Creator CTA band */}
+      <div className="border-b border-white/[0.06]">
+        <div className="container mx-auto flex flex-col items-start justify-between gap-4 px-4 py-8 sm:flex-row sm:items-center">
+          <div>
+            <p className="text-sm font-semibold text-white">
+              Turn your audience into income
+            </p>
+            <p className="mt-0.5 text-sm text-gray-400">
+              Join thousands of creators already earning on Facelo.
+            </p>
+          </div>
+          <Link
+            href="/creator/apply"
+            className="shrink-0 rounded-xl bg-violet-600 px-5 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-violet-700"
+          >
+            Become a Creator →
+          </Link>
+        </div>
+      </div>
+
+      {/* Main grid */}
+      <div className="container mx-auto px-4 pb-8 pt-12">
+        <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-16">
 
           {/* Brand column */}
-          <div className="col-span-2 lg:col-span-1">
+          <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25">
                 <span className="text-[13px] font-black leading-none text-white">F</span>
@@ -69,8 +91,8 @@ export default function Footer() {
               <span className="text-[1.1rem] font-bold tracking-tight text-white">Facelo</span>
             </Link>
 
-            <p className="mt-4 max-w-[200px] text-sm leading-relaxed text-gray-400">
-              Shop products recommended by the creators you already follow and trust.
+            <p className="mt-4 max-w-xs text-sm leading-relaxed text-gray-400">
+              Discover and shop products recommended by the creators you already follow and trust.
             </p>
 
             {/* Social links */}
@@ -80,7 +102,7 @@ export default function Footer() {
                   key={label}
                   href={href}
                   aria-label={label}
-                  className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-xl bg-white/[0.06] text-gray-400 transition-all hover:bg-violet-600 hover:text-white"
+                  className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/[0.06] text-gray-400 transition-all hover:bg-violet-600 hover:text-white"
                 >
                   <Icon className="h-4 w-4" />
                 </a>
@@ -111,23 +133,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom bar */}
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-white/[0.06] pt-6 sm:flex-row">
-          <p className="text-xs text-gray-600">
+        <div className="mt-12 flex flex-col items-center justify-between gap-4 border-t border-white/[0.06] pt-6 sm:flex-row">
+          <p className="text-xs text-gray-400">
             © {new Date().getFullYear()} Facelo, Inc. All rights reserved.
           </p>
-          <div className="flex gap-5">
-            {[
-              { label: 'Privacy', href: '/privacy' },
-              { label: 'Terms', href: '/terms' },
-              { label: 'Contact', href: '/contact' },
-            ].map(({ label, href }) => (
-              <Link
-                key={href}
-                href={href}
-                className="text-xs text-gray-600 transition-colors hover:text-gray-300"
+
+          {/* Payment method badges */}
+          <div className="flex flex-wrap items-center justify-center gap-1.5">
+            {PAYMENT_METHODS.map((method) => (
+              <span
+                key={method}
+                className="rounded-md border border-white/10 bg-white/[0.04] px-2.5 py-1 text-[10px] font-medium tracking-wide text-gray-500"
               >
-                {label}
-              </Link>
+                {method}
+              </span>
             ))}
           </div>
         </div>

@@ -22,62 +22,86 @@ export function CartDrawer({ open, onOpenChange }: Props) {
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="flex w-full flex-col sm:max-w-md">
-        <SheetHeader>
-          <SheetTitle className="flex items-center gap-2">
-            <ShoppingCart className="h-5 w-5" />
-            Cart {totalItems > 0 && <span className="text-muted-foreground">({totalItems})</span>}
-          </SheetTitle>
+      <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-[420px]">
+
+        {/* Header */}
+        <SheetHeader className="border-b px-6 py-4">
+          <div className="flex items-center gap-2.5">
+            <ShoppingCart className="h-5 w-5 text-violet-600" />
+            <SheetTitle className="text-base font-semibold">Your Cart</SheetTitle>
+            {totalItems > 0 && (
+              <span className="rounded-full bg-violet-100 px-2.5 py-0.5 text-xs font-semibold text-violet-700">
+                {totalItems} {totalItems === 1 ? 'item' : 'items'}
+              </span>
+            )}
+          </div>
         </SheetHeader>
 
+        {/* Empty state */}
         {items.length === 0 ? (
-          <div className="flex flex-1 flex-col items-center justify-center gap-4 text-center">
-            <ShoppingCart className="h-12 w-12 text-muted-foreground/30" />
+          <div className="flex flex-1 flex-col items-center justify-center gap-5 px-6 text-center">
+            <div className="flex h-20 w-20 items-center justify-center rounded-2xl bg-gray-100">
+              <ShoppingCart className="h-9 w-9 text-gray-400" />
+            </div>
             <div>
-              <p className="font-medium">Your cart is empty</p>
-              <p className="text-sm text-muted-foreground mt-1">
-                Add some products to get started.
+              <p className="font-semibold text-gray-900">Your cart is empty</p>
+              <p className="mt-1 text-sm text-muted-foreground">
+                Browse the marketplace and add products to get started.
               </p>
             </div>
-            <Button variant="outline" onClick={() => onOpenChange(false)}>
-              Continue Shopping
+            <Button
+              variant="outline"
+              className="rounded-xl"
+              render={<Link href="/marketplace" onClick={() => onOpenChange(false)} />}
+            >
+              Browse Marketplace
             </Button>
           </div>
         ) : (
           <>
-            {/* Items list */}
-            <div className="flex-1 overflow-y-auto -mx-6 px-6">
-              <div className="divide-y">
+            {/* Items */}
+            <div className="flex-1 overflow-y-auto">
+              <div className="divide-y px-6">
                 {items.map((item) => (
                   <CartItemRow key={item.product.id} item={item} />
                 ))}
               </div>
             </div>
 
-            {/* Footer */}
-            <div className="flex flex-col gap-4 pt-4 border-t">
+            {/* Order summary footer */}
+            <div className="border-t bg-gray-50/80 px-6 py-5">
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Subtotal</span>
-                <span className="text-base font-semibold">${totalPrice.toFixed(2)}</span>
+                <span className="text-lg font-bold text-gray-900">
+                  ${totalPrice.toFixed(2)}
+                </span>
               </div>
-              <p className="text-xs text-muted-foreground">
+              <p className="mt-1 text-xs text-muted-foreground">
                 Shipping and taxes calculated at checkout.
               </p>
 
               <Button
                 size="lg"
-                className="w-full"
+                className="mt-4 w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold hover:from-violet-700 hover:to-indigo-700"
                 render={<Link href="/checkout" onClick={() => onOpenChange(false)} />}
               >
-                Proceed to Checkout
+                Checkout · ${totalPrice.toFixed(2)}
               </Button>
 
-              <button
-                onClick={clearCart}
-                className="text-xs text-muted-foreground hover:text-destructive transition-colors text-center"
-              >
-                Clear cart
-              </button>
+              <div className="mt-3 flex items-center justify-between">
+                <button
+                  onClick={() => onOpenChange(false)}
+                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                >
+                  Continue shopping
+                </button>
+                <button
+                  onClick={clearCart}
+                  className="text-xs text-muted-foreground transition-colors hover:text-destructive"
+                >
+                  Clear cart
+                </button>
+              </div>
             </div>
           </>
         )}

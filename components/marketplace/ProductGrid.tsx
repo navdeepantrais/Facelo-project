@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils'
 import type { ProductWithCategory } from '@/types'
 
 const GRID_CLASSES =
-  'grid grid-cols-2 gap-2.5 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6'
+  'grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5'
 
 type Props = {
   products: ProductWithCategory[]

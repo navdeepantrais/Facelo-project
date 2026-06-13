@@ -28,8 +28,10 @@ export function MarketplaceSection({ title, seeAllHref, products, className }: P
         {seeAllHref && (
           <Link
             href={seeAllHref}
-            className="inline-flex cursor-pointer items-center gap-1 rounded-full border border-violet-200 bg-violet-50 px-3 py-1 text-[11px] font-semibold text-violet-700 transition-colors hover:bg-violet-100"
-          >
+            
+                    
+                            className="flex shrink-0 items-center gap-1 text-sm font-medium text-violet-600 hover:text-violet-700"
+                          >
             See all <ArrowRight className="h-2.5 w-2.5" />
           </Link>
         )}

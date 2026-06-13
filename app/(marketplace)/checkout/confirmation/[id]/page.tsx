@@ -47,7 +47,7 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
         <Button variant="outline" render={<Link href="/account/orders" />}>
           View all orders
         </Button>
-        <Button render={<Link href="/products" />}>Continue shopping</Button>
+        <Button render={<Link href="/marketplace" />}>Continue shopping</Button>
       </div>
     </div>
   )

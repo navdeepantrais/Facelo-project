@@ -38,7 +38,7 @@ export default async function OrdersPage({ searchParams }: PageProps) {
           <p className="mt-1 text-sm text-muted-foreground">
             Start shopping and your orders will appear here.
           </p>
-          <Link href="/products" className="mt-4 text-sm font-medium text-primary hover:underline">
+          <Link href="/marketplace" className="mt-4 text-sm font-medium text-primary hover:underline">
             Browse products
           </Link>
         </div>
