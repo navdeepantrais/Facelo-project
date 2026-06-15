@@ -9,6 +9,7 @@ import { SearchBar } from '@/components/marketplace/SearchBar'
 import { SortSelect } from '@/components/marketplace/SortSelect'
 import { Paginator } from '@/components/marketplace/Paginator'
 import { CategoryTabs } from './CategoryTabs'
+import { EmptyProductsState } from '@/components/marketplace/EmptyProductsState'
 
 export const metadata: Metadata = {
   title: 'Marketplace',
@@ -79,12 +80,10 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
 
           {/* Product grid */}
           {products.length === 0 ? (
-            <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-24 text-center shadow-sm">
-              <p className="text-lg font-medium text-foreground">No products found</p>
-              <p className="mt-1 text-sm text-muted-foreground">
-                Try adjusting your filters or search query.
-              </p>
-            </div>
+            <EmptyProductsState
+              title="No products found"
+              subtitle="Try adjusting your filters or search query."
+            />
           ) : (
             <ProductGrid products={products} />
           )}

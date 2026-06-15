@@ -8,19 +8,8 @@ import { Badge } from '@/components/ui/badge'
 import { StarRating } from '@/components/marketplace/StarRating'
 import { AddToCartButton } from '@/components/marketplace/AddToCartButton'
 import { cn, formatPrice } from '@/lib/utils'
-import { CATEGORY_ICONS, DEFAULT_CATEGORY_ICON } from '@/lib/category-icons'
+import { CATEGORY_ICONS, CATEGORY_STYLES, DEFAULT_CATEGORY_ICON, DEFAULT_CATEGORY_STYLE } from '@/lib/category-icons'
 import type { ProductWithCategory } from '@/types'
-
-const CATEGORY_COLORS: Record<string, string> = {
-  'beauty-skincare':  'from-pink-50 via-rose-50 to-pink-100',
-  'electronics-tech': 'from-blue-50 via-sky-50 to-indigo-100',
-  'fashion-apparel':  'from-purple-50 via-fuchsia-50 to-purple-100',
-  'fitness-sports':   'from-green-50 via-emerald-50 to-teal-100',
-  'food-nutrition':   'from-orange-50 via-amber-50 to-yellow-100',
-  'health-wellness':  'from-teal-50 via-cyan-50 to-teal-100',
-  'home-living':      'from-yellow-50 via-amber-50 to-orange-100',
-  accessories:        'from-indigo-50 via-violet-50 to-indigo-100',
-}
 
 type Props = {
   product: ProductWithCategory
@@ -34,7 +23,8 @@ export function ProductCard({ product, className }: Props) {
   const firstImage          = product.images[0]
   const showImage           = Boolean(firstImage) && !imgFailed
   const categorySlug        = product.category?.slug ?? ''
-  const placeholderGradient = CATEGORY_COLORS[categorySlug] ?? 'from-violet-50 via-indigo-50 to-purple-100'
+  const categoryStyle       = CATEGORY_STYLES[categorySlug] ?? DEFAULT_CATEGORY_STYLE
+  const placeholderGradient = categoryStyle.productBg
   const PlaceholderIcon     = CATEGORY_ICONS[categorySlug] ?? DEFAULT_CATEGORY_ICON
 
   return (

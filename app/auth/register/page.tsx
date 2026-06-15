@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import type { Metadata } from 'next'
 import { redirect } from 'next/navigation'
 import { getCurrentUser } from '@/lib/auth'
@@ -17,7 +18,10 @@ export default async function RegisterPage() {
         title="Create your account"
         subtitle="Join thousands of creators building on Facelo"
       />
-      <RegisterForm />
+      {/* Suspense required — RegisterForm reads useSearchParams */}
+      <Suspense>
+        <RegisterForm />
+      </Suspense>
     </AuthCard>
   )
 }

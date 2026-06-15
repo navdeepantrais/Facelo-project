@@ -12,6 +12,7 @@ import { Separator } from '@/components/ui/separator'
 import { CartItemRow } from '@/components/marketplace/CartItemRow'
 import { useCart } from '@/hooks/use-cart'
 import { createOrder } from '@/lib/actions/orders'
+import { formatPrice } from '@/lib/utils'
 import { shippingAddressSchema } from '@/lib/validators/checkout'
 import type { ShippingAddressInput } from '@/lib/validators/checkout'
 
@@ -141,7 +142,7 @@ export function CheckoutForm() {
 
         <Button type="submit" size="lg" disabled={isPending} className="w-full">
           {isPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-          {isPending ? 'Placing order…' : `Place order · $${totalPrice.toFixed(2)}`}
+          {isPending ? 'Placing order…' : `Place order · ${formatPrice(totalPrice)}`}
         </Button>
 
         <p className="text-xs text-center text-muted-foreground">
@@ -170,7 +171,7 @@ export function CheckoutForm() {
 
         <div className="p-4 flex items-center justify-between">
           <span className="font-medium">Total</span>
-          <span className="text-lg font-bold">${totalPrice.toFixed(2)}</span>
+          <span className="text-lg font-bold">{formatPrice(totalPrice)}</span>
         </div>
       </div>
     </div>

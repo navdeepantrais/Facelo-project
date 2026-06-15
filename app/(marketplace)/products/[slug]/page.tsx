@@ -7,6 +7,7 @@ import { StarRating } from '@/components/marketplace/StarRating'
 import { MarketplaceSection } from '@/components/marketplace/MarketplaceSection'
 import { Badge } from '@/components/ui/badge'
 import { Separator } from '@/components/ui/separator'
+import { formatPrice } from '@/lib/utils'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -72,7 +73,7 @@ export default async function ProductDetailPage({ params }: PageProps) {
             size="md"
           />
 
-          <p className="text-3xl font-bold">${Number(product.price).toFixed(2)}</p>
+          <p className="text-3xl font-bold">{formatPrice(product.price)}</p>
 
           <Separator />
 

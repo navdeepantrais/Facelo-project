@@ -54,3 +54,13 @@ export const registerFormSchema = signUpSchema
   })
 
 export type RegisterFormInput = z.infer<typeof registerFormSchema>
+
+export const updateProfileSchema = z.object({
+  fullName: z
+    .string()
+    .trim()
+    .min(2, 'Name must be at least 2 characters')
+    .max(100, 'Name must be 100 characters or fewer'),
+})
+
+export type UpdateProfileInput = z.infer<typeof updateProfileSchema>

@@ -4,6 +4,9 @@ import { SUPABASE_URL, SUPABASE_ANON_KEY } from '@/constants/client'
 
 const PROTECTED_PREFIXES = ['/dashboard', '/creator', '/admin', '/checkout', '/account']
 
+// Routes under a protected prefix that are intentionally public
+const PUBLIC_PATHS = new Set(['/creator/apply'])
+
 export async function middleware(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request })
 
@@ -31,7 +34,7 @@ export async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl
   const isProtected = PROTECTED_PREFIXES.some((prefix) => pathname.startsWith(prefix))
 
-  if (!user && isProtected) {
+  if (!user && isProtected && !PUBLIC_PATHS.has(pathname)) {
     const url = request.nextUrl.clone()
     url.pathname = '/auth/login'
     url.searchParams.set('redirectTo', pathname)

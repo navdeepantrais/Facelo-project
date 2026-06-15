@@ -21,18 +21,15 @@ export function MarketplaceSection({ title, seeAllHref, products, className }: P
   return (
     <section className={cn('flex flex-col gap-3', className)}>
       <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 mb-3">
           <div className="h-4 w-0.5 shrink-0 rounded-full bg-gradient-to-b from-violet-500 to-indigo-500" />
-          <h2 className="text-base font-bold tracking-tight text-gray-900">{title}</h2>
+          <h2 className="font-bold tracking-tight text-gray-900 text-3xl ">{title}</h2>
         </div>
         {seeAllHref && (
           <Link
             href={seeAllHref}
-            
-                    
-                            className="flex shrink-0 items-center gap-1 text-sm font-medium text-violet-600 hover:text-violet-700"
-                          >
-            See all <ArrowRight className="h-2.5 w-2.5" />
+            className="flex shrink-0 items-center gap-1 text-sm font-medium text-violet-600 hover:text-violet-700">
+            View all <ArrowRight className="h-3.5 w-3.5" />
           </Link>
         )}
       </div>

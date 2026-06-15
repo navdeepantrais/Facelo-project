@@ -14,6 +14,26 @@ export function formatOrderId(id: string): string {
   return `#${id.slice(0, 8).toUpperCase()}`
 }
 
+export function orderProgressPercent(status: OrderStatus): number {
+  switch (status) {
+    case 'pending':    return 15
+    case 'paid':       return 40
+    case 'processing': return 70
+    case 'completed':  return 100
+    default:           return 0
+  }
+}
+
+export function orderProgressLabels(status: OrderStatus): [string, string] {
+  switch (status) {
+    case 'pending':    return ['Order Placed',       'Awaiting Payment']
+    case 'paid':       return ['Payment Confirmed',  'Preparing']
+    case 'processing': return ['Processing',         'On Its Way']
+    case 'completed':  return ['Delivered',          'Complete']
+    default:           return ['Order Placed',       'Complete']
+  }
+}
+
 export function orderStatusColor(status: OrderStatus): string {
   switch (status) {
     case 'paid':

@@ -1,6 +1,7 @@
 'use server'
 
 import { and, asc, count, desc, eq, inArray } from 'drizzle-orm'
+import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { db } from '@/db/index'
 import { categories, orderItems, orders, products } from '@/db/schema'
@@ -8,8 +9,7 @@ import { shippingAddressSchema } from '@/lib/validators/checkout'
 import { mapProductRow, productCategorySelect } from '@/lib/queries/products'
 import { getCurrentUser } from '@/lib/auth'
 import type { Order, OrderItem, ProductWithCategory } from '@/types'
-
-const PAGE_SIZE = 20
+import { ORDERS_PAGE_SIZE as PAGE_SIZE } from '@/lib/constants/pagination'
 
 const createOrderSchema = z.object({
   items: z
@@ -118,6 +118,9 @@ export async function createOrder(rawInput: CreateOrderInput): Promise<CreateOrd
 
     return order.id
   })
+
+  revalidatePath('/account/orders')
+  revalidatePath('/account')
 
   return { success: true, orderId }
 }

@@ -1,6 +1,7 @@
 'use server'
 
 import { redirect } from 'next/navigation'
+import { revalidatePath } from 'next/cache'
 import { eq } from 'drizzle-orm'
 import { createClient } from '@/lib/supabase/server'
 import { db } from '@/db/index'
@@ -11,6 +12,7 @@ import {
   signUpSchema,
   resetPasswordSchema,
   updatePasswordSchema,
+  updateProfileSchema,
 } from '@/lib/validators/auth'
 import type { User } from '@/types'
 import { SITE_URL } from '@/constants/client'
@@ -171,6 +173,28 @@ export async function updatePassword(
   }
 
   redirect('/auth/login?message=password-updated')
+}
+
+// ─── updateProfile ────────────────────────────────────────────────────────────
+export async function updateProfile(
+  _prev: AuthActionResult,
+  formData: FormData
+): Promise<AuthActionResult> {
+  const user = await getUser()
+  if (!user) return { error: 'Not authenticated.' }
+
+  const result = updateProfileSchema.safeParse(Object.fromEntries(formData))
+  if (!result.success) {
+    return { fieldErrors: result.error.flatten().fieldErrors }
+  }
+
+  await db
+    .update(users)
+    .set({ fullName: result.data.fullName, updatedAt: new Date() })
+    .where(eq(users.id, user.id))
+
+  revalidatePath('/account')
+  return { success: true }
 }
 
 // ─── getUser ──────────────────────────────────────────────────────────────────

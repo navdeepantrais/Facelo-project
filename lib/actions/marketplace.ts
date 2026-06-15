@@ -5,10 +5,9 @@ import { db } from '@/db/index'
 import { categories, products, videos, videoProducts } from '@/db/schema'
 import type { ProductWithCategory, VideoWithProducts } from '@/types'
 import { mapProductRow, productCategorySelect } from '@/lib/queries/products'
+import { SECTION_PRODUCT_LIMIT } from '@/lib/constants/pagination'
 
-const DEFAULT_LIMIT = 8
-
-export async function getTrendingProducts(limit = DEFAULT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getTrendingProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)
@@ -20,7 +19,7 @@ export async function getTrendingProducts(limit = DEFAULT_LIMIT): Promise<Produc
   return rows.map((r) => mapProductRow(r as Parameters<typeof mapProductRow>[0]))
 }
 
-export async function getBestsellerProducts(limit = DEFAULT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getBestsellerProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)
@@ -32,7 +31,7 @@ export async function getBestsellerProducts(limit = DEFAULT_LIMIT): Promise<Prod
   return rows.map((r) => mapProductRow(r as Parameters<typeof mapProductRow>[0]))
 }
 
-export async function getNewArrivalProducts(limit = DEFAULT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getNewArrivalProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)
@@ -44,7 +43,7 @@ export async function getNewArrivalProducts(limit = DEFAULT_LIMIT): Promise<Prod
   return rows.map((r) => mapProductRow(r as Parameters<typeof mapProductRow>[0]))
 }
 
-export async function getFeaturedProducts(limit = DEFAULT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getFeaturedProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)

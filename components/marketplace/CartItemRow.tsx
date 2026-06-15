@@ -4,6 +4,7 @@ import Image from 'next/image'
 import { Minus, Plus, X } from 'lucide-react'
 import { useCart } from '@/hooks/use-cart'
 import type { CartItem } from '@/hooks/use-cart'
+import { formatPrice } from '@/lib/utils'
 
 type Props = {
   item: CartItem
@@ -14,7 +15,7 @@ export function CartItemRow({ item }: Props) {
   const { product, quantity } = item
   const firstImage = product.images[0]
   const unitPrice = Number(product.price)
-  const lineTotal = (unitPrice * quantity).toFixed(2)
+  const lineTotal = formatPrice(unitPrice * quantity)
 
   return (
     <div className="flex gap-4 py-4">
@@ -52,7 +53,7 @@ export function CartItemRow({ item }: Props) {
         </div>
 
         {/* Unit price */}
-        <p className="text-xs text-muted-foreground">${unitPrice.toFixed(2)} each</p>
+        <p className="text-xs text-muted-foreground">{formatPrice(unitPrice)} each</p>
 
         {/* Qty controls + line total */}
         <div className="mt-auto flex items-center justify-between">
@@ -77,7 +78,7 @@ export function CartItemRow({ item }: Props) {
             </button>
           </div>
 
-          <p className="text-sm font-semibold text-gray-900">${lineTotal}</p>
+          <p className="text-sm font-semibold text-gray-900">{lineTotal}</p>
         </div>
       </div>
     </div>

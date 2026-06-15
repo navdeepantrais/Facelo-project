@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import Link from 'next/link'
@@ -20,6 +21,9 @@ const INPUT_CLASS =
   'h-10 rounded-xl border-gray-200 bg-white text-sm text-gray-900 placeholder:text-gray-400 transition-colors focus-visible:border-violet-500 focus-visible:ring-2 focus-visible:ring-violet-500/[0.12] focus-visible:ring-offset-0'
 
 export default function RegisterForm() {
+  const searchParams = useSearchParams()
+  const redirectTo = searchParams.get('redirectTo') ?? undefined
+
   const [submitted, setSubmitted] = useState(false)
 
   const {
@@ -66,7 +70,7 @@ export default function RegisterForm() {
   return (
     <div className="space-y-3">
       {/* Google OAuth — primary path */}
-      <OAuthButtons disabled={isSubmitting} />
+      <OAuthButtons redirectTo={redirectTo} disabled={isSubmitting} />
 
       {/* Divider */}
       <div className="flex items-center gap-3">

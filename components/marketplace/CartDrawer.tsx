@@ -11,6 +11,7 @@ import {
 import { Button } from '@/components/ui/button'
 import { CartItemRow } from '@/components/marketplace/CartItemRow'
 import { useCart } from '@/hooks/use-cart'
+import { formatPrice } from '@/lib/utils'
 
 type Props = {
   open: boolean
@@ -73,7 +74,7 @@ export function CartDrawer({ open, onOpenChange }: Props) {
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Subtotal</span>
                 <span className="text-lg font-bold text-gray-900">
-                  ${totalPrice.toFixed(2)}
+                  {formatPrice(totalPrice)}
                 </span>
               </div>
               <p className="mt-1 text-xs text-muted-foreground">
@@ -85,7 +86,7 @@ export function CartDrawer({ open, onOpenChange }: Props) {
                 className="mt-4 w-full rounded-xl bg-gradient-to-r from-violet-600 to-indigo-600 font-semibold hover:from-violet-700 hover:to-indigo-700"
                 render={<Link href="/checkout" onClick={() => onOpenChange(false)} />}
               >
-                Checkout · ${totalPrice.toFixed(2)}
+                Checkout · {formatPrice(totalPrice)}
               </Button>
 
               <div className="mt-3 flex items-center justify-between">

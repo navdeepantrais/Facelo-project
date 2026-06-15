@@ -188,3 +188,21 @@
 .auth-accent-bar {
   background: linear-gradient(to right, var(--auth-accent), var(--auth-accent-2), var(--auth-accent));
 }
+
+/* ─── BrandLoader sweep animation ──────────────────────────────────────── */
+@keyframes loading-sweep {
+  0%   { left: -50%; }
+  100% { left: 120%; }
+}
+
+/* ─── Hero headline cursor blink ────────────────────────────────────────── */
+@keyframes cursor-blink {
+  0%, 100% { opacity: 1; }
+  50%       { opacity: 0; }
+}
+
+/* ─── Hero product card float ───────────────────────────────────────────── */
+@keyframes hero-float {
+  0%, 100% { transform: translateY(0px); }
+  50%       { transform: translateY(-10px); }
+}

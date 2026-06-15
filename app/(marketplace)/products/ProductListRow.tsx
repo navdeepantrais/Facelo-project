@@ -5,7 +5,7 @@ import Image from 'next/image'
 import { Badge } from '@/components/ui/badge'
 import { StarRating } from '@/components/marketplace/StarRating'
 import { AddToCartButton } from '@/components/marketplace/AddToCartButton'
-import { cn } from '@/lib/utils'
+import { cn, formatPrice } from '@/lib/utils'
 import type { ProductWithCategory } from '@/types'
 
 type Props = {
@@ -74,7 +74,7 @@ export function ProductListRow({ product, className }: Props) {
           size="sm"
         />
         <div className="text-xl font-bold text-foreground">
-          ${Number(product.price).toFixed(2)}
+          {formatPrice(product.price)}
         </div>
       </div>
 

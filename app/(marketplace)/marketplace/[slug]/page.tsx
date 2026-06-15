@@ -13,6 +13,7 @@ import { Paginator } from '@/components/marketplace/Paginator'
 import { ActiveFilters } from '@/components/marketplace/ActiveFilters'
 import { CategoryTabs } from '@/app/(marketplace)/marketplace/CategoryTabs'
 import { CategoryBanner } from './CategoryBanner'
+import { EmptyProductsState } from '@/components/marketplace/EmptyProductsState'
 
 type PageProps = {
   params: Promise<{ slug: string }>
@@ -123,19 +124,15 @@ export default async function MarketplaceCategoryPage({ params, searchParams }: 
           {/* Product grid */}
           {products.length === 0 ? (
             hasActiveFilters ? (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-24 text-center shadow-sm">
-                <p className="text-lg font-medium text-foreground">No products match your filters</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  Try adjusting your search or clearing some filters.
-                </p>
-              </div>
+              <EmptyProductsState
+                title="No products match your filters"
+                subtitle="Try adjusting your search or clearing some filters."
+              />
             ) : (
-              <div className="flex flex-col items-center justify-center rounded-xl border border-border bg-card py-24 text-center shadow-sm">
-                <p className="text-lg font-medium text-foreground">No products yet</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  This category is empty — check back soon or browse other categories.
-                </p>
-              </div>
+              <EmptyProductsState
+                title="No products yet"
+                subtitle="This category is empty — check back soon or browse other categories."
+              />
             )
           ) : (
             <ProductGrid products={products} />

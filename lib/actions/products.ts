@@ -6,8 +6,7 @@ import { categories, creators, products, videos, videoProducts } from '@/db/sche
 import { mapProductRow, productCategorySelect } from '@/lib/queries/products'
 import type { ProductRowWithCategory } from '@/lib/queries/products'
 import type { Category, PaginatedProducts, ProductFilters, ProductWithCategory, SortOption } from '@/types'
-
-const PAGE_SIZE = 24
+import { PRODUCTS_PAGE_SIZE as PAGE_SIZE } from '@/lib/constants/pagination'
 
 function buildOrderBy(sort: SortOption) {
   switch (sort) {

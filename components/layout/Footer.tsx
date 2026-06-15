@@ -54,7 +54,7 @@ const SOCIAL = [
 
 export default function Footer() {
   return (
-    <footer className="bg-gray-950">
+    <footer className="bg-white">
       {/* Gradient top border */}
       <div className="h-px bg-gradient-to-r from-transparent via-violet-500/50 to-transparent" />
 
