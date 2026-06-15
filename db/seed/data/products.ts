@@ -1,5 +1,3 @@
-
-
 // 18 sample products — 2 per category
 // Slugs are hardcoded: kebab-name + 8-char suffix for uniqueness
 // category slugs match categoriesData: beauty-skincare, fashion-apparel,
@@ -242,7 +240,7 @@ export const productsData = [
     name: 'Adaptogen Mushroom Coffee Blend',
     slug: 'adaptogen-mushroom-coffee-blend-s5t6u7v8',
     description:
-      'Ground coffee infused with lion\'s mane, chaga, and reishi mushroom extracts. Smooth, rich flavour with no earthy aftertaste. Supports focus, immunity, and sustained energy without jitters.',
+      "Ground coffee infused with lion's mane, chaga, and reishi mushroom extracts. Smooth, rich flavour with no earthy aftertaste. Supports focus, immunity, and sustained energy without jitters.",
     price: '26.99',
     images: ['https://placehold.co/600x600/3e2723/d7ccc8?text=Mushroom+Coffee'],
     brand: 'PureGrain',

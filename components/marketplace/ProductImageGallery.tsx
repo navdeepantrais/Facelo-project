@@ -14,8 +14,8 @@ export function ProductImageGallery({ images, productName }: Props) {
 
   if (images.length === 0) {
     return (
-      <div className="aspect-square w-full rounded-xl bg-muted flex items-center justify-center">
-        <span className="text-sm text-muted-foreground">No image available</span>
+      <div className="bg-muted flex aspect-square w-full items-center justify-center rounded-xl">
+        <span className="text-muted-foreground text-sm">No image available</span>
       </div>
     )
   }
@@ -25,7 +25,7 @@ export function ProductImageGallery({ images, productName }: Props) {
   return (
     <div className="flex flex-col gap-3">
       {/* Main image */}
-      <div className="relative aspect-square w-full overflow-hidden rounded-xl bg-muted">
+      <div className="bg-muted relative aspect-square w-full overflow-hidden rounded-xl">
         <Image
           src={activeImage}
           alt={`${productName} — image ${activeIndex + 1}`}

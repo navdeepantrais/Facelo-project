@@ -62,9 +62,7 @@ export default function Footer() {
       <div className="border-b border-white/[0.06]">
         <div className="container mx-auto flex flex-col items-start justify-between gap-4 px-4 py-8 sm:flex-row sm:items-center">
           <div>
-            <p className="text-sm font-semibold text-white">
-              Turn your audience into income
-            </p>
+            <p className="text-sm font-semibold text-white">Turn your audience into income</p>
             <p className="mt-0.5 text-sm text-gray-400">
               Join thousands of creators already earning on Facelo.
             </p>
@@ -79,14 +77,13 @@ export default function Footer() {
       </div>
 
       {/* Main grid */}
-      <div className="container mx-auto px-4 pb-8 pt-12">
+      <div className="container mx-auto px-4 pt-12 pb-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 lg:grid-cols-4 lg:gap-16">
-
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1">
             <Link href="/" className="inline-flex items-center gap-2.5">
               <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-500/25">
-                <span className="text-[13px] font-black leading-none text-white">F</span>
+                <span className="text-[13px] leading-none font-black text-white">F</span>
               </div>
               <span className="text-[1.1rem] font-bold tracking-tight text-white">Facelo</span>
             </Link>
@@ -113,7 +110,7 @@ export default function Footer() {
           {/* Link columns */}
           {Object.entries(FOOTER_LINKS).map(([heading, links]) => (
             <div key={heading}>
-              <h3 className="mb-4 text-xs font-semibold uppercase tracking-widest text-gray-500">
+              <h3 className="mb-4 text-xs font-semibold tracking-widest text-gray-500 uppercase">
                 {heading}
               </h3>
               <ul className="space-y-3">

@@ -24,6 +24,8 @@ export function ActiveFilters({ categories }: Props) {
   const maxPrice = searchParams.get('maxPrice')
   const rating = searchParams.get('rating')
   const q = searchParams.get('q')
+  const brand = searchParams.get('brand')
+  const creator = searchParams.get('creator')
 
   if (q) {
     activeFilters.push({ key: 'q', label: `"${q}"` })
@@ -42,6 +44,12 @@ export function ActiveFilters({ categories }: Props) {
   if (rating) {
     activeFilters.push({ key: 'rating', label: `${rating}+` })
   }
+  if (brand) {
+    activeFilters.push({ key: 'brand', label: brand })
+  }
+  if (creator) {
+    activeFilters.push({ key: 'creator', label: `@${creator}` })
+  }
 
   if (activeFilters.length === 0) return null
 
@@ -54,12 +62,12 @@ export function ActiveFilters({ categories }: Props) {
   }
 
   function clearAll() {
-    removeParams('q', 'category', 'minPrice', 'maxPrice', 'rating')
+    removeParams('q', 'category', 'minPrice', 'maxPrice', 'rating', 'brand', 'creator')
   }
 
   return (
     <div className="flex flex-wrap items-center gap-2" aria-label="Active filters">
-      <span className="text-sm text-muted-foreground">Filters:</span>
+      <span className="text-muted-foreground text-sm">Filters:</span>
       {activeFilters.map((filter) => (
         <Badge
           key={filter.key}
@@ -73,17 +81,14 @@ export function ActiveFilters({ categories }: Props) {
           <button
             onClick={() => removeFilter(filter.key)}
             aria-label={`Remove ${filter.key === 'rating' ? `${filter.label} star rating` : filter.label} filter`}
-            className="ml-0.5 rounded-full hover:text-foreground text-muted-foreground transition-colors"
+            className="hover:text-foreground text-muted-foreground ml-0.5 rounded-full transition-colors"
           >
             <X className="h-3 w-3" />
           </button>
         </Badge>
       ))}
       {activeFilters.length > 1 && (
-        <button
-          onClick={clearAll}
-          className="text-xs font-medium text-primary hover:underline"
-        >
+        <button onClick={clearAll} className="text-primary text-xs font-medium hover:underline">
           Clear all
         </button>
       )}

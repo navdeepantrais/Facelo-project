@@ -10,7 +10,7 @@ export function AuthMarketingPanel() {
       {/* Left edge accent line */}
       <div
         aria-hidden="true"
-        className="auth-panel-left-accent pointer-events-none absolute left-0 top-0 h-full w-[3px]"
+        className="auth-panel-left-accent pointer-events-none absolute top-0 left-0 h-full w-[3px]"
       />
 
       {/* Content */}
@@ -18,7 +18,7 @@ export function AuthMarketingPanel() {
         {/* Logo */}
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-lg shadow-violet-900/60">
-            <span className="text-[13px] font-black leading-none text-white">F</span>
+            <span className="text-[13px] leading-none font-black text-white">F</span>
           </div>
           <span className="text-base font-bold tracking-tight">Facelo</span>
         </div>
@@ -26,7 +26,7 @@ export function AuthMarketingPanel() {
         {/* Main content — vertically centered */}
         <div className="my-auto max-w-[340px]">
           {/* Headline */}
-          <h2 className="text-5xl font-black leading-[1.06] tracking-tight">
+          <h2 className="text-5xl leading-[1.06] font-black tracking-tight">
             Your{' '}
             <span className="bg-gradient-to-r from-violet-400 via-fuchsia-400 to-violet-300 bg-clip-text text-transparent">
               audience
@@ -36,8 +36,8 @@ export function AuthMarketingPanel() {
           </h2>
 
           <p className="mt-5 text-[15px] leading-relaxed text-white/55">
-            Join thousands of creators earning from digital products,
-            memberships, and exclusive content.
+            Join thousands of creators earning from digital products, memberships, and exclusive
+            content.
           </p>
 
           {/* Stats row */}
@@ -62,11 +62,9 @@ export function AuthMarketingPanel() {
         {/* Social proof */}
         <div className="flex items-start gap-3 border-t border-white/8 pt-6">
           <div className="mt-0.5 flex -space-x-2.5" aria-hidden="true">
-            {['bg-violet-300', 'bg-indigo-300', 'bg-purple-400', 'bg-fuchsia-400'].map(
-              (bg, i) => (
-                <div key={i} className={`h-7 w-7 rounded-full border-2 border-white/10 ${bg}`} />
-              )
-            )}
+            {['bg-violet-300', 'bg-indigo-300', 'bg-purple-400', 'bg-fuchsia-400'].map((bg, i) => (
+              <div key={i} className={`h-7 w-7 rounded-full border-2 border-white/10 ${bg}`} />
+            ))}
           </div>
           <div>
             <div className="flex gap-0.5">
@@ -82,8 +80,8 @@ export function AuthMarketingPanel() {
               ))}
             </div>
             <p className="mt-1 text-[12px] text-white/50">
-              Trusted by{' '}
-              <span className="font-semibold text-white/80">10K+ creators</span> worldwide
+              Trusted by <span className="font-semibold text-white/80">10K+ creators</span>{' '}
+              worldwide
             </p>
           </div>
         </div>

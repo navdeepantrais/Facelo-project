@@ -20,12 +20,20 @@ export function FilterSidebar({ bare = false, className }: Props) {
   const currentMinPrice = searchParams.get('minPrice') ?? ''
   const currentMaxPrice = searchParams.get('maxPrice') ?? ''
   const currentRating = searchParams.get('rating') ?? ''
+  const currentBrand = searchParams.get('brand') ?? ''
+  const currentCreator = searchParams.get('creator') ?? ''
 
   function clearAll() {
-    removeParams('minPrice', 'maxPrice', 'rating')
+    removeParams('minPrice', 'maxPrice', 'rating', 'brand', 'creator')
   }
 
-  const hasActiveFilters = !!(currentMinPrice || currentMaxPrice || currentRating)
+  const hasActiveFilters = !!(
+    currentMinPrice ||
+    currentMaxPrice ||
+    currentRating ||
+    currentBrand ||
+    currentCreator
+  )
 
   const Tag = bare ? 'div' : 'aside'
   const outerClass = bare
@@ -36,12 +44,9 @@ export function FilterSidebar({ bare = false, className }: Props) {
     <Tag className={outerClass}>
       {/* Header */}
       <div className="flex items-center justify-between">
-        <h3 className="text-base font-semibold text-foreground">Filters</h3>
+        <h3 className="text-foreground text-base font-semibold">Filters</h3>
         {hasActiveFilters && (
-          <button
-            onClick={clearAll}
-            className="text-xs font-medium text-primary hover:underline"
-          >
+          <button onClick={clearAll} className="text-primary text-xs font-medium hover:underline">
             Clear all
           </button>
         )}
@@ -49,10 +54,10 @@ export function FilterSidebar({ bare = false, className }: Props) {
 
       {/* Price Range */}
       <div className="flex flex-col gap-3">
-        <p className="text-sm font-semibold text-foreground">Price Range</p>
+        <p className="text-foreground text-sm font-semibold">Price Range</p>
         <div className="flex items-center gap-3">
           <div className="flex flex-1 flex-col gap-1">
-            <Label htmlFor="minPrice" className="text-xs text-muted-foreground">
+            <Label htmlFor="minPrice" className="text-muted-foreground text-xs">
               Min ($)
             </Label>
             <Input
@@ -68,9 +73,9 @@ export function FilterSidebar({ bare = false, className }: Props) {
               className="h-9 rounded-lg text-sm"
             />
           </div>
-          <span className="mt-5 text-sm text-muted-foreground">–</span>
+          <span className="text-muted-foreground mt-5 text-sm">–</span>
           <div className="flex flex-1 flex-col gap-1">
-            <Label htmlFor="maxPrice" className="text-xs text-muted-foreground">
+            <Label htmlFor="maxPrice" className="text-muted-foreground text-xs">
               Max ($)
             </Label>
             <Input
@@ -93,7 +98,7 @@ export function FilterSidebar({ bare = false, className }: Props) {
 
       {/* Rating */}
       <div className="flex flex-col gap-3">
-        <p className="text-sm font-semibold text-foreground">Rating</p>
+        <p className="text-foreground text-sm font-semibold">Rating</p>
         <div className="flex flex-col gap-1.5">
           {RATING_OPTIONS.map((r) => {
             const isActive = currentRating === String(r)
@@ -104,9 +109,7 @@ export function FilterSidebar({ bare = false, className }: Props) {
                 onClick={() => setParam('rating', isActive ? '' : String(r))}
                 className={cn(
                   'flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors',
-                  isActive
-                    ? 'bg-foreground text-background'
-                    : 'hover:bg-muted text-foreground'
+                  isActive ? 'bg-foreground text-background' : 'hover:bg-muted text-foreground'
                 )}
               >
                 <div className="flex items-center gap-0.5">
@@ -130,6 +133,71 @@ export function FilterSidebar({ bare = false, className }: Props) {
               </button>
             )
           })}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Brand */}
+      <div className="flex flex-col gap-3">
+        <p className="text-foreground text-sm font-semibold">Brand</p>
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="brand" className="sr-only">
+            Brand name
+          </Label>
+          <Input
+            id="brand"
+            type="text"
+            placeholder="e.g. Nike, Apple…"
+            defaultValue={currentBrand}
+            onBlur={(e) => setParam('brand', e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') setParam('brand', (e.target as HTMLInputElement).value)
+            }}
+            className="h-9 rounded-lg text-sm"
+          />
+          {currentBrand && (
+            <button
+              type="button"
+              onClick={() => setParam('brand', '')}
+              className="text-primary mt-1 self-start text-xs font-medium hover:underline"
+            >
+              Clear
+            </button>
+          )}
+        </div>
+      </div>
+
+      <Separator />
+
+      {/* Creator */}
+      <div className="flex flex-col gap-3">
+        <p className="text-foreground text-sm font-semibold">Creator</p>
+        <div className="flex flex-col gap-1">
+          <Label htmlFor="creator" className="sr-only">
+            Creator slug
+          </Label>
+          <Input
+            id="creator"
+            type="text"
+            placeholder="e.g. valeria"
+            defaultValue={currentCreator}
+            onBlur={(e) => setParam('creator', e.target.value.toLowerCase().trim())}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter')
+                setParam('creator', (e.target as HTMLInputElement).value.toLowerCase().trim())
+            }}
+            className="h-9 rounded-lg text-sm"
+          />
+          {currentCreator && (
+            <button
+              type="button"
+              onClick={() => setParam('creator', '')}
+              className="text-primary mt-1 self-start text-xs font-medium hover:underline"
+            >
+              Clear
+            </button>
+          )}
         </div>
       </div>
     </Tag>

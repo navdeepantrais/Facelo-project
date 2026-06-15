@@ -38,7 +38,6 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
   return (
     <div className="container mx-auto px-4">
       <div className="flex gap-0 md:gap-8">
-
         {/* Left — sticky category sidebar, desktop only */}
         <aside className="hidden md:block md:w-52 md:shrink-0">
           <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto py-8">
@@ -50,7 +49,6 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
 
         {/* Right — normal page flow */}
         <div className="flex min-w-0 flex-1 flex-col gap-6 py-8 pb-16">
-
           {/* Category tabs — mobile only */}
           <div className="md:hidden">
             <Suspense>
@@ -92,7 +90,6 @@ export default async function MarketplacePage({ searchParams }: PageProps) {
           <Suspense>
             <Paginator page={page} totalPages={totalPages} buildHref={buildHref} />
           </Suspense>
-
         </div>
       </div>
     </div>

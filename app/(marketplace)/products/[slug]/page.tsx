@@ -3,6 +3,7 @@ import { notFound } from 'next/navigation'
 import { getProduct, getRelatedProducts } from '@/lib/actions/products'
 import { ProductImageGallery } from '@/components/marketplace/ProductImageGallery'
 import { AddToCartButton } from '@/components/marketplace/AddToCartButton'
+import { BuyNowButton } from './BuyNowButton'
 import { StarRating } from '@/components/marketplace/StarRating'
 import { MarketplaceSection } from '@/components/marketplace/MarketplaceSection'
 import { Badge } from '@/components/ui/badge'
@@ -49,58 +50,48 @@ export default async function ProductDetailPage({ params }: PageProps) {
             {product.isTrending && (
               <Badge className="bg-foreground text-background hover:bg-foreground">Trending</Badge>
             )}
-            {product.isFeatured && (
-              <Badge variant="secondary">Editor&apos;s Pick</Badge>
-            )}
+            {product.isFeatured && <Badge variant="secondary">Editor&apos;s Pick</Badge>}
             {isOutOfStock && <Badge variant="destructive">Out of stock</Badge>}
           </div>
 
           {product.category && (
-            <p className="text-sm font-medium uppercase tracking-wide text-muted-foreground">
+            <p className="text-muted-foreground text-sm font-medium tracking-wide uppercase">
               {product.category.name}
             </p>
           )}
 
-          <h1 className="text-2xl font-bold leading-tight lg:text-3xl">{product.name}</h1>
+          <h1 className="text-2xl leading-tight font-bold lg:text-3xl">{product.name}</h1>
 
-          {product.brand && (
-            <p className="text-sm text-muted-foreground">by {product.brand}</p>
-          )}
+          {product.brand && <p className="text-muted-foreground text-sm">by {product.brand}</p>}
 
-          <StarRating
-            rating={Number(product.rating)}
-            reviewCount={product.reviewCount}
-            size="md"
-          />
+          <StarRating rating={Number(product.rating)} reviewCount={product.reviewCount} size="md" />
 
           <p className="text-3xl font-bold">{formatPrice(product.price)}</p>
 
           <Separator />
 
-          <p className="text-sm leading-relaxed text-muted-foreground">{product.description}</p>
+          <p className="text-muted-foreground text-sm leading-relaxed">{product.description}</p>
 
           {/* Stock indicator */}
           {!isOutOfStock && product.stock <= 10 && (
-            <p className="text-sm font-medium text-amber-600">
-              Only {product.stock} left in stock
-            </p>
+            <p className="text-sm font-medium text-amber-600">Only {product.stock} left in stock</p>
           )}
 
-          <AddToCartButton
-            product={product}
-            size="lg"
-            className="w-full sm:w-auto"
-          />
+          <div className="flex flex-col gap-3 sm:flex-row">
+            <AddToCartButton
+              product={product}
+              size="lg"
+              className="flex-1 sm:w-auto sm:flex-none"
+            />
+            <BuyNowButton product={product} className="flex-1 sm:w-auto sm:flex-none" />
+          </div>
         </div>
       </div>
 
       {/* Related products */}
       {related.length > 0 && (
         <div className="mt-16">
-          <MarketplaceSection
-            title="You may also like"
-            products={related}
-          />
+          <MarketplaceSection title="You may also like" products={related} />
         </div>
       )}
     </div>

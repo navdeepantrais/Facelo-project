@@ -8,7 +8,12 @@ import { Badge } from '@/components/ui/badge'
 import { StarRating } from '@/components/marketplace/StarRating'
 import { AddToCartButton } from '@/components/marketplace/AddToCartButton'
 import { cn, formatPrice } from '@/lib/utils'
-import { CATEGORY_ICONS, CATEGORY_STYLES, DEFAULT_CATEGORY_ICON, DEFAULT_CATEGORY_STYLE } from '@/lib/category-icons'
+import {
+  CATEGORY_ICONS,
+  CATEGORY_STYLES,
+  DEFAULT_CATEGORY_ICON,
+  DEFAULT_CATEGORY_STYLE,
+} from '@/lib/category-icons'
 import type { ProductWithCategory } from '@/types'
 
 type Props = {
@@ -17,15 +22,15 @@ type Props = {
 }
 
 export function ProductCard({ product, className }: Props) {
-  const [imgFailed, setImgFailed]     = useState(false)
+  const [imgFailed, setImgFailed] = useState(false)
   const [isWishlisted, setWishlisted] = useState(false)
 
-  const firstImage          = product.images[0]
-  const showImage           = Boolean(firstImage) && !imgFailed
-  const categorySlug        = product.category?.slug ?? ''
-  const categoryStyle       = CATEGORY_STYLES[categorySlug] ?? DEFAULT_CATEGORY_STYLE
+  const firstImage = product.images[0]
+  const showImage = Boolean(firstImage) && !imgFailed
+  const categorySlug = product.category?.slug ?? ''
+  const categoryStyle = CATEGORY_STYLES[categorySlug] ?? DEFAULT_CATEGORY_STYLE
   const placeholderGradient = categoryStyle.productBg
-  const PlaceholderIcon     = CATEGORY_ICONS[categorySlug] ?? DEFAULT_CATEGORY_ICON
+  const PlaceholderIcon = CATEGORY_ICONS[categorySlug] ?? DEFAULT_CATEGORY_ICON
 
   return (
     <div
@@ -64,7 +69,7 @@ export function ProductCard({ product, className }: Props) {
           )}
 
           {/* Status badges */}
-          <div className="absolute left-2.5 top-2.5 flex flex-col gap-1">
+          <div className="absolute top-2.5 left-2.5 flex flex-col gap-1">
             {product.isBestseller && (
               <Badge className="flex items-center gap-1 rounded-lg border border-amber-300 bg-white/90 px-2.5 py-0.5 text-[10px] font-semibold text-amber-700 shadow-[0_1px_4px_rgba(0,0,0,0.08)] backdrop-blur-sm">
                 <TrendingUp className="h-2.5 w-2.5" aria-hidden="true" />
@@ -82,7 +87,7 @@ export function ProductCard({ product, className }: Props) {
 
         {/* Slide-up add-to-cart — desktop hover */}
         <div className="pointer-events-none absolute inset-x-0 bottom-0 translate-y-full transition-transform duration-300 group-hover:pointer-events-auto group-hover:translate-y-0">
-          <div className="bg-gradient-to-t from-black/60 via-black/25 to-transparent px-3 pb-3 pt-16">
+          <div className="bg-gradient-to-t from-black/60 via-black/25 to-transparent px-3 pt-16 pb-3">
             <AddToCartButton
               product={product}
               className="h-11 w-full cursor-pointer rounded-full bg-white/95 text-sm font-semibold text-gray-900 shadow-[0_8px_28px_rgba(0,0,0,0.22)] backdrop-blur-sm transition-all hover:bg-white hover:shadow-[0_10px_32px_rgba(0,0,0,0.28)]"
@@ -96,7 +101,7 @@ export function ProductCard({ product, className }: Props) {
           onClick={() => setWishlisted((prev) => !prev)}
           aria-label={isWishlisted ? 'Remove from wishlist' : 'Save to wishlist'}
           className={cn(
-            'absolute right-2.5 top-2.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all hover:scale-110',
+            'absolute top-2.5 right-2.5 flex h-8 w-8 cursor-pointer items-center justify-center rounded-full shadow-md backdrop-blur-sm transition-all hover:scale-110',
             isWishlisted ? 'bg-rose-50 hover:bg-rose-100' : 'bg-white/90 hover:bg-white'
           )}
         >
@@ -111,12 +116,11 @@ export function ProductCard({ product, className }: Props) {
 
       {/* Content */}
       <div className="flex flex-1 flex-col gap-1 p-3">
-
         {/* Category with icon */}
         {product.category && (
           <div className="flex items-center gap-1">
             <PlaceholderIcon className="h-3 w-3 shrink-0 text-violet-500" aria-hidden="true" />
-            <span className="truncate text-[10px] font-semibold uppercase tracking-widest text-violet-600">
+            <span className="truncate text-[10px] font-semibold tracking-widest text-violet-600 uppercase">
               {product.category.name}
             </span>
           </div>
@@ -124,7 +128,7 @@ export function ProductCard({ product, className }: Props) {
 
         {/* Product name */}
         <Link href={`/products/${product.slug}`} className="flex-1">
-          <h3 className="line-clamp-2 text-sm font-semibold leading-snug text-gray-900 transition-colors hover:text-violet-600">
+          <h3 className="line-clamp-2 text-sm leading-snug font-semibold text-gray-900 transition-colors hover:text-violet-600">
             {product.name}
           </h3>
         </Link>
@@ -143,13 +147,10 @@ export function ProductCard({ product, className }: Props) {
           <AddToCartButton
             product={product}
             iconOnly
-            className="h-9 w-9 min-h-11 min-w-11 cursor-pointer rounded-lg bg-violet-600 text-white shadow-sm hover:bg-violet-700 active:scale-95 lg:hidden"
+            className="h-9 min-h-11 w-9 min-w-11 cursor-pointer rounded-lg bg-violet-600 text-white shadow-sm hover:bg-violet-700 active:scale-95 lg:hidden"
           />
         </div>
-
       </div>
     </div>
   )
 }
-
-

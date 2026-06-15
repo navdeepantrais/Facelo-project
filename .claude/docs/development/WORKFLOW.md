@@ -62,6 +62,7 @@ Migration files are append-only — never edit an already-applied file.
 - Stage specific files — never `git add -A` without reviewing
 
 Verify before any push:
+
 ```bash
 git config user.name        # must be: Himanshu Kumar
 git config user.email       # must be: himanshu064@gmail.com
@@ -119,16 +120,20 @@ File: `.claude/updates/YYYY-MM-DD-eod.md`
 # EOD Report — DD Month YYYY
 
 ## [Feature / Area]
+
 - What was done
 - Key decisions made inline
 
 ## [Feature / Area]
+
 - ...
 
 ## Database
+
 - Schema changes, migrations generated/applied
 
 ## Open / Carry-forward
+
 - Anything not completed that rolls to next session
 ```
 

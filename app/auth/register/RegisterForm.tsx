@@ -90,7 +90,7 @@ export default function RegisterForm() {
           errors={errors.fullName?.message ? [errors.fullName.message] : undefined}
         >
           <div className="relative">
-            <User className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <User className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
               id="fullName"
               type="text"
@@ -112,7 +112,7 @@ export default function RegisterForm() {
           errors={errors.email?.message ? [errors.email.message] : undefined}
         >
           <div className="relative">
-            <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Mail className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
               id="email"
               type="email"

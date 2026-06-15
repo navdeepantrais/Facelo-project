@@ -33,7 +33,7 @@ export function LoginForm() {
     <div className="flex flex-1 flex-col items-center justify-center px-6 py-10 lg:items-start lg:px-14">
       <div className="w-full max-w-sm lg:max-w-[360px]">
         {/* Section heading */}
-        <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-white/35">
+        <p className="text-[10px] font-bold tracking-[0.18em] text-white/35 uppercase">
           Welcome back
         </p>
         <h2 className="mt-2 text-2xl font-bold tracking-tight text-white">Sign in to Facelo</h2>
@@ -49,7 +49,7 @@ export function LoginForm() {
         {/* Divider */}
         <div className="my-6 flex items-center gap-3">
           <div className="h-px flex-1 bg-white/[0.07]" />
-          <span className="text-[10px] uppercase tracking-widest text-white/20">
+          <span className="text-[10px] tracking-widest text-white/20 uppercase">
             or continue with email
           </span>
           <div className="h-px flex-1 bg-white/[0.07]" />
@@ -65,7 +65,7 @@ export function LoginForm() {
               Email address
             </Label>
             <div className="relative">
-              <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-white/25" />
+              <Mail className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-white/25" />
               <Input
                 id="email"
                 name="email"

@@ -21,7 +21,7 @@ export function AuthHero({
     <div className="flex h-full flex-col justify-between px-10 py-14 lg:px-14">
       {/* Typographic hero + context */}
       <div>
-        <h1 className="font-black leading-none tracking-tighter text-white text-[4.5rem] lg:text-[5.5rem] xl:text-[7rem]">
+        <h1 className="text-[4.5rem] leading-none font-black tracking-tighter text-white lg:text-[5.5rem] xl:text-[7rem]">
           {lines.slice(0, -1).map((line) => (
             <span key={line} className="block">
               {line}
@@ -33,14 +33,12 @@ export function AuthHero({
           </span>
         </h1>
 
-        <p className="mt-6 max-w-[280px] text-[15px] leading-relaxed text-white/45">
-          {tagline}
-        </p>
+        <p className="mt-6 max-w-[280px] text-[15px] leading-relaxed text-white/45">{tagline}</p>
 
         <dl className="mt-10 space-y-4">
           {STATS.map(({ value, label }) => (
             <div key={label} className="flex items-baseline gap-3">
-              <dt className="text-2xl font-black tabular-nums text-white">{value}</dt>
+              <dt className="text-2xl font-black text-white tabular-nums">{value}</dt>
               <dd className="text-sm text-white/35">{label}</dd>
             </div>
           ))}
@@ -49,7 +47,7 @@ export function AuthHero({
 
       {/* Testimonial */}
       <blockquote className="border-l-2 border-violet-500/50 pl-4">
-        <p className="text-sm italic leading-relaxed text-white/45">
+        <p className="text-sm leading-relaxed text-white/45 italic">
           &ldquo;Facelo completely changed how I monetize my creative work.&rdquo;
         </p>
         <footer className="mt-2 text-xs text-white/25">

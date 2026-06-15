@@ -26,6 +26,7 @@ pnpm lint        # must be 0 errors
 **Action:** Edit — add 4 columns and 9 new indexes
 
 Add to the `products` table columns block (after `isActive`):
+
 ```ts
 slug: text('slug').unique().notNull(),
 isTrending: boolean('is_trending').default(false).notNull(),
@@ -34,6 +35,7 @@ isFeatured: boolean('is_featured').default(false).notNull(),
 ```
 
 Add to the indexes array (after the existing 2 indexes):
+
 ```ts
 index('products_slug_idx').on(t.slug),
 index('products_price_idx').on(t.price),
@@ -47,6 +49,7 @@ index('products_active_featured_idx').on(t.isActive, t.isFeatured),
 ```
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -56,6 +59,7 @@ pnpm typecheck   # 0 errors
 ### STEP 2 — Generate migration + add trigram indexes
 
 **Run in order — do not skip `db:check`:**
+
 ```bash
 pnpm db:check
 pnpm db:generate
@@ -76,6 +80,7 @@ CREATE INDEX products_description_trgm_idx
 ```
 
 **Then apply:**
+
 ```bash
 pnpm db:migrate
 ```
@@ -89,6 +94,7 @@ pnpm db:migrate
 **File:** `db/seed/data/products.ts` — **Create**
 
 Rules:
+
 - 18 products total, at least 1–2 per category (use slugs from `categoriesData`)
 - Slug format: `product-name-{8-char-id}` — hardcode in seed (no runtime generation)
 - Set `isTrending: true` on 4 products, `isBestseller: true` on 4, `isFeatured: true` on 4
@@ -112,6 +118,7 @@ Add `seedProducts()` function (same upsert pattern as `seedCategories` — confl
 Call it in `main()` after categories.
 
 **Run:**
+
 ```bash
 pnpm db:seed
 ```
@@ -141,12 +148,12 @@ export type SortOption = 'newest' | 'price_asc' | 'price_desc' | 'rating' | 'pop
 
 export type ProductFilters = {
   q?: string
-  category?: string       // category slug
+  category?: string // category slug
   minPrice?: number
   maxPrice?: number
   brand?: string
-  creator?: string        // creator slug
-  rating?: number         // minimum rating (1–5)
+  creator?: string // creator slug
+  rating?: number // minimum rating (1–5)
   sort?: SortOption
   page?: number
 }
@@ -162,6 +169,7 @@ export type PaginatedProducts = {
 Verify `CartItem` already exists in the file — do not add a duplicate.
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -177,6 +185,7 @@ Top of file: `'use server'`
 **Functions to implement:**
 
 #### `getProducts(filters: ProductFilters): Promise<PaginatedProducts>`
+
 - Always filter `isActive = true`
 - Build conditions array, push one condition per active filter
 - Search: `ilike(products.name, '%q%')` OR `ilike(products.description, '%q%')` — only if `q.length >= 2`
@@ -197,23 +206,27 @@ Top of file: `'use server'`
 - Use `Promise.all([queryResults, countQuery])` — run data + count in parallel
 
 #### `getProduct(slug: string): Promise<ProductWithCategory | null>`
+
 - Single row: `WHERE slug = slug AND isActive = true`
 - LEFT JOIN categories
 - Return `null` if not found
 
 #### `getRelatedProducts(productId: string, categoryId: string | null): Promise<ProductWithCategory[]>`
+
 - `WHERE categoryId = categoryId AND id != productId AND isActive = true`
 - `ORDER BY rating DESC`
 - `LIMIT 4`
 - If `categoryId` is null, return `[]`
 
 **Query standards checklist:**
+
 - [ ] No N+1 — categories joined in same query
 - [ ] Every query has a `LIMIT`
 - [ ] `isActive = true` on every customer-facing query
 - [ ] Count and data queries run with `Promise.all`
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -228,15 +241,16 @@ Top of file: `'use server'`
 
 All functions return `ProductWithCategory[]`. All filter `isActive = true`. All have `LIMIT`.
 
-| Function | Filter | Order | Limit |
-|---|---|---|---|
-| `getTrendingProducts(limit = 8)` | `isTrending = true` | `rating DESC` | param |
-| `getBestsellerProducts(limit = 8)` | `isBestseller = true` | `reviewCount DESC` | param |
-| `getNewArrivalProducts(limit = 8)` | none extra | `createdAt DESC` | param |
-| `getFeaturedProducts(limit = 8)` | `isFeatured = true` | `rating DESC` | param |
-| `getShopFromVideos(limit = 6)` | videos that have linked products | `videos.createdAt DESC` | param |
+| Function                           | Filter                           | Order                   | Limit |
+| ---------------------------------- | -------------------------------- | ----------------------- | ----- |
+| `getTrendingProducts(limit = 8)`   | `isTrending = true`              | `rating DESC`           | param |
+| `getBestsellerProducts(limit = 8)` | `isBestseller = true`            | `reviewCount DESC`      | param |
+| `getNewArrivalProducts(limit = 8)` | none extra                       | `createdAt DESC`        | param |
+| `getFeaturedProducts(limit = 8)`   | `isFeatured = true`              | `rating DESC`           | param |
+| `getShopFromVideos(limit = 6)`     | videos that have linked products | `videos.createdAt DESC` | param |
 
 For `getShopFromVideos`:
+
 - Query `videos` JOIN `videoProducts` JOIN `products` JOIN `categories`
 - Filter: `videos.isApproved = true AND products.isActive = true`
 - Return type: `Array<{ video: Video; products: ProductWithCategory[] }>`
@@ -244,6 +258,7 @@ For `getShopFromVideos`:
 - Limit to 6 videos, each with up to 4 linked products (use aggregation or post-query grouping)
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -283,6 +298,7 @@ Top of file: `'use server'`
 #### `createOrder(input: { shippingAddress: ShippingAddressInput; items: Array<{ productId: string; quantity: number }> }): Promise<{ orderId: string } | { error: string }>`
 
 Exact steps inside:
+
 1. `const user = await requireAuth()` — redirect if not logged in
 2. `shippingAddressSchema.safeParse(input.shippingAddress)` — return `{ error }` if invalid
 3. Validate `input.items` is not empty — return `{ error: 'Cart is empty.' }` if so
@@ -297,16 +313,19 @@ Exact steps inside:
 10. Return `{ orderId }`
 
 #### `getUserOrders(): Promise<Order[]>`
+
 - `requireAuth()`
 - `WHERE userId = user.id ORDER BY createdAt DESC LIMIT 50`
 
 #### `getOrder(orderId: string): Promise<(Order & { items: Array<OrderItem & { product: Product | null }> }) | null>`
+
 - `requireAuth()`
 - Fetch order: `WHERE id = orderId AND userId = user.id` — scoped to current user
 - Fetch order items with products in one query (JOIN)
 - Return `null` if not found or not owned by user
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -341,6 +360,7 @@ Server Component (no `'use client'`).
 Props: `{ product: ProductWithCategory }`
 
 Layout (flex-col card, full height):
+
 ```
 <Card className="flex flex-col overflow-hidden">
   <div className="relative aspect-square overflow-hidden bg-muted">
@@ -370,6 +390,7 @@ Card layout uses `flex flex-col` with `flex-1` on content area and `mt-auto` on 
 Server Component. No props.
 
 Must mirror `ProductCard` layout exactly — same aspect ratio, same padding, same spacing:
+
 ```
 <Card className="flex flex-col overflow-hidden">
   <Skeleton className="aspect-square w-full" />
@@ -396,9 +417,7 @@ Must mirror `ProductCard` layout exactly — same aspect ratio, same padding, sa
 Server Component. Props: `{ children: React.ReactNode }`
 
 ```tsx
-<div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">
-  {children}
-</div>
+<div className="grid grid-cols-2 gap-3 md:grid-cols-3 md:gap-4 lg:grid-cols-4">{children}</div>
 ```
 
 That's it. Keeps the grid breakpoints in one place — both ProductCard grids and skeleton grids import this.
@@ -412,6 +431,7 @@ That's it. Keeps the grid breakpoints in one place — both ProductCard grids an
 Server Component.
 
 Props:
+
 ```ts
 {
   title: string
@@ -423,6 +443,7 @@ Props:
 ```
 
 Layout:
+
 ```
 <section className="py-8">
   <div className="container mx-auto px-4">
@@ -455,6 +476,7 @@ Layout:
 Props: `{ placeholder?: string }`
 
 Behavior:
+
 - Controlled input bound to `?q=` param
 - On form submit: `router.push(pathname + '?' + newParams.toString())`
 - On clear (×): removes `q` param, clears input
@@ -477,6 +499,7 @@ Props: none
 Uses `<Select>` from `components/ui/select`.
 
 Options:
+
 ```
 newest     → "Newest"
 price_asc  → "Price: Low to High"
@@ -499,16 +522,19 @@ Default selection: `newest` if no `?sort=` param.
 Props: `{ categories: Category[] }`
 
 Renders two versions via responsive classes:
+
 - **Desktop** (`hidden md:block`): sticky left sidebar
 - **Mobile**: wrapped in a `<Sheet>` (trigger: "Filters" button + active filter count badge)
 
 Filter sections inside:
+
 1. **Categories** — list of links/buttons, one per category; active = highlighted
 2. **Price Range** — two number inputs (`minPrice`, `maxPrice`)
 3. **Brand** — text input
 4. **Min Rating** — row of star buttons (1–5)
 
 Each filter section:
+
 - Updates its specific URL param
 - Preserves all other params
 - "Clear all" link at top removes all filter params except `sort`
@@ -540,6 +566,7 @@ Returns `null` if no active filter params.
 Props: `{ images: string[]; name: string }`
 
 Layout:
+
 - Main image: `aspect-square`, `relative`, uses Next.js `<Image fill>`
 - Thumbnail strip below (if >1 image): row of small squares, click sets active index
 - Active thumbnail: highlighted border `ring-2 ring-primary`
@@ -635,6 +662,7 @@ export default async function ProductsPage({
 ```
 
 Also add `getCategories()` to `lib/actions/products.ts`:
+
 ```ts
 export async function getCategories(): Promise<Category[]> {
   return db.select().from(categories).orderBy(asc(categories.name))
@@ -654,7 +682,7 @@ export default function ProductsLoading() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col gap-6 md:flex-row">
-        <aside className="w-full md:w-64 md:shrink-0 space-y-4">
+        <aside className="w-full space-y-4 md:w-64 md:shrink-0">
           <Skeleton className="h-6 w-24" />
           {Array.from({ length: 9 }).map((_, i) => (
             <Skeleton key={i} className="h-5 w-full" />
@@ -686,11 +714,7 @@ export default function ProductsLoading() {
 Server Component.
 
 ```tsx
-export default async function ProductPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>
-}) {
+export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
   const product = await getProduct(slug)
 
@@ -715,16 +739,16 @@ export default async function ProductPage({
           {product.stock <= 5 && product.stock > 0 && (
             <p className="text-destructive text-sm">Only {product.stock} left in stock</p>
           )}
-          {product.stock === 0 && (
-            <p className="text-muted-foreground text-sm">Out of stock</p>
-          )}
+          {product.stock === 0 && <p className="text-muted-foreground text-sm">Out of stock</p>}
         </div>
       </div>
 
       {related.length > 0 && (
         <MarketplaceSection title="You may also like" className="mt-12">
           <ProductGrid>
-            {related.map(p => <ProductCard key={p.id} product={p} />)}
+            {related.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </ProductGrid>
         </MarketplaceSection>
       )}
@@ -734,6 +758,7 @@ export default async function ProductPage({
 ```
 
 Export metadata:
+
 ```tsx
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params
@@ -748,20 +773,21 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
 **File:** `app/(marketplace)/products/[slug]/loading.tsx` — **Create**
 
 Two-column skeleton mirroring the detail layout:
+
 ```tsx
 <div className="container mx-auto px-4 py-8">
   <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
     <Skeleton className="aspect-square w-full rounded-lg" />
     <div className="space-y-4">
-      <Skeleton className="h-5 w-24" />   {/* badge */}
-      <Skeleton className="h-8 w-3/4" />  {/* title */}
-      <Skeleton className="h-4 w-32" />   {/* brand */}
-      <Skeleton className="h-4 w-28" />   {/* stars */}
-      <Skeleton className="h-10 w-24" />  {/* price */}
+      <Skeleton className="h-5 w-24" /> {/* badge */}
+      <Skeleton className="h-8 w-3/4" /> {/* title */}
+      <Skeleton className="h-4 w-32" /> {/* brand */}
+      <Skeleton className="h-4 w-28" /> {/* stars */}
+      <Skeleton className="h-10 w-24" /> {/* price */}
       <Skeleton className="h-4 w-full" />
       <Skeleton className="h-4 w-full" />
-      <Skeleton className="h-4 w-2/3" />  {/* description */}
-      <Skeleton className="h-11 w-36" />  {/* button */}
+      <Skeleton className="h-4 w-2/3" /> {/* description */}
+      <Skeleton className="h-11 w-36" /> {/* button */}
     </div>
   </div>
 </div>
@@ -786,7 +812,7 @@ export default async function CategoryPage({
   const [{ slug }, sp] = await Promise.all([params, searchParams])
   // Merge category slug into filters — category param from URL overrides slug if present
   const filters: ProductFilters = {
-    ...parseSearchParams(sp),  // helper: same parsing logic as products/page.tsx
+    ...parseSearchParams(sp), // helper: same parsing logic as products/page.tsx
     category: slug,
   }
   const [{ products, total, page, totalPages }, categories] = await Promise.all([
@@ -835,15 +861,23 @@ export default async function HomePage() {
       {featured.length > 0 && (
         <MarketplaceSection title="Featured" href="/products?sort=rating">
           <ProductGrid>
-            {featured.map(p => <ProductCard key={p.id} product={p} />)}
+            {featured.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </ProductGrid>
         </MarketplaceSection>
       )}
 
       {trending.length > 0 && (
-        <MarketplaceSection title="Trending Now" subtitle="What everyone is buying" href="/products?sort=popularity">
+        <MarketplaceSection
+          title="Trending Now"
+          subtitle="What everyone is buying"
+          href="/products?sort=popularity"
+        >
           <ProductGrid>
-            {trending.map(p => <ProductCard key={p.id} product={p} />)}
+            {trending.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </ProductGrid>
         </MarketplaceSection>
       )}
@@ -851,7 +885,9 @@ export default async function HomePage() {
       {bestsellers.length > 0 && (
         <MarketplaceSection title="Bestsellers" href="/products?sort=popularity">
           <ProductGrid>
-            {bestsellers.map(p => <ProductCard key={p.id} product={p} />)}
+            {bestsellers.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </ProductGrid>
         </MarketplaceSection>
       )}
@@ -859,7 +895,9 @@ export default async function HomePage() {
       {newArrivals.length > 0 && (
         <MarketplaceSection title="New Arrivals" href="/products?sort=newest">
           <ProductGrid>
-            {newArrivals.map(p => <ProductCard key={p.id} product={p} />)}
+            {newArrivals.map((p) => (
+              <ProductCard key={p.id} product={p} />
+            ))}
           </ProductGrid>
         </MarketplaceSection>
       )}
@@ -898,8 +936,8 @@ type CartContextValue = {
   removeItem: (productId: string) => void
   updateQuantity: (productId: string, quantity: number) => void
   clearCart: () => void
-  total: number       // computed
-  itemCount: number   // computed
+  total: number // computed
+  itemCount: number // computed
   isOpen: boolean
   openCart: () => void
   closeCart: () => void
@@ -907,6 +945,7 @@ type CartContextValue = {
 ```
 
 `CartProvider` component:
+
 - `useState<CartItem[]>` for items, `useState<boolean>` for `isOpen`
 - `useEffect` on mount: `JSON.parse(localStorage.getItem('facelo_cart') ?? '[]')` — wrap in try/catch, fallback to `[]`
 - `useEffect` on items change: `localStorage.setItem('facelo_cart', JSON.stringify(items))`
@@ -945,13 +984,14 @@ Import `Providers` and wrap `{children}` and `<Toaster>`:
 import Providers from './providers'
 
 // inside body:
-<Providers>
+;<Providers>
   {children}
   <Toaster richColors position="top-right" />
 </Providers>
 ```
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -967,6 +1007,7 @@ pnpm typecheck   # 0 errors
 Props: `{ item: CartItem }`
 
 Layout: horizontal row with:
+
 - Product thumbnail (`<Image>`, 64×64, `object-cover`)
 - Product name (`line-clamp-2`) + price per unit
 - Quantity stepper: `−` button, number display, `+` button
@@ -1001,10 +1042,12 @@ Uses `useCart()` for `items`, `total`, `itemCount`, `isOpen`, `closeCart`.
       </div>
     ) : (
       <>
-        <div className="flex-1 overflow-y-auto py-4 space-y-3">
-          {items.map(item => <CartItemRow key={item.product.id} item={item} />)}
+        <div className="flex-1 space-y-3 overflow-y-auto py-4">
+          {items.map((item) => (
+            <CartItemRow key={item.product.id} item={item} />
+          ))}
         </div>
-        <div className="border-t pt-4 space-y-3">
+        <div className="space-y-3 border-t pt-4">
           <div className="flex justify-between font-semibold">
             <span>Total</span>
             <span>${total.toFixed(2)}</span>
@@ -1035,9 +1078,11 @@ Header is already `'use client'`. Make these changes:
 6. Remove `cartCount` from `HeaderProps` interface
 
 **Also edit `components/layout/MarketplaceLayout.tsx`:**
+
 - Remove `cartCount` prop from interface and usage (no longer needed)
 
 **Verify:**
+
 ```bash
 pnpm typecheck   # 0 errors
 ```
@@ -1062,11 +1107,17 @@ export default async function AccountLayout({ children }: { children: React.Reac
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="flex flex-col gap-6 md:flex-row">
-        <nav className="w-full md:w-48 md:shrink-0 space-y-1">
-          <Link href="/account" className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
+        <nav className="w-full space-y-1 md:w-48 md:shrink-0">
+          <Link
+            href="/account"
+            className="hover:bg-muted block rounded-md px-3 py-2 text-sm font-medium"
+          >
             Profile
           </Link>
-          <Link href="/account/orders" className="block rounded-md px-3 py-2 text-sm font-medium hover:bg-muted">
+          <Link
+            href="/account/orders"
+            className="hover:bg-muted block rounded-md px-3 py-2 text-sm font-medium"
+          >
             Orders
           </Link>
         </nav>
@@ -1105,6 +1156,7 @@ const orders = await getUserOrders()
 Empty state: "You haven't placed any orders yet. [Browse products →]"
 
 Order list: each row shows:
+
 - Order ID (truncated: first 8 chars)
 - Date (`createdAt` formatted)
 - Item count
@@ -1129,6 +1181,7 @@ if (!order) notFound()
 ```
 
 Display:
+
 - Order ID + status badge + date
 - Shipping address (from `order.shippingAddress` JSON)
 - Items table: product name, qty, unit price, line total
@@ -1177,6 +1230,7 @@ export default async function CheckoutPage() {
 Left column: shipping address form fields (fullName, addressLine1, addressLine2, city, state, postalCode, country select)
 
 Right column:
+
 - List of `CartItemRow` (read-only view — no qty controls)
 - Subtotal
 - "Place Order" button: `disabled={isPending}`, shows `<Loader2>` spinner while pending
@@ -1199,6 +1253,7 @@ if (!order) notFound()
 ```
 
 Layout: centered card with:
+
 - Green checkmark icon
 - "Order placed!" heading
 - "Order #XXXXXXXX" sub-heading
@@ -1233,6 +1288,7 @@ Fix any errors before marking M2 done. Do not report done without attaching outp
 Run `pnpm dev` and test each item:
 
 **Marketplace**
+
 - [ ] `/` — homepage loads all 5 sections with real data
 - [ ] `/products` — grid loads, 24 per page
 - [ ] `/products?q=` — search filters results
@@ -1243,6 +1299,7 @@ Run `pnpm dev` and test each item:
 - [ ] `/categories/fitness-sports` — pre-filtered listing
 
 **Cart**
+
 - [ ] Add to cart from listing page
 - [ ] Add to cart from detail page
 - [ ] Cart count badge updates in header
@@ -1252,18 +1309,21 @@ Run `pnpm dev` and test each item:
 - [ ] Reload page — cart persists
 
 **Checkout**
+
 - [ ] `/checkout` — redirects to login if not authenticated
 - [ ] `/checkout` — redirects to `/products` if cart is empty
 - [ ] Fill form + submit — creates pending order
 - [ ] Redirects to `/checkout/confirmation/[orderId]`
 
 **Account**
+
 - [ ] `/account` — redirects if not logged in
 - [ ] `/account` — shows profile
 - [ ] `/account/orders` — shows order history
 - [ ] `/account/orders/[orderId]` — shows order detail
 
 **Responsive** (check at 375px, 768px, 1024px, 1280px)
+
 - [ ] Product grid reflows at all breakpoints
 - [ ] Filter sidebar collapses to sheet on mobile
 - [ ] Cart drawer is full-width on mobile
@@ -1273,14 +1333,14 @@ Run `pnpm dev` and test each item:
 
 ## Coding Standards Quick Reference
 
-| Rule | Requirement |
-|---|---|
-| `'use client'` | Only on components using hooks, browser APIs, or event handlers |
-| Class composition | `cn()` always — never template literal backticks |
-| Loading states | `loading.tsx` with skeleton — no section spinners |
-| Async buttons | `disabled={isPending}` + `<Loader2 animate-spin>` always |
-| DB queries | No N+1, every query has LIMIT, `isActive=true` on all customer queries |
-| Independent queries | `Promise.all` — never sequential awaits |
-| Images | Next.js `<Image>` always — no `<img>` |
-| URL state | Filters live in URL params — no `useState` for filter values |
-| Pricing | Always re-fetch from DB in `createOrder` — never trust client prices |
+| Rule                | Requirement                                                            |
+| ------------------- | ---------------------------------------------------------------------- |
+| `'use client'`      | Only on components using hooks, browser APIs, or event handlers        |
+| Class composition   | `cn()` always — never template literal backticks                       |
+| Loading states      | `loading.tsx` with skeleton — no section spinners                      |
+| Async buttons       | `disabled={isPending}` + `<Loader2 animate-spin>` always               |
+| DB queries          | No N+1, every query has LIMIT, `isActive=true` on all customer queries |
+| Independent queries | `Promise.all` — never sequential awaits                                |
+| Images              | Next.js `<Image>` always — no `<img>`                                  |
+| URL state           | Filters live in URL params — no `useState` for filter values           |
+| Pricing             | Always re-fetch from DB in `createOrder` — never trust client prices   |

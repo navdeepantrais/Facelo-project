@@ -32,7 +32,7 @@ export default function Navigation({ mobile }: NavigationProps) {
             key={link.href}
             href={link.href}
             className={cn(
-              'px-3 py-2 text-sm font-medium transition-colors border-l-2',
+              'border-l-2 px-3 py-2 text-sm font-medium transition-colors',
               isActive(link.href)
                 ? 'border-violet-600 text-violet-700'
                 : 'border-transparent text-gray-600 hover:text-gray-900'

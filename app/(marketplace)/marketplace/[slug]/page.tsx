@@ -60,7 +60,6 @@ export default async function MarketplaceCategoryPage({ params, searchParams }: 
   return (
     <div className="container mx-auto px-4">
       <div className="flex gap-0 md:gap-8">
-
         {/* Left — sticky category sidebar, desktop only */}
         <aside className="hidden md:block md:w-52 md:shrink-0">
           <div className="sticky top-16 h-[calc(100vh-4rem)] overflow-y-auto py-8">
@@ -72,22 +71,18 @@ export default async function MarketplaceCategoryPage({ params, searchParams }: 
 
         {/* Right — normal page flow */}
         <div className="flex min-w-0 flex-1 flex-col gap-5 py-8 pb-16">
-
           {/* Breadcrumb */}
           <nav aria-label="Breadcrumb">
-            <ol className="flex items-center gap-1.5 text-xs text-muted-foreground">
+            <ol className="text-muted-foreground flex items-center gap-1.5 text-xs">
               <li>
-                <Link
-                  href="/marketplace"
-                  className="transition-colors hover:text-foreground"
-                >
+                <Link href="/marketplace" className="hover:text-foreground transition-colors">
                   Marketplace
                 </Link>
               </li>
               <li aria-hidden="true">
                 <ChevronRight className="h-3 w-3" />
               </li>
-              <li className="font-medium text-foreground">{category.name}</li>
+              <li className="text-foreground font-medium">{category.name}</li>
             </ol>
           </nav>
 
@@ -142,7 +137,6 @@ export default async function MarketplaceCategoryPage({ params, searchParams }: 
           <Suspense>
             <Paginator page={page} totalPages={totalPages} buildHref={buildHref} />
           </Suspense>
-
         </div>
       </div>
     </div>

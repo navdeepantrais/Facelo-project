@@ -44,7 +44,7 @@ export function AddToCartButton({
         disabled={isOutOfStock}
         aria-label={isOutOfStock ? 'Out of stock' : added ? 'Added to cart' : 'Add to cart'}
         className={cn(
-          'flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-sm transition-all hover:bg-primary/90 active:scale-95 disabled:cursor-not-allowed disabled:opacity-50',
+          'bg-primary text-primary-foreground hover:bg-primary/90 flex h-9 w-9 shrink-0 items-center justify-center rounded-full shadow-sm transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-50',
           added && 'bg-green-500 hover:bg-green-500',
           className
         )}

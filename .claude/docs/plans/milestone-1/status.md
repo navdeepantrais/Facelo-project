@@ -7,19 +7,20 @@
 
 ## Section Completion
 
-| Section | Status | Notes |
-|---|---|---|
-| A. Project Setup & Architecture | DONE | All items shipped including CI + Vercel config |
-| B. Authentication | DONE | Login, signup, OAuth, password reset, account status checks |
-| C. Role-Based Access | DONE | Sub-roles, permission matrix, `hasPermission` + `requirePermission` |
-| D. Database Schema | DONE | 18 tables, indexes, RLS, seed data, account_status enum |
-| E. Supporting Modules | DONE | attribution, stripe, email/storage/analytics stubs |
+| Section                         | Status | Notes                                                               |
+| ------------------------------- | ------ | ------------------------------------------------------------------- |
+| A. Project Setup & Architecture | DONE   | All items shipped including CI + Vercel config                      |
+| B. Authentication               | DONE   | Login, signup, OAuth, password reset, account status checks         |
+| C. Role-Based Access            | DONE   | Sub-roles, permission matrix, `hasPermission` + `requirePermission` |
+| D. Database Schema              | DONE   | 18 tables, indexes, RLS, seed data, account_status enum             |
+| E. Supporting Modules           | DONE   | attribution, stripe, email/storage/analytics stubs                  |
 
 ---
 
 ## Session Log
 
 ### 2026-06-10
+
 - Applied two-column auth layout (marketing panel + form) to login page
 - Replaced inline Google OAuth handler with shared `OAuthButtons` component
 - Fixed pre-existing ESLint crash (`nextVitals` not iterable) using `FlatCompat`
@@ -30,6 +31,7 @@
 - Become-a-Creator form: bio, promo code, social URLs; race-condition-safe upsert
 
 ### 2026-06-11
+
 - `lib/stripe/client.ts` — Stripe SDK instance
 - `lib/attribution/index.ts` — UTM parsing, cookie helpers
 - `services/email.ts`, `services/storage.ts`, `services/analytics.ts` — stubs

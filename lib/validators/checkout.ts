@@ -34,8 +34,8 @@ export const shippingAddressSchema = z.object({
   country: z
     .string()
     .trim()
-    .min(2, 'Country must be at least 2 characters')
-    .max(100, 'Country must be 100 characters or fewer'),
+    .length(2, 'Country must be a 2-letter ISO code (e.g. US)')
+    .toUpperCase(),
 })
 
 export type ShippingAddressInput = z.infer<typeof shippingAddressSchema>

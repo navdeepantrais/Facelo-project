@@ -34,18 +34,18 @@ export default function BecomeCreatorSection() {
 
   if (showForm) {
     return (
-      <div className="rounded-xl border bg-card p-6">
+      <div className="bg-card rounded-xl border p-6">
         <button
           type="button"
           onClick={() => setShowForm(false)}
-          className="mb-5 flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="text-muted-foreground hover:text-foreground mb-5 flex items-center gap-1.5 text-sm transition-colors"
         >
           <ArrowLeft className="h-4 w-4" />
           Back
         </button>
 
-        <h2 className="text-lg font-semibold mb-1">Set up your creator account</h2>
-        <p className="text-sm text-muted-foreground mb-5">
+        <h2 className="mb-1 text-lg font-semibold">Set up your creator account</h2>
+        <p className="text-muted-foreground mb-5 text-sm">
           All fields are optional — you can update them later from your creator dashboard.
         </p>
 
@@ -55,10 +55,10 @@ export default function BecomeCreatorSection() {
   }
 
   return (
-    <div className="rounded-xl border bg-card overflow-hidden">
+    <div className="bg-card overflow-hidden rounded-xl border">
       {/* Header band */}
       <div className="bg-foreground px-6 py-5">
-        <p className="text-xs font-semibold uppercase tracking-widest text-white/60 mb-1">
+        <p className="mb-1 text-xs font-semibold tracking-widest text-white/60 uppercase">
           Creator Program
         </p>
         <h2 className="text-xl font-bold text-white">Switch to a Creator Account</h2>
@@ -72,12 +72,12 @@ export default function BecomeCreatorSection() {
         <ul className="space-y-4">
           {BENEFITS.map(({ icon: Icon, title, description }) => (
             <li key={title} className="flex items-start gap-3">
-              <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-primary/10">
-                <Icon className="h-4 w-4 text-primary" />
+              <span className="bg-primary/10 mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg">
+                <Icon className="text-primary h-4 w-4" />
               </span>
               <div>
                 <p className="text-sm font-medium">{title}</p>
-                <p className="text-xs text-muted-foreground mt-0.5">{description}</p>
+                <p className="text-muted-foreground mt-0.5 text-xs">{description}</p>
               </div>
             </li>
           ))}
@@ -88,7 +88,7 @@ export default function BecomeCreatorSection() {
         <Button className="w-full" onClick={() => setShowForm(true)}>
           Get Started
         </Button>
-        <p className="mt-3 text-center text-xs text-muted-foreground">
+        <p className="text-muted-foreground mt-3 text-center text-xs">
           Free forever. No credit card required.
         </p>
       </div>

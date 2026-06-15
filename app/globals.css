@@ -50,18 +50,18 @@
 
 :root {
   /* Auth layout tokens — single source of truth for all auth pages */
-  --auth-canvas:         #09090B;   /* full-screen dark bg for login/register pages */
-  --auth-panel-bg:       #0d0d12;
-  --auth-panel-glow-1:   rgba(124, 58, 237, 0.42);
-  --auth-panel-glow-2:   rgba(79, 70, 229, 0.25);
-  --auth-panel-glow-3:   rgba(167, 139, 250, 0.07);
-  --auth-panel-dot:      rgba(255, 255, 255, 0.055);
+  --auth-canvas: #09090b; /* full-screen dark bg for login/register pages */
+  --auth-panel-bg: #0d0d12;
+  --auth-panel-glow-1: rgba(124, 58, 237, 0.42);
+  --auth-panel-glow-2: rgba(79, 70, 229, 0.25);
+  --auth-panel-glow-3: rgba(167, 139, 250, 0.07);
+  --auth-panel-dot: rgba(255, 255, 255, 0.055);
   --auth-panel-dot-size: 26px;
   --auth-panel-accent-hi: rgba(124, 58, 237, 0.85);
-  --auth-panel-accent-lo: rgba(124, 58, 237, 0.30);
-  --auth-form-bg:        #f5f4fb;
-  --auth-accent:         oklch(0.491 0.274 292.585);
-  --auth-accent-2:       oklch(0.558 0.238 262.881);
+  --auth-panel-accent-lo: rgba(124, 58, 237, 0.3);
+  --auth-form-bg: #f5f4fb;
+  --auth-accent: oklch(0.491 0.274 292.585);
+  --auth-accent-2: oklch(0.558 0.238 262.881);
 
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
@@ -163,7 +163,7 @@
 /* Ambient mesh gradient — layered radial glows */
 .auth-panel-overlay {
   background-image:
-    radial-gradient(ellipse 75% 60% at 5% 15%,  var(--auth-panel-glow-1) 0%, transparent 60%),
+    radial-gradient(ellipse 75% 60% at 5% 15%, var(--auth-panel-glow-1) 0%, transparent 60%),
     radial-gradient(ellipse 60% 50% at 95% 85%, var(--auth-panel-glow-2) 0%, transparent 60%),
     radial-gradient(ellipse 50% 40% at 48% 50%, var(--auth-panel-glow-3) 0%, transparent);
 }
@@ -186,23 +186,42 @@
 
 /* Top gradient accent bar (right panel) */
 .auth-accent-bar {
-  background: linear-gradient(to right, var(--auth-accent), var(--auth-accent-2), var(--auth-accent));
+  background: linear-gradient(
+    to right,
+    var(--auth-accent),
+    var(--auth-accent-2),
+    var(--auth-accent)
+  );
 }
 
 /* ─── BrandLoader sweep animation ──────────────────────────────────────── */
 @keyframes loading-sweep {
-  0%   { left: -50%; }
-  100% { left: 120%; }
+  0% {
+    left: -50%;
+  }
+  100% {
+    left: 120%;
+  }
 }
 
 /* ─── Hero headline cursor blink ────────────────────────────────────────── */
 @keyframes cursor-blink {
-  0%, 100% { opacity: 1; }
-  50%       { opacity: 0; }
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
 }
 
 /* ─── Hero product card float ───────────────────────────────────────────── */
 @keyframes hero-float {
-  0%, 100% { transform: translateY(0px); }
-  50%       { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }

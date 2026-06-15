@@ -26,24 +26,23 @@ export default async function OrderConfirmationPage({ params }: PageProps) {
 
   return (
     <div className="container mx-auto max-w-2xl px-4 py-12">
-      <div className="flex flex-col items-center text-center gap-4 mb-10">
+      <div className="mb-10 flex flex-col items-center gap-4 text-center">
         <CheckCircle className="h-16 w-16 text-green-500" />
         <div>
           <h1 className="text-2xl font-bold">Order placed!</h1>
-          <p className="mt-2 text-muted-foreground">
+          <p className="text-muted-foreground mt-2">
             Thank you for your order. We&apos;ll be in touch with shipping updates.
           </p>
         </div>
-        <p className="text-sm text-muted-foreground">
-          Order ID:{' '}
-          <span className="font-mono font-semibold">{formatOrderId(order.id)}</span>
+        <p className="text-muted-foreground text-sm">
+          Order ID: <span className="font-mono font-semibold">{formatOrderId(order.id)}</span>
         </p>
       </div>
 
       <OrderItemsList order={order} />
       <ShippingAddressDisplay shipping={shipping} />
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
+      <div className="mt-8 flex flex-col justify-center gap-3 sm:flex-row">
         <Button variant="outline" render={<Link href="/account/orders" />}>
           View all orders
         </Button>

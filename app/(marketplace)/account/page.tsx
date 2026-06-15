@@ -6,7 +6,13 @@ import { getUserOrders } from '@/lib/actions/orders'
 import { getFeaturedProducts } from '@/lib/actions/marketplace'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Badge } from '@/components/ui/badge'
-import { cn, formatOrderId, orderProgressLabels, orderProgressPercent, orderStatusColor } from '@/lib/utils'
+import {
+  cn,
+  formatOrderId,
+  orderProgressLabels,
+  orderProgressPercent,
+  orderStatusColor,
+} from '@/lib/utils'
 import type { OrderStatus } from '@/types'
 import LogOutButton from './LogOutButton'
 import RecommendedCarousel from './RecommendedCarousel'
@@ -14,12 +20,11 @@ import ProfileEditForm from './ProfileEditForm'
 
 export const metadata: Metadata = { title: 'My Account' }
 
-
 function AccountSettingsList() {
   return (
     <div className="space-y-2">
       <h2 className="text-base font-bold text-gray-900">Account Settings</h2>
-      <div className="overflow-hidden rounded-2xl bg-white shadow-sm divide-y divide-gray-100">
+      <div className="divide-y divide-gray-100 overflow-hidden rounded-2xl bg-white shadow-sm">
         <Link
           href="/account/payment-methods"
           className="flex items-center gap-3.5 px-4 py-3.5 transition-colors hover:bg-gray-50"
@@ -70,25 +75,26 @@ export default async function AccountPage() {
   const latestOrder = orders[0] ?? null
 
   const initials = user.fullName
-    ? user.fullName.split(' ').map((n) => n[0]).join('').toUpperCase().slice(0, 2)
+    ? user.fullName
+        .split(' ')
+        .map((n) => n[0])
+        .join('')
+        .toUpperCase()
+        .slice(0, 2)
     : user.email[0].toUpperCase()
 
   const memberSince = new Date(user.createdAt).toLocaleDateString('en-US', {
     month: 'long',
     year: 'numeric',
-
-    
   })
 
   const roleLabel =
-    user.role === 'creator' ? 'Creator' :
-    user.role === 'admin'   ? 'Admin'   :
-    'Premium Member'
+    user.role === 'creator' ? 'Creator' : user.role === 'admin' ? 'Admin' : 'Premium Member'
 
   const stats = [
-    { value: ordersTotal, label: 'Orders'  },
-    { value: 0,           label: 'Saved'   },
-    { value: 0,           label: 'Coupons' },
+    { value: ordersTotal, label: 'Orders' },
+    { value: 0, label: 'Saved' },
+    { value: 0, label: 'Coupons' },
   ]
 
   return (
@@ -97,15 +103,12 @@ export default async function AccountPage() {
         Mobile  (<lg): single column — hero → orders → recommended → settings → edit
         Desktop (lg+): two-column grid — [hero + settings sticky left] | [orders + recommended + edit right]
       */}
-      <div className="lg:grid lg:grid-cols-[380px_1fr] lg:gap-8 lg:h-[calc(100vh-4rem-1px)] lg:px-10">
-
+      <div className="lg:grid lg:h-[calc(100vh-4rem-1px)] lg:grid-cols-[380px_1fr] lg:gap-8 lg:px-10">
         {/* ── LEFT COLUMN ──────────────────────────────────────────── */}
         <div className="min-w-0 lg:space-y-4 lg:overflow-hidden lg:py-6">
-
           {/* Profile Hero — mobile: full-bleed / desktop: rounded card */}
           <div className="overflow-hidden bg-gradient-to-b from-violet-600 to-indigo-700 lg:rounded-2xl">
             <div className="px-6 pt-10">
-
               {/* Avatar */}
               <div className="mb-4 flex justify-center">
                 <div className="relative">
@@ -115,13 +118,15 @@ export default async function AccountPage() {
                       {initials}
                     </AvatarFallback>
                   </Avatar>
-                  <span className="absolute bottom-1 right-1 h-3.5 w-3.5 rounded-full border-2 border-violet-600 bg-emerald-400" />
+                  <span className="absolute right-1 bottom-1 h-3.5 w-3.5 rounded-full border-2 border-violet-600 bg-emerald-400" />
                 </div>
               </div>
 
               {/* Name + subtitle */}
               <div className="mb-5 text-center text-white">
-                <h1 className="text-xl font-bold leading-tight">{user.fullName ?? 'Your Account'}</h1>
+                <h1 className="text-xl leading-tight font-bold">
+                  {user.fullName ?? 'Your Account'}
+                </h1>
                 <p className="mt-1 text-sm text-white/70">
                   {roleLabel} · Joined {memberSince}
                 </p>
@@ -168,8 +173,7 @@ export default async function AccountPage() {
         </div>
 
         {/* ── RIGHT COLUMN ─────────────────────────────────────────── */}
-        <div className="min-w-0 space-y-5 bg-gray-50 px-4 py-5 pb-14 scrollbar-none lg:overflow-y-auto lg:bg-transparent lg:px-0 lg:py-8 lg:pb-8">
-
+        <div className="min-w-0 scrollbar-none space-y-5 bg-gray-50 px-4 py-5 pb-14 lg:overflow-y-auto lg:bg-transparent lg:px-0 lg:py-8 lg:pb-8">
           {/* Active Orders */}
           <section>
             <div className="mb-3 flex items-center justify-between">
@@ -198,7 +202,10 @@ export default async function AccountPage() {
                     </p>
                   </div>
                   <Badge
-                    className={cn('shrink-0 text-xs capitalize', orderStatusColor(latestOrder.status as OrderStatus))}
+                    className={cn(
+                      'shrink-0 text-xs capitalize',
+                      orderStatusColor(latestOrder.status as OrderStatus)
+                    )}
                   >
                     {latestOrder.status}
                   </Badge>
@@ -213,7 +220,9 @@ export default async function AccountPage() {
                     <div className="h-1.5 w-full overflow-hidden rounded-full bg-violet-100">
                       <div
                         className="h-full rounded-full bg-gradient-to-r from-violet-500 to-indigo-500 transition-all duration-500"
-                        style={{ width: `${orderProgressPercent(latestOrder.status as OrderStatus)}%` }}
+                        style={{
+                          width: `${orderProgressPercent(latestOrder.status as OrderStatus)}%`,
+                        }}
                       />
                     </div>
                   </div>
@@ -262,7 +271,6 @@ export default async function AccountPage() {
               <ProfileEditForm defaultName={user.fullName ?? ''} />
             </div>
           </section>
-
         </div>
       </div>
     </div>

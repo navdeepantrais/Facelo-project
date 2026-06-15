@@ -20,17 +20,11 @@ export function CartItemRow({ item }: Props) {
   return (
     <div className="flex gap-4 py-4">
       {/* Product image */}
-      <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-xl bg-muted">
+      <div className="bg-muted relative h-20 w-20 shrink-0 overflow-hidden rounded-xl">
         {firstImage ? (
-          <Image
-            src={firstImage}
-            alt={product.name}
-            fill
-            className="object-cover"
-            sizes="80px"
-          />
+          <Image src={firstImage} alt={product.name} fill className="object-cover" sizes="80px" />
         ) : (
-          <div className="flex h-full w-full items-center justify-center text-xs text-muted-foreground">
+          <div className="text-muted-foreground flex h-full w-full items-center justify-center text-xs">
             No image
           </div>
         )}
@@ -40,7 +34,7 @@ export function CartItemRow({ item }: Props) {
       <div className="flex min-w-0 flex-1 flex-col gap-1">
         {/* Name + remove */}
         <div className="flex items-start justify-between gap-2">
-          <p className="line-clamp-2 text-sm font-medium leading-snug text-gray-900">
+          <p className="line-clamp-2 text-sm leading-snug font-medium text-gray-900">
             {product.name}
           </p>
           <button
@@ -53,7 +47,7 @@ export function CartItemRow({ item }: Props) {
         </div>
 
         {/* Unit price */}
-        <p className="text-xs text-muted-foreground">{formatPrice(unitPrice)} each</p>
+        <p className="text-muted-foreground text-xs">{formatPrice(unitPrice)} each</p>
 
         {/* Qty controls + line total */}
         <div className="mt-auto flex items-center justify-between">
@@ -65,9 +59,7 @@ export function CartItemRow({ item }: Props) {
             >
               <Minus className="h-3 w-3" />
             </button>
-            <span className="w-7 text-center text-sm font-medium tabular-nums">
-              {quantity}
-            </span>
+            <span className="w-7 text-center text-sm font-medium tabular-nums">{quantity}</span>
             <button
               onClick={() => updateQuantity(product.id, quantity + 1)}
               aria-label="Increase quantity"

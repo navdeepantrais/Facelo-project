@@ -5,7 +5,13 @@ import { db } from '@/db/index'
 import { categories, creators, products, videos, videoProducts } from '@/db/schema'
 import { mapProductRow, productCategorySelect } from '@/lib/queries/products'
 import type { ProductRowWithCategory } from '@/lib/queries/products'
-import type { Category, PaginatedProducts, ProductFilters, ProductWithCategory, SortOption } from '@/types'
+import type {
+  Category,
+  PaginatedProducts,
+  ProductFilters,
+  ProductWithCategory,
+  SortOption,
+} from '@/types'
 import { PRODUCTS_PAGE_SIZE as PAGE_SIZE } from '@/lib/constants/pagination'
 
 function buildOrderBy(sort: SortOption) {
@@ -128,7 +134,11 @@ export async function getRelatedProducts(
     .from(products)
     .leftJoin(categories, eq(products.categoryId, categories.id))
     .where(
-      and(eq(products.categoryId, categoryId), ne(products.id, productId), eq(products.isActive, true))
+      and(
+        eq(products.categoryId, categoryId),
+        ne(products.id, productId),
+        eq(products.isActive, true)
+      )
     )
     .orderBy(desc(products.rating))
     .limit(4)

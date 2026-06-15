@@ -1,6 +1,6 @@
 'use server'
 
-import { and, asc, count, desc, eq, inArray } from 'drizzle-orm'
+import { and, asc, count, desc, eq, gte, inArray, sql } from 'drizzle-orm'
 import { revalidatePath } from 'next/cache'
 import { z } from 'zod'
 import { db } from '@/db/index'
@@ -116,6 +116,23 @@ export async function createOrder(rawInput: CreateOrderInput): Promise<CreateOrd
 
     await tx.insert(orderItems).values(itemValues)
 
+    // Atomically decrement stock — rolls back entire transaction if any item
+    // is concurrently exhausted between the pre-flight check and this write.
+    for (const item of items) {
+      const [decremented] = await tx
+        .update(products)
+        .set({
+          stock: sql`${products.stock} - ${item.quantity}`,
+          updatedAt: new Date(),
+        })
+        .where(and(eq(products.id, item.productId), gte(products.stock, item.quantity)))
+        .returning({ id: products.id })
+
+      if (!decremented) {
+        throw new Error(`Insufficient stock for one or more items.`)
+      }
+    }
+
     return order.id
   })
 
@@ -200,10 +217,7 @@ export async function getUserOrders(
   return { orders: result, total, page, totalPages }
 }
 
-export async function getOrder(
-  orderId: string,
-  userId: string
-): Promise<OrderWithItems | null> {
+export async function getOrder(orderId: string, userId: string): Promise<OrderWithItems | null> {
   const orderRows = await db
     .select()
     .from(orders)

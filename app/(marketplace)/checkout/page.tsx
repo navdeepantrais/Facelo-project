@@ -8,7 +8,7 @@ export default async function CheckoutPage() {
   await requireAuth('/checkout')
   return (
     <div className="container mx-auto max-w-5xl px-4 py-8">
-      <h1 className="text-2xl font-bold mb-8">Checkout</h1>
+      <h1 className="mb-8 text-2xl font-bold">Checkout</h1>
       <CheckoutForm />
     </div>
   )

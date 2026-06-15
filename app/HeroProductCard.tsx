@@ -34,7 +34,7 @@ export function HeroProductCard({ product }: { product: ProductWithCategory }) {
         )}
       </div>
 
-      <div className="px-3 pb-3 pt-2.5">
+      <div className="px-3 pt-2.5 pb-3">
         <p className="truncate text-sm font-semibold text-gray-800">{product.name}</p>
         <div className="mt-1.5 flex items-center justify-between gap-2">
           <p className="text-sm font-bold text-violet-600">{formatPrice(product.price)}</p>

@@ -1,7 +1,7 @@
-import { Skeleton } from '@/components/ui/skeleton'
 import { ProductCardSkeleton } from '@/components/marketplace/ProductCardSkeleton'
+import { Skeleton } from '@/components/ui/skeleton'
 
-export default function MarketplaceLoading() {
+export default function CategoryPageLoading() {
   return (
     <div className="container mx-auto px-4">
       <div className="flex gap-0 md:gap-8">
@@ -15,14 +15,9 @@ export default function MarketplaceLoading() {
           </div>
         </aside>
 
-        {/* Main content */}
         <div className="flex min-w-0 flex-1 flex-col gap-6 py-8 pb-16">
-          {/* Category tabs skeleton — mobile only */}
-          <div className="flex gap-2 overflow-hidden md:hidden">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Skeleton key={i} className="h-8 w-20 shrink-0 rounded-full" />
-            ))}
-          </div>
+          {/* Category banner skeleton */}
+          <Skeleton className="h-28 w-full rounded-2xl" />
 
           {/* Toolbar skeleton */}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-center">

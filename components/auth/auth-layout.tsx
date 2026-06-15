@@ -13,7 +13,7 @@ export function AuthLayout({ hero, children, header }: AuthLayoutProps) {
       <nav className="flex shrink-0 items-center justify-between px-8 py-5 lg:px-12">
         <div className="flex items-center gap-2.5">
           <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-violet-600">
-            <span className="text-[13px] font-black leading-none text-white">F</span>
+            <span className="text-[13px] leading-none font-black text-white">F</span>
           </div>
           <span className="text-base font-bold tracking-tight text-white">Facelo</span>
         </div>

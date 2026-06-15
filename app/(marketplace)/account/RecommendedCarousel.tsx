@@ -19,7 +19,7 @@ export default function RecommendedCarousel({ products }: { products: Product[] 
           type="button"
           aria-label="Scroll left"
           onClick={() => scrollBy('left')}
-          className="absolute -left-3 top-[40%] z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-gray-100 bg-white shadow-md transition-shadow hover:shadow-lg"
+          className="absolute top-[40%] left-0 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-gray-100 bg-white shadow-md transition-shadow hover:shadow-lg"
         >
           <ChevronLeft className="h-4 w-4 text-gray-700" />
         </button>
@@ -28,7 +28,7 @@ export default function RecommendedCarousel({ products }: { products: Product[] 
       <div
         ref={scrollRef}
         onScroll={onScroll}
-        className="-mx-4 flex gap-3 overflow-x-auto px-4 pb-2 scrollbar-none lg:mx-0 lg:px-0"
+        className="flex scrollbar-none gap-3 overflow-x-auto pb-2"
       >
         {products.map((product) => (
           <Link
@@ -51,16 +51,14 @@ export default function RecommendedCarousel({ products }: { products: Product[] 
             </div>
             <div className="p-2.5">
               {product.category && (
-                <p className="mb-0.5 text-[9px] font-bold uppercase tracking-wider text-violet-500">
+                <p className="mb-0.5 text-[9px] font-bold tracking-wider text-violet-500 uppercase">
                   {product.category.name}
                 </p>
               )}
-              <p className="line-clamp-2 text-xs font-semibold leading-tight text-gray-900">
+              <p className="line-clamp-2 text-xs leading-tight font-semibold text-gray-900">
                 {product.name}
               </p>
-              <p className="mt-1 text-xs font-bold text-gray-900">
-                {formatPrice(product.price)}
-              </p>
+              <p className="mt-1 text-xs font-bold text-gray-900">{formatPrice(product.price)}</p>
             </div>
           </Link>
         ))}
@@ -71,7 +69,7 @@ export default function RecommendedCarousel({ products }: { products: Product[] 
           type="button"
           aria-label="Scroll right"
           onClick={() => scrollBy('right')}
-          className="absolute -right-3 top-[40%] z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-gray-100 bg-white shadow-md transition-shadow hover:shadow-lg"
+          className="absolute top-[40%] right-0 z-10 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-gray-100 bg-white shadow-md transition-shadow hover:shadow-lg"
         >
           <ChevronRight className="h-4 w-4 text-gray-700" />
         </button>

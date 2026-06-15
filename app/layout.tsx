@@ -29,9 +29,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
     <html lang="en" className={`${inter.variable} ${geistMono.variable} h-full antialiased`}>
       <body className="bg-background text-foreground min-h-full">
         <NextTopLoader color="#7C3AED" height={3} showSpinner={false} shadow="0 0 8px #7C3AED" />
-        <CartProvider>
-          {children}
-        </CartProvider>
+        <CartProvider>{children}</CartProvider>
         <Toaster richColors position="top-right" />
       </body>
     </html>

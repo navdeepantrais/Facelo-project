@@ -9,6 +9,7 @@
 **Status:** COMPLETE
 
 ### Delivered
+
 - Next.js 15 App Router + TypeScript + Tailwind v4 + shadcn/ui scaffold
 - Supabase Auth: Google OAuth + Email/Password + password reset
 - Multi-role system: user / creator / admin with sub-roles
@@ -27,6 +28,7 @@
 - `supabase/config.toml` — local dev config
 
 ### Remaining / Next
+
 - Week 2: Marketplace module (product listing, categories, search, filters)
 
 ---
@@ -38,6 +40,7 @@
 **Status:** COMPLETE ✅ (delivered ahead of schedule on 2026-06-11)
 
 ### Delivered
+
 - Product listing with search, filters (category/price/brand/creator/rating), sort, pagination
 - Product detail page with image gallery and related products
 - Homepage sections: Trending, Bestsellers, New Arrivals, Featured, Shop from Videos
@@ -49,11 +52,13 @@
 - Deduplication: `useUrlParams` hook, shared order components, util functions
 
 ### Carry forward to Week 3
+
 - `/dashboard` route deletion (after testing)
 - Homepage redesign (Stitch reference design pending)
 - GitHub CI config + `vercel.json` (M1 gap)
 
 ### Next
+
 - Week 3: M3 — Creator Public Pages & Video System
 
 See `.claude/docs/plans/milestone-2/plan.md` for full 32-step implementation plan.

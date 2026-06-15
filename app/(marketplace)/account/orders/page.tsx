@@ -27,7 +27,7 @@ export default async function OrdersPage({ searchParams }: PageProps) {
     <div className="container mx-auto max-w-3xl px-4 py-8">
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">My Orders</h1>
-        <span className="text-sm text-muted-foreground">
+        <span className="text-muted-foreground text-sm">
           {total} {total === 1 ? 'order' : 'orders'}
         </span>
       </div>
@@ -35,10 +35,13 @@ export default async function OrdersPage({ searchParams }: PageProps) {
       {orders.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-20 text-center">
           <p className="text-lg font-medium">No orders yet</p>
-          <p className="mt-1 text-sm text-muted-foreground">
+          <p className="text-muted-foreground mt-1 text-sm">
             Start shopping and your orders will appear here.
           </p>
-          <Link href="/marketplace" className="mt-4 text-sm font-medium text-primary hover:underline">
+          <Link
+            href="/marketplace"
+            className="text-primary mt-4 text-sm font-medium hover:underline"
+          >
             Browse products
           </Link>
         </div>
@@ -50,18 +53,18 @@ export default async function OrdersPage({ searchParams }: PageProps) {
               <Link
                 key={order.id}
                 href={`/account/orders/${order.id}`}
-                className="flex flex-col gap-3 rounded-xl border bg-card p-4 transition-shadow hover:shadow-sm sm:flex-row sm:items-center sm:justify-between"
+                className="bg-card flex flex-col gap-3 rounded-xl border p-4 transition-shadow hover:shadow-sm sm:flex-row sm:items-center sm:justify-between"
               >
                 <div className="flex flex-col gap-1">
                   <div className="flex items-center gap-2">
-                    <span className="text-sm font-mono text-muted-foreground">
+                    <span className="text-muted-foreground font-mono text-sm">
                       {formatOrderId(order.id)}
                     </span>
                     <Badge className={cn('text-xs capitalize', orderStatusColor(order.status))}>
                       {order.status}
                     </Badge>
                   </div>
-                  <p className="text-xs text-muted-foreground">
+                  <p className="text-muted-foreground text-xs">
                     {new Date(order.createdAt).toLocaleDateString('en-US', {
                       year: 'numeric',
                       month: 'short',

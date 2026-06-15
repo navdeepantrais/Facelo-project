@@ -37,7 +37,7 @@ export function StarRating({ rating, reviewCount, size = 'md', className }: Prop
 
       <span className={cn('sr-only')}>Rating: {clampedRating.toFixed(1)} out of 5</span>
 
-      <span className={cn(textSize, 'font-medium tabular-nums text-foreground')}>
+      <span className={cn(textSize, 'text-foreground font-medium tabular-nums')}>
         {clampedRating.toFixed(1)}
       </span>
 

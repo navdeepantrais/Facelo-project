@@ -26,7 +26,7 @@ export default async function OrderDetailPage({ params }: PageProps) {
     <div className="container mx-auto max-w-2xl px-4 py-8">
       <Link
         href="/account/orders"
-        className="mb-6 inline-flex text-sm text-muted-foreground hover:text-foreground"
+        className="text-muted-foreground hover:text-foreground mb-6 inline-flex text-sm"
       >
         ← Back to orders
       </Link>
@@ -34,7 +34,7 @@ export default async function OrderDetailPage({ params }: PageProps) {
       <div className="mb-6 flex flex-wrap items-start justify-between gap-3">
         <div>
           <h1 className="text-2xl font-bold">Order {formatOrderId(order.id)}</h1>
-          <p className="text-sm text-muted-foreground mt-1">
+          <p className="text-muted-foreground mt-1 text-sm">
             Placed on{' '}
             {new Date(order.createdAt).toLocaleDateString('en-US', {
               year: 'numeric',

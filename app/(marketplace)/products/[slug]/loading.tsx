@@ -4,7 +4,6 @@ export default function ProductDetailLoading() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="grid gap-8 md:grid-cols-2 lg:gap-12">
-
         {/* Image gallery skeleton */}
         <div className="flex flex-col gap-3">
           <Skeleton className="aspect-square w-full rounded-xl" />
@@ -46,7 +45,6 @@ export default function ProductDetailLoading() {
           {/* CTA */}
           <Skeleton className="h-11 w-full rounded-xl sm:w-48" />
         </div>
-
       </div>
     </div>
   )

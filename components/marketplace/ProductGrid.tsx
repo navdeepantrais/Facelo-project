@@ -20,8 +20,8 @@ export function ProductGrid({ products, className }: Props) {
   if (products.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-20 text-center">
-        <p className="text-lg font-medium text-foreground">No products found</p>
-        <p className="mt-1 text-sm text-muted-foreground">
+        <p className="text-foreground text-lg font-medium">No products found</p>
+        <p className="text-muted-foreground mt-1 text-sm">
           Try adjusting your filters or search query.
         </p>
       </div>

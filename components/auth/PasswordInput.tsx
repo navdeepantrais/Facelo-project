@@ -16,7 +16,7 @@ export function PasswordInput({ className, prefixIcon, ...props }: PasswordInput
   return (
     <div className="relative">
       {prefixIcon && (
-        <div className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
+        <div className="text-muted-foreground pointer-events-none absolute top-1/2 left-3 -translate-y-1/2">
           {prefixIcon}
         </div>
       )}

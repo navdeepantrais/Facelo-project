@@ -50,17 +50,20 @@ Facelo-project/
 ## Session Checklist
 
 ### Before starting work
+
 - [ ] Read the current milestone plan (`plans/milestone-N/plan.md`)
 - [ ] Check `decisions.md` for any relevant prior choices
 - [ ] Confirm git author: `git config user.name` → must be `Himanshu Kumar`
 
 ### During work
+
 - [ ] Read before edit — always
 - [ ] Run `pnpm typecheck` after any structural change
 - [ ] No `pnpm db:push` — always generate + migrate
 - [ ] One problem at a time
 
 ### Before ending session
+
 - [ ] `pnpm typecheck` passes — 0 errors
 - [ ] `pnpm lint` passes — 0 errors
 - [ ] Update `plans/milestone-N/status.md`
@@ -70,14 +73,14 @@ Facelo-project/
 
 ## Key Conventions (quick ref)
 
-| Topic | Rule |
-|---|---|
-| Package manager | `pnpm` only |
-| DB migrations | `db:generate` then `db:migrate` — never `db:push` |
-| Auth | Supabase Auth for sessions; Drizzle for all DB queries |
-| Styling | Tailwind v4 + `cn()` — no template literal class composition |
-| Server components | Default; `'use client'` only when hooks/browser APIs needed |
-| Loading states | Skeleton loaders only — no section spinners |
-| Commits | Never without explicit user request; author = Himanshu Kumar |
+| Topic             | Rule                                                         |
+| ----------------- | ------------------------------------------------------------ |
+| Package manager   | `pnpm` only                                                  |
+| DB migrations     | `db:generate` then `db:migrate` — never `db:push`            |
+| Auth              | Supabase Auth for sessions; Drizzle for all DB queries       |
+| Styling           | Tailwind v4 + `cn()` — no template literal class composition |
+| Server components | Default; `'use client'` only when hooks/browser APIs needed  |
+| Loading states    | Skeleton loaders only — no section spinners                  |
+| Commits           | Never without explicit user request; author = Himanshu Kumar |
 
 Full conventions: see `CLAUDE.md` at project root.

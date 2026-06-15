@@ -7,7 +7,9 @@ import type { ProductWithCategory, VideoWithProducts } from '@/types'
 import { mapProductRow, productCategorySelect } from '@/lib/queries/products'
 import { SECTION_PRODUCT_LIMIT } from '@/lib/constants/pagination'
 
-export async function getTrendingProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getTrendingProducts(
+  limit = SECTION_PRODUCT_LIMIT
+): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)
@@ -19,7 +21,9 @@ export async function getTrendingProducts(limit = SECTION_PRODUCT_LIMIT): Promis
   return rows.map((r) => mapProductRow(r as Parameters<typeof mapProductRow>[0]))
 }
 
-export async function getBestsellerProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getBestsellerProducts(
+  limit = SECTION_PRODUCT_LIMIT
+): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)
@@ -31,7 +35,9 @@ export async function getBestsellerProducts(limit = SECTION_PRODUCT_LIMIT): Prom
   return rows.map((r) => mapProductRow(r as Parameters<typeof mapProductRow>[0]))
 }
 
-export async function getNewArrivalProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getNewArrivalProducts(
+  limit = SECTION_PRODUCT_LIMIT
+): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)
@@ -43,7 +49,9 @@ export async function getNewArrivalProducts(limit = SECTION_PRODUCT_LIMIT): Prom
   return rows.map((r) => mapProductRow(r as Parameters<typeof mapProductRow>[0]))
 }
 
-export async function getFeaturedProducts(limit = SECTION_PRODUCT_LIMIT): Promise<ProductWithCategory[]> {
+export async function getFeaturedProducts(
+  limit = SECTION_PRODUCT_LIMIT
+): Promise<ProductWithCategory[]> {
   const rows = await db
     .select(productCategorySelect)
     .from(products)

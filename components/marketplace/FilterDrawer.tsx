@@ -1,13 +1,7 @@
 'use client'
 
 import { SlidersHorizontal } from 'lucide-react'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-  SheetTrigger,
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { FilterSidebar } from '@/components/marketplace/FilterSidebar'
 import { useUrlParams } from '@/hooks/use-url-params'
@@ -17,7 +11,10 @@ export function FilterDrawer() {
 
   const priceActive = !!(searchParams.get('minPrice') || searchParams.get('maxPrice'))
   const ratingActive = !!searchParams.get('rating')
-  const activeCount = (priceActive ? 1 : 0) + (ratingActive ? 1 : 0)
+  const brandActive = !!searchParams.get('brand')
+  const creatorActive = !!searchParams.get('creator')
+  const activeCount =
+    (priceActive ? 1 : 0) + (ratingActive ? 1 : 0) + (brandActive ? 1 : 0) + (creatorActive ? 1 : 0)
 
   return (
     <Sheet>
@@ -26,7 +23,7 @@ export function FilterDrawer() {
           <Button
             type="button"
             variant="outline"
-            className="relative h-9 gap-2 rounded-xl border-border px-4"
+            className="border-border relative h-9 gap-2 rounded-xl px-4"
           />
         }
       >
@@ -35,7 +32,7 @@ export function FilterDrawer() {
         {activeCount > 0 && (
           <span
             aria-label={`${activeCount} active filter${activeCount > 1 ? 's' : ''}`}
-            className="absolute -right-1.5 -top-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-violet-600 text-[9px] font-bold leading-none text-white"
+            className="absolute -top-1.5 -right-1.5 flex h-4 w-4 items-center justify-center rounded-full bg-violet-600 text-[9px] leading-none font-bold text-white"
           >
             {activeCount}
           </span>

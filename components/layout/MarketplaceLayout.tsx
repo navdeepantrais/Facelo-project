@@ -8,7 +8,11 @@ interface MarketplaceLayoutProps {
   showFooter?: boolean
 }
 
-export default function MarketplaceLayout({ children, profile, showFooter }: MarketplaceLayoutProps) {
+export default function MarketplaceLayout({
+  children,
+  profile,
+  showFooter,
+}: MarketplaceLayoutProps) {
   return (
     <div className="flex min-h-screen flex-col">
       <Header profile={profile} />

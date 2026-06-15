@@ -36,10 +36,10 @@ export default function HeroHeadline() {
       <span className="text-violet-600">{displayed}</span>
       <span
         aria-hidden="true"
-        className="ml-0.5 inline-block w-[3px] align-middle bg-violet-600 animate-[cursor-blink_1s_ease-in-out_infinite]"
+        className="ml-0.5 inline-block w-[3px] animate-[cursor-blink_1s_ease-in-out_infinite] bg-violet-600 align-middle"
         style={{ height: '0.85em' }}
-      />
-      {' '}love
+      />{' '}
+      love
     </h1>
   )
 }

@@ -36,105 +36,105 @@ export default function Header({ profile }: HeaderProps) {
 
   return (
     <>
-    <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4">
-        <div className="flex items-center gap-6">
-          <Sheet>
-            <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
-              <Menu className="h-5 w-5" />
-            </SheetTrigger>
-            <SheetContent side="left" className="w-72">
-              <Navigation mobile />
-            </SheetContent>
-          </Sheet>
+      <header className="bg-background/95 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+        <div className="container mx-auto flex h-16 items-center justify-between px-4">
+          <div className="flex items-center gap-6">
+            <Sheet>
+              <SheetTrigger render={<Button variant="ghost" size="icon" className="md:hidden" />}>
+                <Menu className="h-5 w-5" />
+              </SheetTrigger>
+              <SheetContent side="left" className="w-72">
+                <Navigation mobile />
+              </SheetContent>
+            </Sheet>
 
-          <Link href="/" className="flex items-center gap-2.5">
-            <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-md shadow-violet-500/30">
-              <span className="text-[13px] font-black leading-none text-white">F</span>
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="flex h-8 w-8 items-center justify-center rounded-xl bg-gradient-to-br from-violet-500 to-indigo-600 shadow-md shadow-violet-500/30">
+                <span className="text-[13px] leading-none font-black text-white">F</span>
+              </div>
+              <span className="text-[1.1rem] font-bold tracking-tight text-gray-900">Facelo</span>
+            </Link>
+
+            <div className="hidden md:block">
+              <Navigation />
             </div>
-            <span className="text-[1.1rem] font-bold tracking-tight text-gray-900">Facelo</span>
-          </Link>
+          </div>
 
-          <div className="hidden md:block">
-            <Navigation />
+          <div className="flex items-center gap-3">
+            <Button variant="ghost" size="icon" render={<Link href="/search" />}>
+              <Search className="h-5 w-5" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="icon"
+              className="relative cursor-pointer"
+              onClick={() => setCartOpen(true)}
+              aria-label="Open cart"
+            >
+              <ShoppingCart className="h-5 w-5" />
+              {totalItems > 0 && (
+                <span className="ring-background absolute -top-1.5 -right-1.5 flex h-[18px] min-w-[18px] items-center justify-center rounded-full bg-violet-600 px-1 text-[10px] leading-none font-bold text-white ring-2">
+                  {totalItems > 99 ? '99+' : totalItems}
+                </span>
+              )}
+            </Button>
+
+            {profile ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger
+                  render={
+                    <button className="ring-offset-background focus-visible:ring-ring cursor-pointer rounded-full outline-none focus-visible:ring-2 focus-visible:ring-offset-2" />
+                  }
+                >
+                  <Avatar className="h-8 w-8">
+                    <AvatarImage src={profile.avatarUrl ?? undefined} />
+                    <AvatarFallback>
+                      {profile.fullName?.charAt(0)?.toUpperCase() ?? 'U'}
+                    </AvatarFallback>
+                  </Avatar>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end" className="w-48">
+                  <DropdownMenuItem render={<Link href="/account" />}>My Account</DropdownMenuItem>
+                  <DropdownMenuItem render={<Link href="/account/orders" />}>
+                    My Orders
+                  </DropdownMenuItem>
+                  {profile.role === 'creator' && (
+                    <DropdownMenuItem render={<Link href="/creator" />}>
+                      Creator Dashboard
+                    </DropdownMenuItem>
+                  )}
+                  {profile.role === 'admin' && (
+                    <DropdownMenuItem render={<Link href="/admin" />}>
+                      Admin Dashboard
+                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem
+                    onClick={handleSignOut}
+                    disabled={signOutPending}
+                    className="text-destructive"
+                  >
+                    {signOutPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Log Out
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" render={<Link href="/auth/login" />}>
+                  Sign In
+                </Button>
+                <Button size="sm" render={<Link href="/auth/register" />}>
+                  Sign Up
+                </Button>
+              </div>
+            )}
           </div>
         </div>
+      </header>
 
-        <div className="flex items-center gap-3">
-          <Button variant="ghost" size="icon" render={<Link href="/search" />}>
-            <Search className="h-5 w-5" />
-          </Button>
-
-          <Button
-            variant="ghost"
-            size="icon"
-            className="relative"
-            onClick={() => setCartOpen(true)}
-            aria-label="Open cart"
-          >
-            <ShoppingCart className="h-5 w-5" />
-            {totalItems > 0 && (
-              <span className="bg-primary text-primary-foreground absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full text-[10px] font-bold">
-                {totalItems > 9 ? '9+' : totalItems}
-              </span>
-            )}
-          </Button>
-
-          {profile ? (
-            <DropdownMenu>
-              <DropdownMenuTrigger
-                render={
-                  <button className="ring-offset-background focus-visible:ring-ring rounded-full outline-none focus-visible:ring-2 focus-visible:ring-offset-2" />
-                }
-              >
-                <Avatar className="h-8 w-8">
-                  <AvatarImage src={profile.avatarUrl ?? undefined} />
-                  <AvatarFallback>
-                    {profile.fullName?.charAt(0)?.toUpperCase() ?? 'U'}
-                  </AvatarFallback>
-                </Avatar>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem render={<Link href="/account" />}>My Account</DropdownMenuItem>
-                <DropdownMenuItem render={<Link href="/account/orders" />}>
-                  My Orders
-                </DropdownMenuItem>
-                {profile.role === 'creator' && (
-                  <DropdownMenuItem render={<Link href="/creator" />}>
-                    Creator Dashboard
-                  </DropdownMenuItem>
-                )}
-                {profile.role === 'admin' && (
-                  <DropdownMenuItem render={<Link href="/admin" />}>
-                    Admin Dashboard
-                  </DropdownMenuItem>
-                )}
-                <DropdownMenuSeparator />
-                <DropdownMenuItem
-                  onClick={handleSignOut}
-                  disabled={signOutPending}
-                  className="text-destructive"
-                >
-                  {signOutPending && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                  Log Out
-                </DropdownMenuItem>
-              </DropdownMenuContent>  
-            </DropdownMenu>
-          ) : (
-            <div className="flex items-center gap-2">
-              <Button variant="ghost" size="sm" render={<Link href="/auth/login" />}>
-                Sign In
-              </Button>
-              <Button size="sm" render={<Link href="/auth/register" />}>
-                Sign Up
-              </Button>
-            </div>
-          )}
-        </div>
-      </div>
-    </header>
-
-    <CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
-  </>
+      <CartDrawer open={cartOpen} onOpenChange={setCartOpen} />
+    </>
   )
 }

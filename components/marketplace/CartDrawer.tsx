@@ -2,12 +2,7 @@
 
 import Link from 'next/link'
 import { ShoppingCart } from 'lucide-react'
-import {
-  Sheet,
-  SheetContent,
-  SheetHeader,
-  SheetTitle,
-} from '@/components/ui/sheet'
+import { Sheet, SheetContent, SheetHeader, SheetTitle } from '@/components/ui/sheet'
 import { Button } from '@/components/ui/button'
 import { CartItemRow } from '@/components/marketplace/CartItemRow'
 import { useCart } from '@/hooks/use-cart'
@@ -24,7 +19,6 @@ export function CartDrawer({ open, onOpenChange }: Props) {
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
       <SheetContent side="right" className="flex w-full flex-col gap-0 p-0 sm:max-w-[420px]">
-
         {/* Header */}
         <SheetHeader className="border-b px-6 py-4">
           <div className="flex items-center gap-2.5">
@@ -46,7 +40,7 @@ export function CartDrawer({ open, onOpenChange }: Props) {
             </div>
             <div>
               <p className="font-semibold text-gray-900">Your cart is empty</p>
-              <p className="mt-1 text-sm text-muted-foreground">
+              <p className="text-muted-foreground mt-1 text-sm">
                 Browse the marketplace and add products to get started.
               </p>
             </div>
@@ -72,12 +66,10 @@ export function CartDrawer({ open, onOpenChange }: Props) {
             {/* Order summary footer */}
             <div className="border-t bg-gray-50/80 px-6 py-5">
               <div className="flex items-center justify-between">
-                <span className="text-sm text-muted-foreground">Subtotal</span>
-                <span className="text-lg font-bold text-gray-900">
-                  {formatPrice(totalPrice)}
-                </span>
+                <span className="text-muted-foreground text-sm">Subtotal</span>
+                <span className="text-lg font-bold text-gray-900">{formatPrice(totalPrice)}</span>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
+              <p className="text-muted-foreground mt-1 text-xs">
                 Shipping and taxes calculated at checkout.
               </p>
 
@@ -92,13 +84,13 @@ export function CartDrawer({ open, onOpenChange }: Props) {
               <div className="mt-3 flex items-center justify-between">
                 <button
                   onClick={() => onOpenChange(false)}
-                  className="text-xs text-muted-foreground transition-colors hover:text-foreground"
+                  className="text-muted-foreground hover:text-foreground text-xs transition-colors"
                 >
                   Continue shopping
                 </button>
                 <button
                   onClick={clearCart}
-                  className="text-xs text-muted-foreground transition-colors hover:text-destructive"
+                  className="text-muted-foreground hover:text-destructive text-xs transition-colors"
                 >
                   Clear cart
                 </button>

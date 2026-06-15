@@ -44,7 +44,7 @@ export default function LoginForm() {
         {/* Email */}
         <FormField id="email" label="Email" errors={state?.fieldErrors?.email}>
           <div className="relative">
-            <Mail className="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+            <Mail className="pointer-events-none absolute top-1/2 left-3.5 h-4 w-4 -translate-y-1/2 text-gray-400" />
             <Input
               id="email"
               name="email"
@@ -92,7 +92,7 @@ export default function LoginForm() {
             id="remember"
             className="data-[state=checked]:border-violet-600 data-[state=checked]:bg-violet-600"
           />
-          <label htmlFor="remember" className="cursor-pointer select-none text-sm text-gray-600">
+          <label htmlFor="remember" className="cursor-pointer text-sm text-gray-600 select-none">
             Keep me signed in
           </label>
         </div>

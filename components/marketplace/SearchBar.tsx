@@ -29,13 +29,13 @@ export function SearchBar({ className, placeholder = 'Search products…' }: Pro
 
   return (
     <form onSubmit={handleSubmit} className={cn('relative', className)}>
-      <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
+      <Search className="text-muted-foreground absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2" />
       <Input
         ref={inputRef}
         value={value}
         onChange={(e) => setValue(e.target.value)}
         placeholder={placeholder}
-        className="pl-9 pr-9"
+        className="pr-9 pl-9"
         aria-label="Search products"
       />
       {value && (
@@ -43,7 +43,7 @@ export function SearchBar({ className, placeholder = 'Search products…' }: Pro
           type="button"
           onClick={handleClear}
           aria-label="Clear search"
-          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className="text-muted-foreground hover:text-foreground absolute top-1/2 right-3 -translate-y-1/2"
         >
           <X className="h-4 w-4" />
         </button>
